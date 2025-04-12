@@ -1,0 +1,5 @@
+project-dir/
+├── .git
+├── other-dir
+└── untracked-dir
+    └── .gitkeep
