@@ -1,0 +1,86 @@
+create database climetech;
+
+use climetech;
+
+create table empresa(
+	idEmpresa int primary key auto_increment,
+    nome varchar(50) not null,
+    cnpj char(18) not null,
+    email varchar(50) not null,
+    senha varchar(20),
+    acessoLiberado boolean default(false),
+    unique unq_cnpj(cnpj),
+    unique unq_email(email)
+);
+
+create table funcionarioEmpresa(
+	idFuncionarioEmpresa int primary key auto_increment,
+    nome varchar(35) not null,
+    email varchar(50) not null,
+    senha varchar(25) not null,
+	tipoAcesso varchar(15) default('visualizador'),
+	idEmpresa int, /* perguntar se vamos usar views, funcoes */
+    unique unq_email(email),
+    constraint chk_tipoAcesso check(tipoAcesso in('admin','visualizador')),
+    constraint fkEmpresaFuncionario foreign key(idEmpresa) references empresa(idEmpresa)
+);
+
+/* se tiver banco no cadastro e login mudar primary key da empresa p cnpj dela */
+
+create table estadio(
+	idEstadio int primary key auto_increment,
+    nome varchar(35),
+    logradouro varchar(35),
+    numLogradouro varchar(5),
+    uf char(2),
+    idEmpresa int,
+    constraint fkEstadioEmpresa foreign key(idEmpresa) references empresa(idEmpresa)
+);
+
+create table setor(
+	idSetor int primary key auto_increment,
+    ala varchar(35) not null,
+	nivelAla varchar(15) not null,
+    idEstadio int not null,
+    constraint chk_nomeSetor check (ala in ('Norte','Leste','Oeste','Sul')),
+    constraint chk_nivelSetor check (nivelAla in ('Inferior','Superior')),
+    constraint fk_SetorEstadio foreign key(idEstadio) references estadio(idEstadio)
+);
+
+create table sensor(
+	idSensor int primary key auto_increment,
+    statusSensor varchar(20) not null,
+    idSetor int not null,
+    constraint fk_SensorSetorEstadio foreign key(idSetor) references setor(idSetor),
+    constraint chk_statusSensor check(statusSensor in('Ativo','Inativo','Manutenção'))
+);
+
+create table dadosSensor(
+	idDadosSensor int primary key auto_increment,
+    temperatura decimal (5,2) not null,
+	umidade int not null,
+    dtHoraColeta datetime not null,
+    idSensor int not null,
+    constraint fkSensorDados foreign key(idSensor) references sensor(idSensor)
+);
+
+INSERT INTO empresa (nome, cnpj, email, senha) VALUES
+('ClimeTech Ltda', '12.345.678/0001-90', 'climetech@gmail.com', 'Clime90_@$');
+
+INSERT INTO funcionarioEmpresa (nome, email, senha, idEmpresa) VALUES
+('Miguel', 'miguel@climetech.com', 'm1Cl4@', 1);
+
+INSERT INTO estadio (nome, logradouro, numLogradouro,uf, idEmpresa) VALUES
+('Arena Central', 'Av. das Nações', '1000', 'DF', 1);
+
+INSERT INTO setor (ala, nivelAla, idEstadio) VALUES
+('Norte', 'Inferior', 1);
+
+INSERT INTO sensor (statusSensor, idSetor) VALUES
+('Ativo', 1);
+
+/*
+	nivel de alerta vão vir caso temperatura a partir de 32ºC ou umidade acima de 70%
+ */
+
+drop database climetech;
