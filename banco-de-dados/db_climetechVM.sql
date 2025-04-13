@@ -2,6 +2,7 @@ create database climetech;
 
 use climetech;
 
+
 create table empresa(
 	idEmpresa int primary key auto_increment,
     nome varchar(50) not null,
@@ -35,6 +36,15 @@ create table estadio(
     uf char(2),
     idEmpresa int,
     constraint fkEstadioEmpresa foreign key(idEmpresa) references empresa(idEmpresa)
+);
+
+create table shows(
+	idEvento int primary key auto_increment,
+    nome varchar(35),
+    dtHoraComeco datetime,
+    dtHoraFinal datetime,
+    idEstadio int,
+    constraint fkEstadioEvento foreign key(idEstadio) references estadio(idEstadio)
 );
 
 create table setor(
@@ -72,6 +82,8 @@ INSERT INTO funcionarioEmpresa (nome, email, senha, idEmpresa) VALUES
 
 INSERT INTO estadio (nome, logradouro, numLogradouro,uf, idEmpresa) VALUES
 ('Arena Central', 'Av. das Nações', '1000', 'DF', 1);
+
+insert into shows values(null, 'Justin Bieber', '2025-05-31 23:00:00', '2025-06-01 03:00:00', 1);
 
 INSERT INTO setor (ala, nivelAla, idEstadio) VALUES
 ('Norte', 'Inferior', 1);
