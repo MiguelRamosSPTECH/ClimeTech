@@ -4,34 +4,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
+    <link rel="icon" href="img/logo_climetech_white.png" type="image/x-icon">
     <link rel="stylesheet" href="./styles/style.css">
 
-    <title>Document</title>
+    <title>Site Institucional</title>
 </head>
 
-<body>
+<div>
     <div class="header">
-        <div class="container">
-            <img src="./img/logo_climetech_white.png" alt="Logo Climetech">
-            <ul class="navbar">
-                <li class="agora"><a href="">Home</a></li>
-                <li><a href="">Sobre nós</a></li>
-                <li><a href="">Simulador</a></li>
-                <li><a href="">Contato</a></li>
-                <li class="login"><a href="">Login</a></li>
-            </ul>
+        <div class="nav">
+            <div class="container">
+                <img src="./img/logo_climetech_white.png" alt="Logo Climetech">
+                <ul class="navbar">
+                    <li class="agora"><a href="">Home</a></li>
+                    <li><a href="">Sobre nós</a></li>
+                    <li><a href="">Simulador</a></li>
+                    <li><a href="">Contato</a></li>
+                    <li class="login"><a href="">Login</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
 
-    <div class="main">
-        <div class="container">
-            <div class="content-main">
-                <h2>Controle o clima,<br>Comande a <span>experiência</span>.</h2>
-                <p>Monitoramento climático de alta precisão para estádios e grandes eventos. Mais controle, mais
-                    segurança, melhor experiência.</p>
-                <a href="">Saiba mais</a>
+        <div class="main">
+            <div class="container">
+                <div class="content-main">
+                    <h2>Controle o clima,<br>Comande a <span>experiência</span>.</h2>
+                    <p>Monitoramento climático de alta precisão para estádios e grandes eventos. Mais controle, mais
+                        segurança, melhor experiência.</p>
+                    <a href="">Saiba mais</a>
+                </div>
             </div>
         </div>
     </div>
@@ -39,9 +40,12 @@
     <div class="section1">
         <div class="container">
             <div class="left">
-                <img src="./img/contrato.jpg" alt="">
-                <h3><span class="foco">+10</span> anos de <span>experiência</span>.</h3>
+                <div id="imgLeft">
+                    <img src="./img/img_about_us.png" alt="">
+                </div>
+                <h3><span class="foco">+10 anos</span> de experiência</h3>
             </div>
+            
             <div class="right">
                 <h3>Conheça nossa empresa</h3>
                 <h2>Inteligência <span>Climática</span> para Eventos Inesquecíveis</h2>
@@ -59,26 +63,32 @@
                 <h2><span>Tecnologia</span> de Ponta para Eventos Mais <span>Seguros</span> e Inteligente</h2>
             </div>
             <div class="next-content">
+                <div class="linha-services"></div>
                 <div class="box">
-                    <img src="./img/sala_tech.png" alt="">
+                    <div class="img-box">
+                        <img src="./img/img_box_1.png" alt="">
+                    </div>
                     <div>
                         <h4>Monitoramento Climático em Tempo Real</h4>
-                        <p>Sensores de alta precisão captam temperatura e umidade com exatidão, fornecendo dados
-                            ambientais instantâneos durante todo o evento. </p>
+                        <p>Sensores DHT11 captam temperatura e umidade com precisão, fornecendo dados ambientais instantâneos durante todo o evento esportivo no estádio.</p>
                     </div>
                 </div>
                 <div class="box">
-                    <img src="./img/sirene.png" alt="">
+                    <div class="img-box">
+                        <img src="./img/img_box_2.png" alt="">
+                    </div>
                     <div>
                         <h4>Alertas Inteligentes e Ações Preventivas</h4>
-                        <p></p>
+                        <p>Nosso sistema monitora o ambiente com exatidão, emitindo alertas automáticos em tempo real e auxiliando na segurança de todos durante o evento.</p>
                     </div>
                 </div>
                 <div class="box">
-                    <img src="./img/img_dash.png" alt="">
+                    <div class="img-box">
+                        <img src="./img/img_box_3.png" alt="">
+                    </div>
                     <div>
                         <h4>Análise Preditiva para Prevenção de Riscos</h4>
-                        <p></p>
+                        <p>Com base nos dados coletados pelos sensores, o sistema realiza previsões ambientais e sugere ações preventivas para garantir um evento mais seguro. </p>
                     </div>
                 </div>
             </div>
@@ -99,14 +109,14 @@
         </div>
         <!-- SIMULADOR FINANCEIRO AQUI!!! -->
     </div>
-
+<div class="contact-footer">
     <div class="contact">
         <div class="container">
             <div class="contact-us">
                 <h2>Fale conosco</h2>
                 <p>Entre em contato conosco caso tenha interesse!</p>
             </div>
-            <div class="contact-input">
+            <div class="contact-form">
                 <div class="info-pessoal">
                     <input type="text" placeholder="Nome">
                     <input type="text" placeholder="Email">
@@ -151,6 +161,8 @@
             </div>
         </div>
     </div>
+</div>
+</body>
 </body>
 
 </html>
