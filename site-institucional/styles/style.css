@@ -61,7 +61,7 @@ h3 {
     font-weight: 700;
 }
 
-.navbar .login a {
+.navbar .login-button a {
     background-color: #2b3d7b;
     padding: 3px 24px;
     border-radius: 2px;
@@ -414,4 +414,83 @@ input::placeholder {
 
 svg {
     height: 40px;
+}
+
+.login {
+    display: flex;
+    height: 100vh;
+}
+
+.login .container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.img-left img {
+    height: 120px;
+}
+
+.formulario-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+}
+
+.formulario-right img {
+    height: 70px;
+}
+
+.forms {
+    display: flex;
+    flex-direction: column;
+    align-items:flex-start;
+    gap: 16px;
+    
+
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.input input {
+    width: 100%;
+}
+
+.input label {
+    font-weight: 700;
+}
+
+.login .formulario-right button {
+    width: 100%;
+    padding: 12px 24px;
+    background-color: #2b3d7b;
+    color: white;
+    font-weight: 700;
+    border-style: none;
+    font-size: 16px;
+}
+
+.final-forms {
+    width: 100%;
+}
+
+.final-forms a {
+    text-decoration: none;
+    color: #ffb800;
+}
+
+.inicio-forms h3 {
+    color: #969696;
 }
