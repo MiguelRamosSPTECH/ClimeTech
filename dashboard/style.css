@@ -1,0 +1,153 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    background-color: white;
+    display: flex;
+}
+
+header {
+    background-color: #004aad;
+    height: 100vh;
+    width: 150px;
+}
+
+h2 {
+    font-size: 25px;
+}
+
+p {
+    font-size: 24px;
+}
+
+
+
+
+/*css dashboard*/
+
+.logo_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 0;
+}
+
+.logo_container:hover {
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.divisor_header{
+    height: 2px;
+    background-color: white;
+    margin: 0 20px;
+    border-radius: 4px;
+}
+
+.funcionarios_container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 0;
+}
+
+.funcionarios_container{
+    cursor: pointer;
+}
+
+.main_container {
+    width: 100%;
+}
+
+.container_infos {
+    width: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.div_superior {
+    width: 100%;
+}
+
+.grafico {
+    width: 70vh;
+}
+
+.div_superior {
+    width: 100%;
+    text-align: left;
+    padding: 30px;
+}
+
+.div_superior h2 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #2b2b2b;
+}
+
+.div_superior h2 span {
+    color: #8e8e8e;
+    font-weight: 400;
+}
+
+.container_graficos {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.container_kpi {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.divisor {
+    width: 2px;
+    background-color: #c4c4c4;
+    margin: 0 20px;
+    border-radius: 4px;
+}
+
+
+.kpi_sensacao p{
+    color: red;
+}
+
+.kpi_setor p{
+    color: #efbc56;
+    font-weight: 700;
+}
+
+.card {
+    display: flex;
+    background-color: #ededed;
+    color: black;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    width: 70vh;
+    justify-content: space-evenly;
+}
+
+.card p {
+    font-size: 26px;
+    margin-top: 10px;
+    font-weight: 700;
+}
+
+canvas {
+    height: 100px;
+    background-color: #ededed;
+    border-radius: 12px;
+    padding: 20px;
+}

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ClimeTech | Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo_container">
+            <img style="width: 60px;" src="Sem Título-1.png" alt="Logo ClimeTech">
+        </div>
+
+        <div class="divisor_header"></div>
+
+        <div class="funcionarios_container">
+            <svg style="width: 60px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path fill="#ffffff"
+                    d="M399 384.2C376.9 345.8 335.4 320 288 320l-64 0c-47.4 0-88.9 25.8-111 64.2c35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 16a72 72 0 1 0 0-144 72 72 0 1 0 0 144z" />
+            </svg>
+        </div>
+    </header>
+
+
+    <div class="main_container">
+        <div class="div_superior">
+            <h2>Dashboard<span>/Home</span></h2>
+        </div>
+
+        <div class="container_infos">
+            <div class="container_kpi">
+                <div class="card">
+                    <div class="kpi_alerta">
+                        <h3>Alertas</h3>
+                        <p>10</p>
+                    </div>
+
+                    <div class="divisor"></div>
+
+                    <div class="kpi_sensacao">
+                        <h3>Sensação Térmica</h3>
+                        <p>45°</p>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="kpi_setor">
+                        <h4>Setor mais quente</h4>
+                        <p>Setor Sul</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container_graficos">
+                <div class="grafico">
+                    <h2>Temperatura</h2>
+                    <canvas id="chartTemperatura"></canvas>
+                </div>
+                <div class="grafico">
+                    <h2>Umidade</h2>
+                    <canvas id="chartUmidade"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        /*Labels de horário*/
+        const labels = [
+            '12:00',
+            '13:00',
+            '14:00',
+            '15:00',
+            '16:00',
+            '17:00'
+        ]
+
+        /*Gráfico de Temperatura*/
+
+        const dataTemperatura = {
+            labels: labels,
+            datasets: [{
+                label: 'Setor Norte',
+                data: [23, 27, 25, 22, 25, 28],
+                fill: false,
+                borderColor: '#1073da',
+                tension: 0.1
+            },
+
+            {
+                label: 'Setor Sul',
+                data: [24, 31, 26, 21, 28, 30],
+                fill: false,
+                borderColor: '#2b3d7b',
+                tension: 0.1
+            },
+
+            {
+                label: 'Setor Leste',
+                data: [28, 27, 22, 21, 22, 23],
+                fill: false,
+                borderColor: 'red',
+                tension: 0.1
+            },
+
+            {
+                label: 'Setor Oeste',
+                data: [27, 30, 22, 25, 29, 21],
+                fill: false,
+                borderColor: 'orange',
+                tension: 0.1
+            },
+            ],
+        };
+
+
+
+
+        const configTemperatura = {
+            type: 'line',
+            data: dataTemperatura,
+        };
+
+        /*Gráfico de Umidade*/
+
+        const dataUmidade = {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Setor Norte',
+                    data: [65, 72, 68, 70, 75, 78],
+                    fill: false,
+                    borderColor: '#1073da',
+                    tension: 0.1
+                },
+                {
+                    label: 'Setor Sul',
+                    data: [60, 66, 71, 69, 74, 80],
+                    fill: false,
+                    borderColor: '#2b3d7b',
+                    tension: 0.1
+                },
+                {
+                    label: 'Setor Leste',
+                    data: [58, 64, 70, 67, 73, 77],
+                    fill: false,
+                    borderColor: 'red',
+                    tension: 0.1
+                },
+                {
+                    label: 'Setor Oeste',
+                    data: [62, 68, 65, 72, 76, 79],
+                    fill: false,
+                    borderColor: 'orange',
+                    tension: 0.1
+                },
+            ],
+        };
+
+        const configUmidade = {
+            type: 'line',
+            data: dataUmidade,
+        };
+
+
+    </script>
+
+    <script>
+        const myChart = new Chart(
+            document.getElementById('chartTemperatura'),
+            configTemperatura
+        )
+
+        const chartUmidade = new Chart(
+            document.getElementById('chartUmidade'),
+            configUmidade
+        )
+    </script>
+
+</body>
+
+</html>
