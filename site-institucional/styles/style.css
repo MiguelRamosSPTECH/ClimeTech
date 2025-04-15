@@ -419,23 +419,36 @@ svg {
 .login {
     display: flex;
     height: 100vh;
+    width: 100%;
+    background-color: #d9d9d9;
 }
 
 .login .container {
     display: flex;
-    justify-content: space-evenly;
+    height: 80%;
+    width: 75%;
     align-items: center;
+    background-color: white;
 }
 
-.img-left img {
-    height: 120px;
+.img-left {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    background-image: url('../img/img-login-cadastro.png');
+    background-size: cover;
 }
 
+#logo-cadastro {
+    width: 32%;
+}
 .formulario-right {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 32px;
+    width: 50%;
+    height: 100%;
 }
 
 .formulario-right img {
@@ -447,7 +460,14 @@ svg {
     flex-direction: column;
     align-items:flex-start;
     gap: 16px;
-    
+    width: 75%;
+
+}
+.forms-cadastro {
+    display: flex;
+    flex-direction: column;
+    align-items:flex-start;
+    width: 75%;
 
 }
 
@@ -455,6 +475,12 @@ svg {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    width: 100%;
+}
+.inputs-cadastro {
+    display: flex;
+    flex-direction: column;
+    gap:5px;
     width: 100%;
 }
 
@@ -466,20 +492,33 @@ svg {
 
 .input input {
     width: 100%;
+    background-color: #f9f2f2;
+    border: 1px solid #e2dbdb;
 }
+.input-cadastro input {
+    width: 100%;
+    background-color: #f9f2f2;
+    border: 1px solid #e2dbdb;
+    height: 50%;
+}
+
 
 .input label {
     font-weight: 700;
 }
 
 .login .formulario-right button {
+    font-family: "Poppins", sans-serif;
     width: 100%;
-    padding: 12px 24px;
-    background-color: #2b3d7b;
+    padding: 8px 24px;
+    background: radial-gradient(circle at 50% 50%, #2a2079, #1c32a2);
     color: white;
     font-weight: 700;
     border-style: none;
     font-size: 16px;
+}
+#cadastro-button {
+    padding: 8px 24px;
 }
 
 .final-forms {
@@ -489,8 +528,13 @@ svg {
 .final-forms a {
     text-decoration: none;
     color: #ffb800;
+    font-weight: bold;
 }
 
 .inicio-forms h3 {
     color: #969696;
 }
+#h3-cadastro {
+    font-size: 15px;
+}
+
