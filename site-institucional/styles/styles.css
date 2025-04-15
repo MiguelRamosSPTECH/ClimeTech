@@ -15,7 +15,7 @@ nav {
     background-color: rgb(159, 177, 197, 1);
     display: flex;
     justify-content: space-around;
-    font-family: "Inconsolata", monospace;
+    
     align-items: center;
     color: rgb(24, 30, 50, 1);
 }
@@ -54,7 +54,7 @@ nav {
     border: none;
     color: #fff;
     border-radius: 10px;
-    font-family: "Inconsolata", monospace;
+    
     cursor: pointer;
     transition: 0.5s background;
 }
@@ -72,7 +72,7 @@ nav {
     border: none;
     color: #fff;
     border-radius: 10px;
-    font-family: "Inconsolata", monospace;
+    
     cursor: pointer;
     transition: 0.5s background;
 }
@@ -86,13 +86,13 @@ nav {
 .calculando {
     font-weight: 600;
     font-size: 30px;
-    font-family: "Inconsolata", monospace;
+    
     color: rgb(39, 53, 96);
 }
 .clime {
     font-weight: 600;
     font-size: 25px;
-    font-family: "Inconsolata", monospace;
+    
 }
 
 
@@ -116,7 +116,7 @@ nav {
 .estilo_inputs {
     background-image: url(../img/estadio.jpg) ;
     background-size:cover;
-    font-family: "Inconsolata", monospace;
+    
     font-size: 20px;
     text-align: center;
 }
@@ -126,6 +126,7 @@ input {
     background-color: rgb(215, 224, 245);
     border: none;
     padding: 6px 6px;
+    color: black;
 }
 
 .botao_calculo {
@@ -134,7 +135,7 @@ input {
     border: none;
     color: #fff;
     border-radius: 11px;
-    font-family: "Inconsolata", monospace;
+
     font-size: 25px;
     cursor: pointer;
     transition: 1s background;
@@ -153,12 +154,18 @@ input {
 .ipt{
     width: 300px;
     margin: 0 auto;
-    padding: 7px;
+    padding: 20px;
     height: max-content;
-    width: max-content;
+    width: 500px;
+    justify-items: center;
     border-radius: 90px;
-    background-color: rgb(159, 177, 197, 1);;
+    background-color: rgb(159, 177, 197, 1);
+    color: black;
    
+}
+
+.alignCenter{
+    justify-content: center;
 }
 
 .botao_calculo:hover {
@@ -170,17 +177,17 @@ input {
  
 }
 .divResposta{
-    padding-left: 0px;
+  
     left: 0;
     background-color: #9598bd;
     text-align: left;
 }
 
 .margin {
-    margin-left: 60px;
-    margin-top: 60px;
-  
+    margin-left: 40px;
     font-size: 20px;
+
+    text-align: left;
 }
 
 .icoDiv{
@@ -190,7 +197,9 @@ input {
     text-align: left ;
 }
 
-
+.divImg{
+    text-align: center;
+}
 
 
 /*style somente do modal*/
@@ -212,24 +221,26 @@ input {
     color: white;
     cursor: pointer;
 }
-
+#close-modal {
+    cursor: pointer;
+}
 
 #modal {
+    font-size: 15px;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #fff;
     z-index: 10;
-    width: 90%;
-
-    max-width: 700px;
-    height: auto;
+    width: 700px;
+    height:  500px;
     overflow-y: auto;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
     padding: 20px;
 }
+
 
 .header-modal {
     width: 100%;
@@ -243,6 +254,7 @@ input {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: left;
     flex-direction: column;
 }
 
