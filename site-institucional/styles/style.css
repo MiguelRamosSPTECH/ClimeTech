@@ -451,7 +451,7 @@ svg {
 }
 
 .formulario-right img {
-    height: 70px;
+    width: 40%;
 }
 
 .forms {
@@ -490,11 +490,13 @@ svg {
 }
 
 .input input {
+    color: rgb(32, 32, 32);
     width: 100%;
     background-color: #f9f2f2;
     border: 1px solid #e2dbdb;
 }
 .input-cadastro input {
+    color: rgb(32, 32, 32);
     width: 100%;
     background-color: #f9f2f2;
     border: 1px solid #e2dbdb;
@@ -502,7 +504,7 @@ svg {
 }
 
 
-.input label {
+.input label, .input-cadastro label {
     font-weight: 700;
 }
 
