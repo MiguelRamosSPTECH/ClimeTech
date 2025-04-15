@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo Modal</title>
+    <style>
+        html,body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        #open-modal {
+            background-color: green;
+            padding: 15px;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+        }
+        
+        #fade {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(128, 128, 128, 0.6);
+            z-index: 5;
+        }
+        #modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            background-color: rgb(255, 255, 255);
+            z-index: 10;
+            height: 50%;
+            width: 50%;
+        }
+        .header-modal {
+            width: 100%;
+            height: 15%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+        .body-modal {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 65%;
+        }
+        p {
+            width: 80%;
+        }
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="fade" class="hide"></div>
+    <button type="submit" id="open-modal" onclick="openCloseModal()">Abrir</button>
+
+        <div id="modal" class="hide">
+            <div class="header-modal">
+                <h1>Aqui é meu modal super legal</h1>
+                <h3 id="close-modal" onclick="openCloseModal()">X</h3>
+            </div>
+            <div class="body-modal">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint placeat in distinctio totam. Sapiente eaque nisi eos, ut libero distinctio deleniti hic assumenda maxime voluptas, minima, vitae unde. Eos, architecto?</p>
+            </div>
+        </div>
+</body>
+<script>
+
+    function openCloseModal() {
+            if(fade.classList == "hide" && modal.classList == "hide") {
+                fade.classList.remove('hide');
+                modal.classList.remove('hide');
+            } else {
+                fade.classList.add('hide');
+                modal.classList.add('hide');
+            }
+    }
+</script>
+</html>
