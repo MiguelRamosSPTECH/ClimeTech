@@ -30,161 +30,193 @@
 
     <div class="main_container">
         <div class="div_superior">
-            <h2>Dashboard<span>/Home</span></h2>
+            <div class="header-main">
+                <h2>Dashboard/<span>Home</span></h2>
+                <div class="icon_indice"></div>
+            </div>
         </div>
 
         <div class="container_infos">
-            <div class="container_kpi">
-                <div class="card">
-                    <div class="kpi_alerta">
-                        <h3>Alertas</h3>
-                        <p>10</p>
-                    </div>
-
-                    <div class="divisor"></div>
-
-                    <div class="kpi_sensacao">
-                        <h3>Sensação Térmica</h3>
-                        <p>45°</p>
-                    </div>
+            <div class="area-dados-kpi">
+                <div id="filtro-dados">
+                    <span>Dados -</span>
+                    <select name="" id="filtro-setor">
+                        <option value="geral">Geral</option>
+                        <option value="leste">Setor-Leste</option>
+                        <option value="oeste">Setor-Oeste</option>
+                        <option value="norte">Setor-Norte</option>
+                        <option value="sul">Setor-Sul</option>
+                    </select>
                 </div>
+                <div class="container_kpi">
+                    <div class="card">
+                        <div class="kpi_alerta">
+                            <h3>Alertas</h3>
+                            <p>10</p>
+                        </div>
+
+                        <div class="divisor"></div>
+
+                        <div class="kpi_sensacao">
+                            <h3>Sensação Térmica</h3>
+                            <p>45°</p>
+                        </div>
+                    </div>
 
 
-                <div class="card">
-                    <div class="kpi_setor">
-                        <h4>Setor mais quente</h4>
-                        <p>Setor Sul</p>
+                    <div class="card">
+                        <div class="kpi_setor">
+                            <h3>Setor mais quente</h3>
+                            <p>Setor Sul</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="container_graficos">
                 <div class="grafico">
-                    <h2>Temperatura</h2>
-                    <canvas id="chartTemperatura"></canvas>
+                    <h4>Variação da temperatura em diferentes setores</h4>
+                    <canvas id="chartTemperatura" width="1200" height="900"></canvas>
                 </div>
                 <div class="grafico">
-                    <h2>Umidade</h2>
-                    <canvas id="chartUmidade"></canvas>
+                    <h4>Variação da umidade em diferentes setores</h4>
+                    <canvas id="chartUmidade"  width="1200" height="900"></canvas>
                 </div>
             </div>
 
         </div>
     </div>
 
-    <script>
-        /*Labels de horário*/
-        const labels = [
-            '12:00',
-            '13:00',
-            '14:00',
-            '15:00',
-            '16:00',
-            '17:00'
-        ]
+</body>
 
-        /*Gráfico de Temperatura*/
+<script>
+    /*Labels de horário*/
+    const labels = [
+        '12:00',
+        '13:00',
+        '14:00',
+        '15:00',
+        '16:00',
+        '17:00'
+    ]
 
-        const dataTemperatura = {
-            labels: labels,
-            datasets: [{
+    /*Gráfico de Temperatura*/
+
+    const dataTemperatura = {
+        labels: labels,
+        datasets: [{
+            label: 'Setor Norte',
+            data: [23, 27, 25, 22, 25, 28],
+            fill: false,
+            borderColor: '#1073da',
+            tension: 0.1,
+        },
+
+        {
+            label: 'Setor Sul',
+            data: [24, 31, 26, 21, 28, 30],
+            fill: false,
+            borderColor: '#2b3d7b',
+            tension: 0.1
+        },
+
+        {
+            label: 'Setor Leste',
+            data: [28, 27, 22, 21, 22, 23],
+            fill: false,
+            borderColor: 'red',
+            tension: 0.1
+        },
+
+        {
+            label: 'Setor Oeste',
+            data: [27, 30, 22, 25, 29, 21],
+            fill: false,
+            borderColor: 'orange',
+            tension: 0.1
+        },
+        ],
+    };
+
+
+
+
+    const configTemperatura = {
+        type: 'line',
+        data: dataTemperatura,
+        options: {
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    align: 'center'
+                }
+            }
+        }
+    };
+
+    /*Gráfico de Umidade*/
+
+    const dataUmidade = {
+        labels: labels,
+        datasets: [
+            {
                 label: 'Setor Norte',
-                data: [23, 27, 25, 22, 25, 28],
+                data: [65, 72, 68, 70, 75, 78],
                 fill: false,
                 borderColor: '#1073da',
                 tension: 0.1
             },
-
             {
                 label: 'Setor Sul',
-                data: [24, 31, 26, 21, 28, 30],
+                data: [60, 66, 71, 69, 74, 80],
                 fill: false,
                 borderColor: '#2b3d7b',
                 tension: 0.1
             },
-
             {
                 label: 'Setor Leste',
-                data: [28, 27, 22, 21, 22, 23],
+                data: [58, 64, 70, 67, 73, 77],
                 fill: false,
                 borderColor: 'red',
                 tension: 0.1
             },
-
             {
                 label: 'Setor Oeste',
-                data: [27, 30, 22, 25, 29, 21],
+                data: [62, 68, 65, 72, 76, 79],
                 fill: false,
                 borderColor: 'orange',
                 tension: 0.1
             },
-            ],
-        };
+        ],
+    };
+
+    const configUmidade = {
+        type: 'line',
+        data: dataUmidade,
+        options: {
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    align: 'center'
+                }
+            }
+        }
+    };
 
 
+</script>
 
+<script>
+    const myChart = new Chart(
+        document.getElementById('chartTemperatura'),
+        configTemperatura
+    )
 
-        const configTemperatura = {
-            type: 'line',
-            data: dataTemperatura,
-        };
-
-        /*Gráfico de Umidade*/
-
-        const dataUmidade = {
-            labels: labels,
-            datasets: [
-                {
-                    label: 'Setor Norte',
-                    data: [65, 72, 68, 70, 75, 78],
-                    fill: false,
-                    borderColor: '#1073da',
-                    tension: 0.1
-                },
-                {
-                    label: 'Setor Sul',
-                    data: [60, 66, 71, 69, 74, 80],
-                    fill: false,
-                    borderColor: '#2b3d7b',
-                    tension: 0.1
-                },
-                {
-                    label: 'Setor Leste',
-                    data: [58, 64, 70, 67, 73, 77],
-                    fill: false,
-                    borderColor: 'red',
-                    tension: 0.1
-                },
-                {
-                    label: 'Setor Oeste',
-                    data: [62, 68, 65, 72, 76, 79],
-                    fill: false,
-                    borderColor: 'orange',
-                    tension: 0.1
-                },
-            ],
-        };
-
-        const configUmidade = {
-            type: 'line',
-            data: dataUmidade,
-        };
-
-
-    </script>
-
-    <script>
-        const myChart = new Chart(
-            document.getElementById('chartTemperatura'),
-            configTemperatura
-        )
-
-        const chartUmidade = new Chart(
-            document.getElementById('chartUmidade'),
-            configUmidade
-        )
-    </script>
-
-</body>
-
+    const chartUmidade = new Chart(
+        document.getElementById('chartUmidade'),
+        configUmidade
+    )
+</script>
 </html>
