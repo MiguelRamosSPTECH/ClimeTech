@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
+    <link rel="stylesheet" href="./styles/login_cadastro.css">
     <link rel="stylesheet" href="./styles/style.css">
 </head>
 
@@ -34,12 +35,14 @@
                     </div>
                     <div class="final-forms">
                         <p>Ainda não pussui conta? <a href="./cadastro.html">Cadastre-se</a></p>
-                        <button>Login</button>
+                        <button onclick="login()">Login</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div id="div_notificacao_login" class="div-notificacao-login"></div>
 
     <div class="footer" style="background-color: #323232;">
         <div class="container">
@@ -75,6 +78,8 @@
             </div>
         </div>
     </div>
+    
+    <script src="./scripts/login_cadastro.js"></script>
 </body>
 
 </html>
