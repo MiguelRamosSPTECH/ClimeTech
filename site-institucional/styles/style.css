@@ -23,6 +23,10 @@ h3 {
     color: #545252;
 }
 
+input {
+    width: 100%;
+}
+
 .container {
     margin: auto;
     width: 90%;
