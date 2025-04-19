@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Funcionários</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
     <div class="container-all">
@@ -13,15 +13,15 @@
         <!-- Navbar lateral -->
         <div class="nav-lateral">
             <div id="area-logo-climetech">
-                <div id="logo-climetech"></div>
+                <a id="logo-climetech" href="../index.html"></a>
                 <div class="separador"></div>
             </div>
             <div class="area-icons">
                 <div class="area-icon">
-                    <a href="../funcionarios/index.html" id="icon-funcionario"></a>
+                    <a href="index.html" id="icon-funcionario"></a>
                 </div>
                 <div class="area-icon">
-                    <div id="icon-logoff"></div>
+                    <a id="icon-logoff" href="../../site-institucional/login.html"></a>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
                         <h1>Dashboard/<span>Funcionários</span></h1>
                     </div>
                     <div class="button-content">
-                        <button>+ Adicionar funcionários</button>
+                        <button onclick="openCloseModal('insert')">+ Adicionar funcionários</button>
                     </div>
                 </div>
                 <!-- tabela dos funcionarios -->
@@ -90,25 +90,25 @@
          <!-- modal update -->
         <div id="modal_update" class="hide">
             <div id="header-modal-update">
-                <h2>Editando <span>Miguel Ramos</span></h2>
+                <h2 id="textRequisicao">Editando <span>Miguel Ramos</span></h2>
                 <img src="../img-all/img-close-modal.png" class="close-modal" onclick="openCloseModal('update')">
             </div>
             <div class="body-modal">
                 <div class="container-interactive">
                     <div class="input-group">
                         <label for="input_nome">Nome</label>
-                        <input type="text" id="input_nome" value="Miguel Ramos">
+                        <input type="text" id="input_nome" placeholder="Nome do funcionário" value="Miguel Ramos">
                     </div>
                     <div class="input-group">
-                        <label for="input_nome">Email</label>
-                        <input type="text" id="input_nome" value="miguel.empresa@gmail.com">
+                        <label for="input_email">Email</label>
+                        <input type="text" id="input_email" placeholder="Email do funcionário" value="miguel.empresa@gmail.com">
                     </div>
                     <div class="input-group">
-                        <label for="input_nome">Senha</label>
-                        <input type="text" id="input_nome" value="*********">
+                        <label for="input_senha">Senha</label>
+                        <input type="text" id="input_senha" placeholder="Senha do funcionário" value="*********">
                     </div>
                     <div class="input-group">
-                        <label for="input_nome">Acesso</label>
+                        <label for="input_access ">Acesso</label>
                         <select name="" id="">
                             <option value="visualizador">Visualizador</option>
                             <option value="adm">Admin</option>
