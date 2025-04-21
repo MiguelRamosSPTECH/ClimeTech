@@ -3,9 +3,12 @@
     justify-content: center;
     align-items: center;
     padding: 12px 0px;
-    background-color: #d9d9d9;
 }
 
 .div-notificacao-cadastro,.div-notificacao-login span {
     color: #1073da;
+}
+
+button{
+    cursor: pointer;
 }

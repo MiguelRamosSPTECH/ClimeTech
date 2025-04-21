@@ -33,7 +33,7 @@ function cadastrar() {
 
 function login() {
     nome = ['Brandão','Clara'];
-    email = ['brandao@hotmail.com','clara@gmail.com'];
+    email = ['brandao@climetech.com','clara@climetech.com'];
     senha = ['123','456'];
 
     let emailLogin = ipt_login_email.value;
@@ -45,7 +45,10 @@ function login() {
             `
                 <h3>Login feito com sucesso! Seja bem-vindo <span>${nome[i]}</span>.</h3>
             `;
-            return;
+
+            window.location.href = "../dashboard/index.html";
+            
+            return; /*A função return: caso a condição seja verdadeira ela para o funcionamento da função login */ 
         }
     }
 
