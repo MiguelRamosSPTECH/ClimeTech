@@ -3,6 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 35px;
 }
 
 .estilo_inputs {
@@ -64,31 +65,28 @@
 
 .div_resposta_simulador {
     display: flex;
-    flex-direction: row;
+    width: 100%;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center
 }
 
 .div_resposta_simulador div {
     display: flex;
-    flex-direction: column;
     gap: 46px;
     align-items: center;
     justify-content: center;
-    width: 40%;
-    height: 350px;
+    width: 95%;
+    height: 550px;
     background-color: #38373d;
     padding: 24px 12px;
-    border-radius: 10px;
+    flex-wrap: wrap;
 
 }
 
 .div_resposta_simulador div p {
-    height: 70%;
-
     color: white;
-    width: 70%;
-    font-size: 16px;
+    width: 40%;
+    font-size: 23px;
 }
 
 .explicacao-simulador {
@@ -128,6 +126,7 @@
 }
 
 .sistema-climetech {
+    font-size: 18px;
     display: flex;
     justify-content: space-around;
 }
