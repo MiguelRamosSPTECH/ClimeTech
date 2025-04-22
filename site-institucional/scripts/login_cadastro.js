@@ -8,27 +8,24 @@ function cadastrar() {
     let cnpjCadastro = ipt_cadastro_cnpj.value
     let emailCadastro = ipt_cadastro_email.value
     let senhaCadastro = ipt_cadastro_senha.value
+    var mensagem = `` 
 
-    if (nomeCadastro == "" || cnpjCadastro == "" || emailCadastro == "" || senhaCadastro == "") {
-        div_notificacao_cadastro.innerHTML =
-        `
-            <h3>Você deve preencher todos os campos do cadastro.</h3>
-        `;
-    } else if (cnpjCadastro.length != 14) {
-        alert("CNPJ inválido.")
+    if (cnpjCadastro.length != 14) {
+        mensagem = `CNPJ deve conter 14 caracteres`
     } else if (!emailCadastro.includes("@")) {
-        alert("Email inválido.")
+        mensagem = `Email deve conter @`
+    } else if(nomeCadastro == "" || cnpjCadastro == "" || emailCadastro == "" || senhaCadastro == "") {
+        mensagem = `Você deve preencher todos os campos do cadastro `
     } else {
         nome.push(nomeCadastro);
         cnpj.push(cnpjCadastro);
         email.push(emailCadastro);
         senha.push(senhaCadastro);
 
-        div_notificacao_cadastro.innerHTML =
-        `
-            <h3><span>Parabéns</span>! Você concluiu o seu cadastro.</h3>
-        `;
+        alert("Cadastro efetuado com sucesso!\nDados enviados para análise")
+        window.location.href = `login.html?=CadastroEnviadoParaAnálise`
     }
+    div_notificacao_cadastro.innerHTML = `<h3>${mensagem}</h3>`
 }
 
 function login() {
@@ -40,20 +37,17 @@ function login() {
     let senhaLogin = ipt_login_senha.value;
 
     for (let i = 0; i <= email.length; i++) {
-        if (email[i] === emailLogin && senha[i] === senhaLogin) {
+        if (email[i] != emailLogin || senha[i] != senhaLogin) {
             div_notificacao_login.innerHTML =
             `
-                <h3>Login feito com sucesso! Seja bem-vindo <span>${nome[i]}</span>.</h3>
+                <h3>Email ou senha incorretos.</h3>
             `;
 
-            window.location.href = "../dashboard/index.html";
+        } else {
+            window.location.href = "../dashboard/index.html?=LoginEfetuado";
             
-            return; /*A função return: caso a condição seja verdadeira ela para o funcionamento da função login */ 
+            break; /*A função return: caso a condição seja verdadeira ela para o funcionamento da função login */ 
         }
     }
 
-    div_notificacao_login.innerHTML =
-        `
-            <h3>Email ou senha incorretos.</h3>
-        `;
 }

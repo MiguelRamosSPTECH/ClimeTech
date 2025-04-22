@@ -434,7 +434,15 @@ svg {
     align-items: center;
     background-color: white;
 }
-
+#cadastro {
+    height: 90%;
+}
+#div_notificacao_cadastro h3, #div_notificacao_login h3 {
+    width: 100%;
+    font-size: 12px;
+    font-weight: bold;
+    color: red;
+}
 .img-left {
     display: flex;
     width: 50%;
@@ -444,7 +452,7 @@ svg {
 }
 
 #logo-cadastro {
-    width: 32%;
+    width: 40%;
 }
 .formulario-right {
     display: flex;

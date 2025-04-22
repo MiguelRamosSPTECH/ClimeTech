@@ -22,7 +22,7 @@
                 <a href="./funcionarios/index.html" id="icon-funcionario"></a>
             </div>
             <div class="area-icon">
-                <a id="icon-logoff" href="../../site-institucional/login.html"></a>
+                <a id="icon-logoff" href="../../site-institucional/login.html?=LogoffEfetuado"></a>
             </div>
         </div>
     </div>
@@ -50,14 +50,14 @@
                 <div class="container_kpi">
                     <div class="card">
                         <div class="kpi_alerta">
-                            <h3>Alertas</h3>
+                            <h3>Alertas de risco</h3>
                             <p>10</p>
                         </div>
 
                         <div class="divisor"></div>
 
                         <div class="kpi_sensacao">
-                            <h3>Sensação Térmica</h3>
+                            <h3>Sensação Térmica Atual</h3>
                             <p>45°C</p>
                         </div>
                     </div>
@@ -74,11 +74,11 @@
 
             <div class="container_graficos">
                 <div class="grafico">
-                    <h4>Variação da temperatura em diferentes setores</h4>
+                    <h4>Variação da temperatura em diferentes setores (°C)</h4>
                     <canvas id="chartTemperatura"></canvas>
                 </div>
                 <div class="grafico">
-                    <h4>Variação da umidade em diferentes setores</h4>
+                    <h4>Variação da umidade em diferentes setores (%)</h4>
                     <canvas id="chartUmidade"></canvas>
                 </div>
             </div>
@@ -88,12 +88,12 @@
 
     <div id="modal_indice" class="hide">
         <div id="header-modal-indice">
-            <h2 >Indice</h2>
+            <h2>Índice</h2>
             <img src="./img-all/img-close-modal.png" class="close-modal" onclick="openCloseIndice()">
         </div>
         <div class="body-modal">
             <p>
-                <span style="color: yellow;">Cor Amarela: </span> Foi detectado calor moderado com umidade elevada (33–39°C). Há risco de exaustão e cãibras em participantes, principalmente em áreas sem sombra.
+                <span style="color: gold;">Cor Amarela: </span> Foi detectado calor moderado com umidade elevada (33–39°C). Há risco de exaustão e cãibras em participantes, principalmente em áreas sem sombra.
             </p>
             <p>
                 <span style="color: orange;">Cor Laranja: </span> Sensação térmica extrema detectada (40–45°C). Público sob risco de hipertermia.
@@ -106,7 +106,7 @@
             <div class="acoes-recomendadas">
                 <h3>Ações recomendadas</h3>
                 <p>
-                    <span style="color: yellow;font-weight:bold;">Cor Amarela: </span> 
+                    <span style="color: gold;font-weight:bold;">Cor Amarela: </span> 
                     <ul>
                         <li>Garantir distribuição de água e acesso a hidratação</li>
                         <li>Enviar alerta visual/auditivo ao público sobre cuidados com o calor</li>

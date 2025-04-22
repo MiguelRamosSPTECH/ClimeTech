@@ -13,7 +13,7 @@
 <body>
 
     <div class="login">
-        <div class="container">
+        <div class="container" id="cadastro">
             <div class="img-left">
             </div>
             <div class="formulario-right">
@@ -35,19 +35,19 @@
                         </div>
                         <div class="input-cadastro">
                             <label for="ipt_cadastro_email">E-mail</label>
-                            <input type="text" placeholder="Exemplo@hotmail.com" id="ipt_cadastro_email">
+                            <input type="email" placeholder="Exemplo@hotmail.com" id="ipt_cadastro_email">
                         </div>
                         <div class="input-cadastro">
                             <label for="ipt_cadastro_senha">Senha</label>
                             <input type="password" placeholder="********" id="ipt_cadastro_senha">
                         </div>
                     </div>
+                    <div id="div_notificacao_cadastro"></div>
                     <div class="final-forms">
                         <p>Já tem uma conta? <a href="./login.html">Faça login</a></p>
                         <button id="cadastro-button" onclick="cadastrar()">Cadastrar</button>
                     </div>
                 </div>
-                <div id="div_notificacao_cadastro" class="div-notificacao-cadastro"></div>
             </div>
         </div>
     </div>
