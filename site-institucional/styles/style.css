@@ -436,6 +436,7 @@ svg {
     width: 75%;
     align-items: center;
     background-color: white;
+    border-radius: 10px;
 }
 #cadastro {
     height: 90%;
@@ -452,6 +453,8 @@ svg {
     height: 100%;
     background-image: url('../img/img-login-cadastro.png');
     background-size: cover;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 #logo-cadastro {
