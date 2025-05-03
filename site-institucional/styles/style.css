@@ -456,9 +456,11 @@ svg {
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 }
-
-#logo-cadastro {
+.logo-voltar{
     width: 40%;
+}
+#logo-cadastro {
+    width: 100%;
 }
 .formulario-right {
     display: flex;

@@ -450,6 +450,9 @@ table td {
 .close-modal {
     height: 40px;
 }
+.close-modal{
+    cursor:pointer;
+}
 
 /* Classe que esconde os modais */
 .hide {
