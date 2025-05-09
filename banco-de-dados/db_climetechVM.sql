@@ -19,10 +19,11 @@ create table funcionarioEmpresa(
     nome varchar(35) not null,
     email varchar(50) not null,
     senha varchar(25) not null,
+    dtCriacao datetime,
 	tipoAcesso varchar(15) default('visualizador'),
 	idEmpresa int, /* perguntar se vamos usar views, funcoes */
     unique unq_email(email),
-    constraint chk_tipoAcesso check(tipoAcesso in('admin','visualizador')),
+    constraint chk_tipoAcesso check(tipoAcesso in('admin', 'visualizador')),
     constraint fkEmpresaFuncionario foreign key(idEmpresa) references empresa(idEmpresa)
 );
 
@@ -77,10 +78,10 @@ create table dadosSensor(
 INSERT INTO empresa (nome, cnpj, email, senha) VALUES
 ('ClimeTech Ltda', '12.345.678/0001-90', 'climetech@gmail.com', 'Clime90_@$');
 
-INSERT INTO funcionarioEmpresa (nome, email, senha, idEmpresa) VALUES
-('Miguel', 'miguel@climetech.com', 'm1Cl4@', 1);
+INSERT INTO funcionarioEmpresa (nome, email, senha, dtCriacao, idEmpresa) VALUES
+('Miguel', 'miguel@climetech.com', 'm1Cl4@', '2025-05-20 15:00:00', 1);
 
-INSERT INTO estadio (nome, logradouro, numLogradouro,uf, idEmpresa) VALUES
+INSERT INTO estadio (nome, logradouro, numLogradouro, uf, idEmpresa) VALUES
 ('Arena Central', 'Av. das Nações', '1000', 'DF', 1);
 
 insert into shows values(null, 'Justin Bieber', '2025-05-31 23:00:00', '2025-06-01 03:00:00', 1);
@@ -92,7 +93,7 @@ INSERT INTO sensor (statusSensor, idSetor) VALUES
 ('Ativo', 1);
 
 /*
-	nivel de alerta vão vir caso temperatura a partir de 32ºC ou umidade acima de 70%
+	nível de alerta vão vir caso temperatura a partir de 32ºC ou umidade acima de 70%
  */
 
 drop database climetech;
