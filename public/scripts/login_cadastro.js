@@ -29,16 +29,15 @@ function cadastrar() {
         .then(async function (resposta) {
             if(resposta.ok) {
                 alert("Cadastro efetuado com sucesso! redirecionando para o login")
-                setInterval(() => window.location = "login.html", 2000);
+                setInterval(() => window.location = "../site/login.html", 2000);
                 //se quiser limpar form fodasse
             } else {
-                const data = await resposta.text();
-                mensagem = data;
+                mensagem = await resposta.text();
+                div_notificacao_cadastro.innerHTML = `${mensagem}`;
             }
         })
         .catch(function (resposta) {
             console.log("#ERRO", resposta)
-            mensagem = `${resposta}`
         })
     }
     div_notificacao_cadastro.innerHTML = `${mensagem}`;
@@ -51,7 +50,7 @@ function login() {
     if(emailLogin == "" || senhaLogin == "") {
         mensagem = `Preencha todos os campos!`
     } else {
-        fetch("/empresas/validarLogin", {
+        fetch("/usuarios/autenticar", {
             method: "POST",
             headers: {
                 "Content-type": "application/json"
@@ -61,21 +60,20 @@ function login() {
                 senhaEmpresa: senhaLogin
             }),
         })
-        .then(async function(resposta) {
+        .then(async function (resposta) {
             if(resposta.ok) {
-                resposta.json().then(respostaJson => {
-                    if(respostaJson[0].acessoLiberado == 0) {
-                       alert("Espere até que seu acesso seja liberado!") 
-                    } else {
-                        alert("Login efetuado!") 
-                        sessionStorage.NOME_FUNCIONARIO = respostaJson.nome;
-                        setInterval(() => window.location = "./dashboard/index.html", 1000)
-                    }
-                })
+                const dadosUsuario = await resposta.json();
+                // if(dadosUsuario[0].tipoAcesso != "admin") {
+                    sessionStorage.EMAIL_FUNCIONARIO = dadosUsuario[0].email;
+                    sessionStorage.SENHA_FUNCIONARIO = dadosUsuario[0].senha;
+                    sessionStorage.ACESSO_FUNCIONARIO = dadosUsuario[0].tipoAcesso;
+                    sessionStorage.ID_EMPRESA = dadosUsuario[0].empresaId;
+                    window.location = "../dashboard/index.html";
+                // } 
+
             } else {
-                resposta.text().then(texto => {
-                    div_notificacao_login.innerHTML = `${texto}`
-                });
+                const msgErro = await resposta.text();
+                div_notificacao_login.innerHTML = `${msgErro}`
             }
         })
     }

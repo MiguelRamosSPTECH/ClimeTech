@@ -38,22 +38,10 @@ function cadastrar(req, res) {
   })
 }
 
-function validarLogin(req, res) {
-  var email = req.body.emailEmpresa;
-  var senha = req.body.senhaEmpresa;
-  empresaModel.checarCredenciais(email, senha).then((resultado) => { //funcao callback, usando outra funcao como parametro
-      if(resultado.length > 0) {
-        res.status(201).json(resultado);
-      } else {
-        res.status(401).send("Email e/ou senha incorreto(s)!")
-      }    
-  })
-}
 
 module.exports = {
   buscarPorCnpj,
   buscarPorId,
   cadastrar,
   listar,
-  validarLogin
 };
