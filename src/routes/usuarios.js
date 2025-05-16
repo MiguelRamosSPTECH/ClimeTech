@@ -8,6 +8,8 @@ router.post("/cadastrar", function (req, res) {
     usuarioController.cadastrar(req, res);
 })
 
+// adicionar rota para dar update
+
 router.post("/autenticar", function (req, res) {
     usuarioController.autenticar(req, res);
 });
@@ -17,3 +19,4 @@ router.post("/listarFuncionarios", function(req,res) {
 })
 
 module.exports = router;
+
