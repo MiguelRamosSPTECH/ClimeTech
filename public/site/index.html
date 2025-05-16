@@ -170,14 +170,14 @@
                     <h2>Fale conosco</h2>
                     <p>Entre em contato conosco caso tenha interesse!</p>
                 </div>
-                <div class="contact-form" id="form-contact">
+                <form method="post" action="/contato" class="contact-form" id="form-contact">
                     <div class="info-pessoal">
-                        <input type="text" id="ipt_nome" placeholder="Nome">
-                        <input type="text" id="ipt_email" placeholder="Email">
+                        <input type="text" id="ipt_nome" placeholder="Nome" required>
+                        <input type="text" id="ipt_email" placeholder="Email" required>
                     </div>
-                    <input type="text" class="assunto" id="ipt_assunto" placeholder="Assunto">
+                    <input type="text" class="assunto" id="ipt_assunto" placeholder="Assunto" required>
                     <button type="submit">Enviar</button>
-                </div>
+                </form>
             </div>
         </div>
 
