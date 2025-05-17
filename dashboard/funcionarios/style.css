@@ -181,17 +181,20 @@ canvas {
 /* Conteudo da tela de Funcionários */
 .content {
     width: 92%;
-    height: 100%;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    padding-top: 40px;
 }
 .container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start; /* conteúdo no topo */
+    align-items: flex-start;
     width: 85%;
-    height: 100%;
+    height: auto; /* deixa crescer conforme o conteúdo */
+    padding: 30px 0;
 }
 
 /* Header da tela */
@@ -286,8 +289,10 @@ table td {
     display: flex;
     gap: 15px;
 }
+
 .edit, .delete {
     width: 35px;
+    height: 35px;
     cursor: pointer;
 }
 
@@ -305,8 +310,8 @@ table td {
     z-index: 5;
 }
 
-
-/* Modal update */
+/* Modal update (NÃO PRECISA MAIS) */
+/* 
 #modal_update {
     position: fixed;
     left: 50%;
@@ -338,7 +343,7 @@ table td {
     align-items: center;
     height: 60%;
     font-size: larger;
-}
+} */
 .container-interactive {
     width: 90%;
     display: flex;
@@ -436,9 +441,6 @@ table td {
    outline: none;
    border: none;
    cursor: pointer;
-}
-#update-modal button {
-    height: 35%;
 }
 
 .button-cancel {
