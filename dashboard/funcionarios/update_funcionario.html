@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Funcionário</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container-all">
+        <!-- Navbar lateral -->
+        <div class="nav-lateral">
+            <div id="area-logo-climetech">
+                <a id="logo-climetech" href="../index.html"></a>
+                <div class="separador"></div>
+            </div>
+            <div class="area-icons">
+                <div class="area-icon">
+                    <a href="index.html" id="icon-funcionario"></a>
+                </div>
+                <div class="area-icon">
+                    <a id="icon-logoff" href="../../site-institucional/login.html?=LogoffEfetuado"></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conteúdo principal -->
+        <div class="content">
+            <div class="container">
+                <div class="header">
+                    <div class="text-content">
+                        <h1>Dashboard/<span>Editar Funcionário</span></h1>
+                    </div>
+                </div>
+
+                <form action="#" method="POST" class="container-interactive">
+                    <div class="input-group">
+                        <label for="nome">Nome</label>
+                        <input type="text" id="nome" name="nome" value="Brandão" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" value="brandao@climetech.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="senha">Senha</label>
+                        <input type="password" id="senha" name="senha" value="12345678" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="acesso">Acesso</label>
+                        <select id="acesso" name="acesso">
+                            <option value="visualizador">Visualizador</option>
+                            <option value="adm" selected>Admin</option>
+                        </select>
+                    </div>
+                    <div class="buttons-modal" style="margin-top: 30px;">
+                        <div class="area-buttons">
+                            <button type="button" class="button-cancel"
+                                onclick="window.location.href='index.html'">Cancelar</button>
+                            <button type="button" class="button-confirm"
+                                onclick="window.location.href='index.html'">Confirmar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
