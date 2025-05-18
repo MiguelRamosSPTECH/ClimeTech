@@ -17,15 +17,26 @@ function cadastrar() {
     } else if(nomeCadastro == "" || cnpjCadastro == "" || emailCadastro == "" || senhaCadastro == "") {
         mensagem = `Você deve preencher todos os campos do cadastro `
     } else {
-        nome.push(nomeCadastro);
-        cnpj.push(cnpjCadastro);
-        email.push(emailCadastro);
-        senha.push(senhaCadastro);
+    nome.push(nomeCadastro);
+    cnpj.push(cnpjCadastro);
+    email.push(emailCadastro);
+    senha.push(senhaCadastro);
 
-        alert("Cadastro efetuado com sucesso!\nDados enviados para análise")
-        window.location.href = `login.html?=CadastroEnviadoParaAnálise`
-    }
-    div_notificacao_cadastro.innerHTML = `<h3>${mensagem}</h3>`
+        const alertaErro = document.querySelector(".alerta_erro");
+        const cardErro = document.getElementById("cardErro");
+        const mensagemErro = document.getElementById("mensagem_erro");
+
+        alertaErro.style.display = "flex";
+        cardErro.style.display = "flex";
+        mensagemErro.innerHTML = "Cadastro enviado para análise.";
+    
+    setTimeout(() => {
+            alertaErro.style.display = "none";
+            cardErro.style.display = "none";
+            window.location.href = 'login.html?=CadastroEnviadoParaAnálise';
+    }, 2000);
+}
+ div_notificacao_cadastro.innerHTML = `<h3>${mensagem}</h3>`;
 }
 
 function login() {
