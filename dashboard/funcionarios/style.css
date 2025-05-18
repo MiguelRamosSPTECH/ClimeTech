@@ -460,3 +460,33 @@ table td {
 .hide {
     display: none;
 }
+
+
+    #div_erros_login {
+  display:none
+}
+
+
+.alerta_erro{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.card_erro {
+  display: none;
+  background-color: white;
+  color: black;
+  width: 230px;
+  position: fixed;
+  border-radius: 4px;
+  border: #1073da 3px solid;
+  padding: 10px;
+  margin-right: 10%;
+  margin-top: 1%;
+  z-index: 24;
+}
+
+.card_erro #mensagem_erro{
+  font-weight: 500;
+  font-size: 20px;
+}

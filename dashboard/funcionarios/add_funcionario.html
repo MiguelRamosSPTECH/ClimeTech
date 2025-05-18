@@ -5,9 +5,15 @@
     <meta charset="UTF-8">
     <title>Adicionar Funcionário</title>
     <link rel="stylesheet" href="style.css">
+<script src="./script.js"></script>
 </head>
 
 <body>
+     <div class="alerta_erro">
+            <div class="card_erro" id="cardErro">
+                <span id="mensagem_erro"></span>
+            </div>
+        </div>
     <div class="container-all">
         <!-- Navbar lateral -->
         <div class="nav-lateral">
@@ -24,7 +30,7 @@
                 </div>
             </div>
         </div>
-
+          
         <!-- Conteúdo principal -->
         <div class="content">
             <div class="container">
@@ -36,20 +42,20 @@
 
                 <form action="#" method="POST" class="container-interactive">
                     <div class="input-group">
-                        <label for="nome">Nome</label>
-                        <input type="text" id="nome" name="nome" placeholder="Nome do funcionário" required>
+                        <label for="ipt_nome">Nome</label>
+                        <input type="text" id="ipt_nome" name="nome" placeholder="Nome do funcionário" required>
                     </div>
                     <div class="input-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="Email do funcionário" required>
+                        <label for="ipt_email">Email</label>
+                        <input type="email" id="ipt_email" name="email" placeholder="Email do funcionário" required>
                     </div>
                     <div class="input-group">
-                        <label for="senha">Senha</label>
-                        <input type="password" id="senha" name="senha" placeholder="Senha" required>
+                        <label for="ipt_senha">Senha</label>
+                        <input type="password" id="ipt_senha" name="senha" placeholder="Senha" required>
                     </div>
                     <div class="input-group">
-                        <label for="acesso">Acesso</label>
-                        <select id="acesso" name="acesso">
+                        <label for="ipt_acesso">Acesso</label>
+                        <select id="ipt_acesso" name="acesso">
                             <option value="visualizador">Visualizador</option>
                             <option value="adm">Admin</option>
                         </select>
@@ -58,8 +64,7 @@
                         <div class="area-buttons">
                             <button type="button" class="button-cancel"
                                 onclick="window.location.href='index.html'">Cancelar</button>
-                            <button type="button" class="button-confirm"
-                                onclick="window.location.href='index.html'">Confirmar</button>
+                            <button type="button" class="button-confirm" onclick="confirmarAddFuncionario()">Confirmar</button>
                         </div>
                     </div>
                 </form>
