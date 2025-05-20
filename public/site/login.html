@@ -6,59 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-    <link rel="stylesheet" href="./styles/login_cadastro.css">
-    <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="../styles/login_cadastro.css">
+    <link rel="stylesheet" href="../styles/style.css">
 </head>
 
 <body>
-      <div class="alerta_erro">
-            <div class="card_erro" id="cardErro">
-                <span id="mensagem_erro">Cadastro enviado para análise.</span>
-            </div>
-        </div>
 
     <div class="login">
-        <div class="container" id="cadastro">
+        <div class="container">
             <div class="img-left">
             </div>
             <div class="formulario-right">
-                <a href="../../site-institucional/index.html" class="logo-voltar"><img src="./img/logo-climetech.png" id="logo-cadastro" alt="Logo Climetech"></a>
-                <div class="forms-cadastro">
+                <a href="../../site-institucional/index.html" class="logo-voltar"><img src="../img/logo-climetech.png" id="logo-cadastro" alt="Logo Climetech"></a>
+                <div class="forms">
                     <div class="inicio-forms">
-                        <h1>Cadastro</h1>
-                        <h3 id="h3-cadastro">faça cadastro no nosso sistema!</h3>
+                        <h1>Login</h1>
+                        <h3>Preencha os dados para continuar</h3>
                     </div>
-                    <div class="inputs-cadastro">
-                        <div class="input-cadastro">
-                            <label for="ipt_cadastro_nome">Nome</label>
-                            <input type="text" placeholder="Nome" id="ipt_cadastro_nome">
+                    <div class="inputs">
+                        <div class="input">
+                            <label for="ipt_login_email">E-mail</label>
+                            <input type="text" placeholder="Entre com seu email" id="ipt_login_email">
                         </div>
-                        <div class="input-cadastro">
-                            <label for="ipt_cadastro_cnpj">CNPJ</label>
-                            <input type="text" minlength="14" maxlength="14" placeholder="00.000.000/0000-00"
-                                id="ipt_cadastro_cnpj">
-                        </div>
-                        <div class="input-cadastro">
-                            <label for="ipt_cadastro_email">E-mail</label>
-                            <input type="email" placeholder="Exemplo@hotmail.com" id="ipt_cadastro_email">
-                        </div>
-                        <div class="input-cadastro">
-                            <label for="ipt_cadastro_senha">Senha</label>
-                            <input type="password" placeholder="********" id="ipt_cadastro_senha">
+                        <div class="input">
+                            <label for="ipt_login_senha">Senha</label>
+                            <input type="password" placeholder="Entre com sua senha" id="ipt_login_senha">
                         </div>
                     </div>
-                    <div id="div_notificacao_cadastro"></div>
+                    <div id="div_notificacao_login"></div>
                     <div class="final-forms">
-                        <p>Já tem uma conta? <a href="./login.html">Faça login</a></p>
-                        <button id="cadastro-button" onclick="cadastrar()">Cadastrar</button>
+                        <p>Ainda não pussui conta? <a href="./cadastro.html">Cadastre-se</a></p>
+                        <button id="btn_login" type="submit" onclick="login()">Login</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-
-
+    
     <div class="footer" style="background-color: #323232;">
         <div class="container">
             <div class="more-about-us">
@@ -93,8 +78,8 @@
             </div>
         </div>
     </div>
-
-    <script src="./scripts/login_cadastro.js"></script>
+    
+    <script src="../scripts/login_cadastro.js"></script>
 </body>
 
 </html>

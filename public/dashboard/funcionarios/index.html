@@ -8,9 +8,10 @@
     <title>Funcionários</title>
     <link rel="stylesheet" href="style.css" />
     <script src="script.js" defer></script>
+    <script src="../../scripts/funcionarios.js"></script>
 </head>
 
-<body>
+<body onload="listarFuncionarios()">
     <div class="container-all">
         <div id="fade" class="hide"></div>
 
@@ -25,7 +26,7 @@
                     <a href="index.html" id="icon-funcionario"></a>
                 </div>
                 <div class="area-icon">
-                    <a id="icon-logoff" href="../../site-institucional/login.html?=LogoffEfetuado"></a>
+                    <a id="icon-logoff" onclick="excluirSessao()"></a>
                 </div>
             </div>
         </div>
@@ -45,55 +46,13 @@
                 </div>
                 <!-- tabela dos funcionarios -->
                 <div class="table-body">
-                    <table>
+                    <table id="table">
                         <tr class="header-table">
                             <th>ID</th>
                             <th>Nome</th>
                             <th>Email</th>
                             <th>Dt.Criacao</th>
                             <th>Senha</th>
-                        </tr>
-                        <tr>
-                            <td class="id">1</td>
-                            <td class="name">Brandão</td>
-                            <td class="email">brandao@climetech.com</td>
-                            <td class="data">20/05/2025</td>
-                            <td class="password">********</td>
-                            <td class="buttons-line">
-                                <img class="delete" onclick="openCloseModal('delete')"
-                                    src="../img-all/delete-profile-button.png">
-                                <a href="update_funcionario.html?id=1">
-                                    <img class="edit" src="../img-all/edit-profile-button.png">
-                                </a>
-                            </td>
-                        </tr>
-                        <tr class="line-gray">
-                            <td class="id">2</td>
-                            <td class="name">Bob Silva</td>
-                            <td class="email">bob.empresa@gmail.com</td>
-                            <td class="data">20/05/2025</td>
-                            <td class="password">********</td>
-                            <td class="buttons-line">
-                                <img class="delete" onclick="openCloseModal('delete')"
-                                    src="../img-all/delete-profile-button.png">
-                                <a href="update_funcionario.html?id=1">
-                                    <img class="edit" src="../img-all/edit-profile-button.png">
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="id">3</td>
-                            <td class="name">João Ramos</td>
-                            <td class="email">joão.empresa@gmail.com</td>
-                            <td class="data">20/05/2025</td>
-                            <td class="password">********</td>
-                            <td class="buttons-line">
-                                <img class="delete" onclick="openCloseModal('delete')"
-                                    src="../img-all/delete-profile-button.png">
-                                <a href="update_funcionario.html?id=1">
-                                    <img class="edit" src="../img-all/edit-profile-button.png">
-                                </a>
-                            </td>
                         </tr>
                     </table>
                 </div>

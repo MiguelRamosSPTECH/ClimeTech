@@ -1,0 +1,11 @@
+
+#div_notificacao_cadastro, #div_notificacao_login {
+    width: 100%;
+    font-size: 14px;
+    color: #da1010;
+    font-weight: bold;
+}
+
+button{
+    cursor: pointer;
+}
