@@ -10,11 +10,11 @@
 </head>
 
 <body>
-     <div class="alerta_erro">
-            <div class="card_erro" id="cardErro">
-                <span id="mensagem_erro"></span>
-            </div>
+    <div class="alerta_erro">
+        <div class="card_erro" id="cardErro">
+            <span id="mensagem_erro"></span>
         </div>
+    </div>
     <div class="container-all">
         <!-- Navbar lateral -->
         <div class="nav-lateral">
@@ -44,7 +44,7 @@
                 <form action="#" method="POST" class="container-interactive">
                     <div class="input-group">
                         <label for="ipt_nome">Nome</label>
-                        <input type="text" id="ipt_nome" name="nome" value="Brandão" required>
+                        <input type="text" id="ipt_nome" name="nome" value="" required>
                     </div>
                     <div class="input-group">
                         <label for="ipt_email">Email</label>
@@ -74,5 +74,16 @@
         </div>
     </div>
 </body>
+
+
+<img src="./index.html" alt="">
+<script>
+
+
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+
+    console.log(id)
+</script>
 
 </html>

@@ -2,40 +2,47 @@
 var mensagemErro = ''
 
 
-function openCloseModal(tipoModal) {
+function openCloseModal(tipoModal, idfuncionario, nomefuncionario) {
 
-    if (tipoModal == "delete") {
-        if (modal_delete.classList == "hide" && fade.classList == "hide") {
-            modal_delete.classList.remove("hide");
-            fade.classList.remove("hide");
-        } else {
-            modal_delete.classList.add("hide");
-            fade.classList.add("hide");
-        }
-    } else {
+    idF.innerText = idfuncionario
+    nomeFunc.innerText = nomefuncionario
+    nomeFunc2.innerText = nomefuncionario
+    confirmarDelete()
 
-        if (tipoModal == "insert") {
-            textRequisicao.innerHTML = `Criando um perfil`
-            input_nome.value = ``
-            input_email.value = ``
-            input_senha.value = ``
-        } else {
-            textRequisicao.innerHTML = titleEdit
-            input_nome.value = nameFuncionario
-            input_email.value = emailFuncionario
-            input_senha.value = senhaFuncionario
-        }
-
-        if (modal_update.classList == "hide" && fade.classList == "hide") {
-            modal_update.classList.remove("hide");
-            fade.classList.remove("hide");
-        } else {
-            modal_update.classList.add("hide");
-            fade.classList.add("hide");
-        }
-    }
 }
 
+function confirmarDelete() {
+    const id = document.getElementById("idF").innerText;
+
+    fetch("/usuarios/deletarFuncionario", {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+            idfuncionarioEmpresa: id
+        }),
+    })
+        .then(async function (resposta) {
+            if (resposta.ok) {
+                const dadosUsuario = await resposta.json();
+                mensagem_erro.innerHTML = 'Usuario Deletado Com sucesso'
+                cardErro.style.display = "block";
+                setTimeout(() => {
+                    sumirMensagem();
+                    window.location = "./index.html";
+                }, 2000);
+
+                // } 
+
+            } else {
+                const msgErro = await resposta.text();
+                mensagem_erro.innerHTML = 'Erro ao Deletar.'
+            }
+        })
+
+
+}
 
 function confirmarAddFuncionario() {
     var nameFuncionario = ipt_nome.value
@@ -114,4 +121,8 @@ function confirmarEdicaoFuncionario() {
         }, 2000);
     }
 
+}
+
+function sumirMensagem() {
+    cardErro.style.display = "none";
 }

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -12,7 +11,9 @@
     <script src="../../scripts/funcionarios.js"></script>
 </head>
 
+                
 <body onload="listarFuncionarios()">
+    
     <div class="container-all">
         <div id="fade" class="hide"></div>
 
@@ -33,12 +34,19 @@
         </div>
 
         <!-- conteudo da dashboard -->
+         
         <div class="content">
             <div class="container">
                 <div class="header">
                     <div class="text-content">
                         <h1>Dashboard/<span>Funcionários</span></h1>
                     </div>
+                    <div class="alerta_erro">
+            <div class="card_erro" id="cardErro">
+                <span id="mensagem_erro">Usuario Deletado Com sucesso.</span>
+            </div>
+        </div>
+                    
                     <div class="button-content">
                         <a href="add_funcionario.html">
                             <button>+ Adicionar funcionários</button>
@@ -63,17 +71,18 @@
         <!-- modal delete -->
         <div id="modal_delete" class="hide">
             <div id="header-modal-delete">
-                <h2>Deletando <span>Brandão</span></h2>
+                <div id="idF"></div>
+                <h2>Deletando <span id="nomeFunc2">Brandão</span></h2>
                 <img src="../img-all/img-close-modal.png" class="close-modal" onclick="openCloseModal('delete')">
             </div>
             <div class="body-modal">
-                <p>Tem certeza que deseja excluir o usuário <span style="font-weight: bold;">Brandão</span>? Todos os
+                <p>Tem certeza que deseja excluir o usuário <span style="font-weight: bold;" id="nomeFunc">Brandão</span>? Todos os
                     dados dele serão removidos permanentemente do sistema.</p>
             </div>
             <div class="buttons-modal">
                 <div class="area-buttons">
                     <button class="button-cancel" onclick="openCloseModal('delete')">Cancelar</button>
-                    <button class="button-confirm">Confirmar</button>
+                    <button class="button-confirm" onclick="confirmarDelete()">Confirmar</button>
                 </div>
             </div>
         </div>

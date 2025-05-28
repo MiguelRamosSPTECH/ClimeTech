@@ -32,8 +32,19 @@ function selectAllFuncionarios(idEmpresa) {
     return database.executar(instrucaoSql);
 }
 
+
+function deletarFuncionario(idFuncionario){
+var instrucaoSql = ` delete from funcionarioEmpresa where idFuncionarioEmpresa = ${idFuncionario};`
+
+    console.log("Exeucutando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+
+
+}
+
 module.exports = {
     autenticar,
     cadastrar,
-    selectAllFuncionarios
+    selectAllFuncionarios,
+    deletarFuncionario
 };

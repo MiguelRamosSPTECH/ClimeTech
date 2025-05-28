@@ -16,4 +16,8 @@ router.post("/listarFuncionarios", function(req,res) {
     usuarioController.mostrarTodosFuncionarios(req, res);
 })
 
+router.post("/deletarFuncionario", function(req,res) {
+    usuarioController.deletarFuncionario(req, res);
+})
+
 module.exports = router;

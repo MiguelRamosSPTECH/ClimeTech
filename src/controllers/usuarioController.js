@@ -84,8 +84,26 @@ function mostrarTodosFuncionarios(req, res) {
     }
 }
 
+
+function deletarFuncionario(req, res){
+var idFuncionario = req.body.idfuncionarioEmpresa
+
+    if(idFuncionario){
+        usuarioModel.deletarFuncionario(idFuncionario).then(resposta => {
+            res.status(200).json(resposta)
+        })
+        .catch(function(erro) {
+            console.log("#ERRO", erro);
+            res.status(401).send("Erro ao deetar o usuario!")
+        })
+    }
+
+
+}
+
 module.exports = {
     autenticar,
     cadastrar,
-    mostrarTodosFuncionarios
+    mostrarTodosFuncionarios,
+    deletarFuncionario
 }

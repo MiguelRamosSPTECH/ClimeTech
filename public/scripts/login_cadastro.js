@@ -79,3 +79,7 @@ function login() {
     }
     div_notificacao_login.innerHTML = `${mensagem}`
 }
+
+ function sumirMensagem() {
+    cardErro.style.display = "none";
+  }
