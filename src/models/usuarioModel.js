@@ -76,5 +76,6 @@ module.exports = {
     autenticar,
     cadastrar,
     selectAllFuncionarios,
-    deletarFuncionario
+    deletarFuncionario,
+    editarFuncionario
 };
