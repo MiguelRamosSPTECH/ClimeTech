@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <title>ClimeTech | Dashboard</title>
@@ -21,7 +22,7 @@
         <div class="area-icons">
             <div class="area-icon" id="acessoFuncionarios">
                 <script>
-                    if(sessionStorage.ACESSO_FUNCIONARIO == "admin") {
+                    if (sessionStorage.ACESSO_FUNCIONARIO == "admin") {
                         acessoFuncionarios.innerHTML = `<a href="./funcionarios/index.html" id="icon-funcionario"></a>`
                     } 
                 </script>
@@ -36,45 +37,50 @@
         <div class="div_superior">
             <div class="header-main">
                 <h2>Dashboard/<span>Home</span></h2>
-                <div class="icon_indice" onclick="openCloseIndice()"></div>
             </div>
         </div>
 
         <div class="container_infos">
             <div class="area-dados-kpi">
+
                 <div id="filtro-dados">
-                    <span>Dados -</span>
-                    <select name="" id="filtro-setor">
+                    <span>Filtrar dados -</span>
+                    <select name="" id="filtro_setor">
                         <option value="geral">Geral</option>
                         <option value="leste">Setor-Leste</option>
                         <option value="oeste">Setor-Oeste</option>
                         <option value="norte">Setor-Norte</option>
                         <option value="sul">Setor-Sul</option>
                     </select>
+                    <button onclick="atualizarSetor(filtro_setor.value)" id="botao_atualizar_setor">Atualizar
+                        setor</button>
                 </div>
+
                 <div class="container_kpi">
                     <div class="card">
                         <div class="kpi_alerta">
                             <h3>Alertas de risco</h3>
-                            <p>10</p>
+                            <p id="showing_qtd_alertas">XX</p>
                         </div>
 
                         <div class="divisor"></div>
 
                         <div class="kpi_sensacao">
                             <h3>Sensação Térmica Atual</h3>
-                            <p>45°C</p>
+                            <p id="showing_sensacao_termica_atual">XX°C</p>
                         </div>
                     </div>
 
 
                     <div class="card">
                         <div class="kpi_setor">
-                            <h3>Setor mais quente</h3>
-                            <p>Setor Sul</p>
+                            <h3>Setor mais quente do estádio:</h3>
+                            <p id="showing_setor_mais_quente">Setor Xxxxx</p>
                         </div>
+                        <div class="icon_indice" onclick="openCloseIndice()"></div>
                     </div>
                 </div>
+
             </div>
 
             <div class="container_graficos">
@@ -98,45 +104,125 @@
         </div>
         <div class="body-modal">
             <p>
-                <span style="color: gold;">Cor Amarela: </span> Foi detectado calor moderado com umidade elevada (33–39°C). Há risco de exaustão e cãibras em participantes, principalmente em áreas sem sombra.
+                <span style="color: gold;">Cor Amarela: </span> Foi detectado calor moderado com umidade elevada
+                (33–39°C). Há risco de exaustão e cãibras em participantes, principalmente em áreas sem sombra.
             </p>
             <p>
-                <span style="color: orange;">Cor Laranja: </span> Sensação térmica extrema detectada (40–45°C). Público sob risco de hipertermia.
+                <span style="color: orange;">Cor Laranja: </span> Sensação térmica extrema detectada (40–45°C). Público
+                sob risco de hipertermia.
                 Reações como desmaios, náuseas ou vômitos podem aumentar rapidamente.
             </p>
             <p>
-                <span style="color: rgb(255, 0, 0);">Cor Vermelha: </span> Sensação térmica acima de 45°C. Situação extremamente perigosa.
+                <span style="color: rgb(255, 0, 0);">Cor Vermelha: </span> Sensação térmica acima de 45°C. Situação
+                extremamente perigosa.
                 Público com risco de colapso térmico ou falência orgânica.
             </p>
             <div class="acoes-recomendadas">
                 <h3>Ações recomendadas</h3>
                 <p>
-                    <span style="color: gold;font-weight:bold;">Cor Amarela: </span> 
-                    <ul>
-                        <li>Garantir distribuição de água e acesso a hidratação</li>
-                        <li>Enviar alerta visual/auditivo ao público sobre cuidados com o calor</li>
-                    </ul>
+                    <span style="color: gold;font-weight:bold;">Cor Amarela: </span>
+                <ul>
+                    <li>Garantir distribuição de água e acesso a hidratação</li>
+                    <li>Enviar alerta visual/auditivo ao público sobre cuidados com o calor</li>
+                </ul>
                 </p>
                 <p>
-                    <span style="color: orange;font-weight:bold;">Cor Laranja: </span> 
-                    <ul>
-                        <li>Acionar reforço médico e direcionar para áreas críticas</li>
-                        <li>Abrir zonas refrigeradas emergenciais (tendas, climatizadores)</li>
-                    </ul>
+                    <span style="color: orange;font-weight:bold;">Cor Laranja: </span>
+                <ul>
+                    <li>Acionar reforço médico e direcionar para áreas críticas</li>
+                    <li>Abrir zonas refrigeradas emergenciais (tendas, climatizadores)</li>
+                </ul>
                 </p>
                 <p>
-                    <span style="color: rgb(255, 0, 0);font-weight:bold;">Cor Vermelha: </span> 
-                    <ul>
-                        <li>Ativar plano de evacuação por zonas, se necessário</li>
-                        <li>Enviar mensagem de emergência em painéis e áudio no estádio</li>
-                    </ul>
+                    <span style="color: rgb(255, 0, 0);font-weight:bold;">Cor Vermelha: </span>
+                <ul>
+                    <li>Ativar plano de evacuação por zonas, se necessário</li>
+                    <li>Enviar mensagem de emergência em painéis e áudio no estádio</li>
+                </ul>
                 </p>
             </div>
         </div>
-     </div>
+    </div>
 </body>
 
+
 <script>
+
+    // Atualizar o setor serve tanto para especificar a sensação térmica quanto para os gráficos.
+    function atualizarSetor(setor) {
+        atualizarSensacaoTermicaPorSetor(setor);
+        atualizarGraficosPorSetor(setor);
+    }
+
+    // Exibir quantidade de alertas
+    fetch("/kpis/alertas-calor")
+        .then(res => res.json())
+        .then(data => {
+            console.log("Resposta da rota /kpis/alertas-calor:", data);
+            document.getElementById("showing_qtd_alertas").innerText = data[0].qtd_setores_em_alerta;
+        });
+
+    // Sensação térmica
+    function atualizarSensacaoTermicaPorSetor(setor) {
+        console.log("setor selecionado:", setor);
+        fetch(`/kpis/sensacao-termica/${setor}`)
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("showing_sensacao_termica_atual").innerText =
+                    `${Number(data[0].sensacao_termica).toFixed(1)}°C`;
+            });
+    }
+
+    // Exibir setor mais quente
+    fetch("/kpis/setor-mais-quente")
+        .then(res => res.json())
+        .then(data => {
+            var setor = data[0].setor;
+            var temp = data[0].temperatura;
+            var elemento = document.getElementById("showing_setor_mais_quente");
+
+            let cor = "black";
+            if (temp >= 45) cor = "red";
+            else if (temp >= 40) cor = "orange";
+            else if (temp >= 20) cor = "gold";
+
+            elemento.innerText = setor.toUpperCase();
+            elemento.style.color = cor;
+        });
+
+
+    atualizarSetor("geral"); // Isso ajuda para quando a página carregar, o navegador já considerar por padrão o "setor geral", então a KPI não vai aparecer "XX°C"
+
+
+    // Gráficos
+    function atualizarGraficosPorSetor(setor) {
+    
+        fetch(`/graficos/grafico/${setor}`)
+            .then(res => res.json())
+            .then(dados => {
+                const horarios = dados.map(d => d.horario);
+                const temperaturas = dados.map(d => d.temperatura);
+                const umidades = dados.map(d => d.umidade);
+
+                myChart.data.labels = horarios;
+                myChart.data.datasets = [{
+                    label: `Temperatura - Setor ${setor}`,
+                    data: temperaturas,
+                    borderColor: 'orange',
+                    tension: 0.1
+                }];
+                myChart.update();
+
+                chartUmidade.data.labels = horarios;
+                chartUmidade.data.datasets = [{
+                    label: `Umidade - Setor ${setor}`,
+                    data: umidades,
+                    borderColor: 'blue',
+                    tension: 0.1
+                }];
+                chartUmidade.update();
+            });
+    }
 
     /*Labels de horário*/
     const labels = [
@@ -267,4 +353,5 @@
         configUmidade
     )
 </script>
+
 </html>

@@ -1,7 +1,8 @@
 function validarSessao() {
     let email = sessionStorage.EMAIL_FUNCIONARIO;
     let senha = sessionStorage.SENHA_FUNCIONARIO;
-    console.log(sessionStorage.ID_EMPRESA);
+    console.log("sessionStorage.ACESSO_FUNCIONARIO: ", sessionStorage.ACESSO_FUNCIONARIO);
+    console.log("sessionStorage.ID_EMPRESA: ", sessionStorage.ID_EMPRESA);
     if(email == undefined || senha == undefined) {
         window.location = "../site/login.html?=AcessoNegado";
     }

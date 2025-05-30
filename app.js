@@ -15,6 +15,7 @@ var HOST_APP = process.env.APP_HOST;
 
 var app = express();
 
+// Rotas anteriores
 var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
 var avisosRouter = require("./src/routes/avisos");
@@ -22,18 +23,31 @@ var medidasRouter = require("./src/routes/medidas");
 var aquariosRouter = require("./src/routes/aquarios");
 var empresasRouter = require("./src/routes/empresas");
 
+// Nova rota para gráficos
+var graficosRouter = require("./src/routes/graficos");
+
+// Nova rota para KPIs
+var kpiRouter = require("./src/routes/kpis");
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(cors());
 
+// Uso das rotas
 app.use("/", indexRouter);
 app.use("/usuarios", usuarioRouter);
 app.use("/avisos", avisosRouter);
 app.use("/medidas", medidasRouter);
 app.use("/aquarios", aquariosRouter);
 app.use("/empresas", empresasRouter);
+
+// Ativando rota /graficos
+app.use("/graficos", graficosRouter);
+
+// Ativando rota /kpis
+app.use("/kpis", kpiRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`
