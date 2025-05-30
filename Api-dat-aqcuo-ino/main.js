@@ -8,7 +8,7 @@ const SERIAL_BAUD_RATE = 9600;
 const SERVIDOR_PORTA = 3300;
 
 // habilita ou desabilita a inserção de dados no banco de dados
-const HABILITAR_OPERACAO_INSERIR = false;
+const HABILITAR_OPERACAO_INSERIR = true;
 
 //data-hora atual p inserir no banco
 const now = new Date().toISOString(); //ISOString é formato global de formatação de data-hora, sql usa ele
@@ -23,7 +23,7 @@ const serial = async (
     // conexão com o banco de dados MySQL
     let poolBancoDados = mysql.createPool(
         {
-            host: '127.0.0.1',
+            host: '10.18.33.25',
             user: 'aluno',
             password: 'Sptech#2024',
             database: 'climetech',
@@ -72,7 +72,6 @@ const serial = async (
                 'insert into dadosSensor(temperatura, umidade, dtHoraColeta, idSensor) VALUES (?, ?, ?, ?)',
                 [temperatura, umidade, dataFormatada, 1]
             );
-
         }
 
     });
