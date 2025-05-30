@@ -1,8 +1,9 @@
 
 var mensagemErro = ''
 
-function openCloseModal(tipoModal) {
+function openCloseModal(tipoModal, idfuncionario, nomefuncionario) {
 
+    //COlocar campos (id do cara la e o nome)
     idF.innerText = idfuncionario
     nomeFunc.innerText = nomefuncionario
     nomeFunc2.innerText = nomefuncionario
@@ -28,8 +29,7 @@ function confirmarDelete() {
                 mensagem_erro.innerHTML = 'Usuario Deletado Com sucesso'
                 cardErro.style.display = "block";
                 setTimeout(() => {
-                    sumirMensagem();
-                    window.location = "./index.html";
+                    window.location.href = 'index.html';
                 }, 2000);
 
                 // } 
@@ -65,18 +65,34 @@ function confirmarAddFuncionario() {
         }, 4000);
 
     } else {
-        mensagemErro = 'Cadastro funcionario concluido com sucesso!'
+        fetch('/usuarios/cadastrar', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nomeServer: nameFuncionario,
+                emailServer: emailFuncionario,
+                senhaServer: senhaFuncionario,
+                acessoServer: acessoFucionario,
+                idEmpresaVincularServer: Number(JSON.parse(sessionStorage.ID_EMPRESA))
+            })
+        })
+            .then(resposta => {
+                if (resposta.ok) {
+                    const alertaErro = document.querySelector(".alerta_erro");
+                    const cardErro = document.getElementById("cardErro");
+                    alertaErro.style.display = "flex";
+                    cardErro.style.display = "flex";
+                    mensagem_erro.innerHTML = "usuario gozado"
 
-        const alertaErro = document.querySelector(".alerta_erro");
-        const cardErro = document.getElementById("cardErro");
-        alertaErro.style.display = "flex";
-        cardErro.style.display = "flex";
-        mensagem_erro.innerHTML = mensagemErro
-        setTimeout(() => {
-            alertaErro.style.display = "none";
-            cardErro.style.display = "none";
-            window.location.href = 'index.html';
-        }, 2000);
+                    setTimeout(() => {
+                        alertaErro.style.display = "none";
+                        cardErro.style.display = "none";
+                        window.location.href = 'index.html';
+                    }, 2000);
+                }
+            })
     }
 
 
@@ -86,14 +102,13 @@ function confirmarAddFuncionario() {
 }
 
 function confirmarEdicaoFuncionario() {
-     const params = new URLSearchParams(window.location.search);
-    
+    const params = new URLSearchParams(window.location.search);
+
     const id = params.get('id');
     var nomeFuncionario = ipt_nome.value
     var emailFuncionario = ipt_email.value
     var senhaFuncionario = ipt_senha.value
     var acessoFucionario = ipt_acesso.value
-    console.log("to aqui")
 
     if (nomeFuncionario == '' || emailFuncionario == '' ||
         senhaFuncionario == '' || acessoFucionario == '') {
@@ -131,11 +146,11 @@ function confirmarEdicaoFuncionario() {
             .then(async function (resposta) {
                 if (resposta.ok) {
                     alert("Alteração efetuada com sucesso!")
-                    setInterval(() => window.location = "index.html", 2000);
+                    // setInterval(() => window.location = "index.html", 2000);
                     //se quiser limpar form
                 } else {
                     mensagem = await resposta.text();
-                                   }
+                }
             })
             .catch(function (resposta) {
                 console.log("#ERRO", resposta)
@@ -154,4 +169,54 @@ function confirmarEdicaoFuncionario() {
         window.location.href = 'index.html';
     }, 2000);
 }
+
+function listarFuncionarioUpdate() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+
+    if (!id) {
+        mensagemErro = 'ID não definido'
+        const alertaErro = document.querySelector(".alerta_erro");
+        const cardErro = document.getElementById("cardErro");
+
+        alertaErro.style.display = "flex";
+        cardErro.style.display = "flex";
+        mensagem_erro.innerHTML = mensagemErro
+        setTimeout(() => {
+            alertaErro.style.display = "none";
+            cardErro.style.display = "none";
+
+        }, 4000);
+
+    } else {
+        //  fetch com post
+        fetch(`/usuarios/listarFuncionarioUpdate/${id}`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({
+                idFuncionario: id
+            }),
+        })
+            .then(res => res.json())
+            .then(dados => {
+                if (dados && dados.length > 0) {
+                    const funcionario = dados[0];
+
+                    document.getElementById("ipt_nome").value = funcionario.nome;
+                    document.getElementById("ipt_email").value = funcionario.email;
+                    document.getElementById("ipt_senha").value = funcionario.senha;
+                } else {
+                    console.log("Nenhum dado retornado.");
+                }
+            })
+            .catch(function (resposta) {
+                console.log("#ERRO", resposta)
+            })
+    }
+}
+
+
+
 

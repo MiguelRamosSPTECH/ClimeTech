@@ -12,12 +12,20 @@ router.post("/autenticar", function (req, res) {
     usuarioController.autenticar(req, res);
 });
 
-router.post("/listarFuncionarios", function(req,res) {
+router.post("/listarFuncionarios", function (req, res) {
     usuarioController.mostrarTodosFuncionarios(req, res);
 })
 
-router.post(`/editarFuncionario/:idFuncionarioEmpresa`, function(req,res) {
+router.post(`/editarFuncionario/:idFuncionarioEmpresa`, function (req, res) {
     usuarioController.editarFuncionario(req, res);
+})
+
+router.post(`/deletarFuncionario`, function (req, res) {
+    usuarioController.deletarFuncionario(req, res);
+})
+
+router.post(`/listarFuncionarioUpdate/:idFuncionarioEmpresa`, function (req, res) {
+    usuarioController.listarFuncionarioUpdate(req, res);
 })
 
 module.exports = router;

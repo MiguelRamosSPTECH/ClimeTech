@@ -39,6 +39,7 @@ function cadastrar(req, res) {
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
     var fkEmpresa = req.body.idEmpresaVincularServer;
+    var acesso = req.body.acessoServer;
 
     // Faça as validações dos valores
     if (nome == undefined) {
@@ -52,7 +53,7 @@ function cadastrar(req, res) {
     } else {
 
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(nome, email, senha, fkEmpresa)
+        usuarioModel.cadastrar(nome, email, senha, acesso, fkEmpresa)
             .then(
                 function (resultado) {
                     res.status(200).json(resultado);
@@ -123,20 +124,34 @@ function editarFuncionario(req, res) {
 }
 
 
-function deletarFuncionario(req, res){
-var idFuncionario = req.body.idfuncionarioEmpresa
-
-    if(idFuncionario){
+function deletarFuncionario(req, res) {
+    var idFuncionario = req.body.idfuncionarioEmpresa;
+    if (idFuncionario) {
         usuarioModel.deletarFuncionario(idFuncionario).then(resposta => {
             res.status(200).json(resposta)
         })
-        .catch(function(erro) {
-            console.log("#ERRO", erro);
-            res.status(401).send("Erro ao deetar o usuario!")
-        })
+            .catch(function (erro) {
+                console.log("#ERRO", erro);
+                res.status(401).send("Erro ao deetar o usuario!")
+            })
     }
 
 
+}
+
+function listarFuncionarioUpdate(req, res) {
+    var idFuncionario = req.body.idFuncionario
+
+    if (idFuncionario) {
+        usuarioModel.listarFuncionarioUpdate(idFuncionario)
+            .then(resposta => {
+                res.status(200).json(resposta)
+            })
+            .catch(function (erro) {
+                console.log("#ERRO", erro);
+                res.status(401).send("Erro ao listar o usuario!")
+            })
+    }
 }
 
 module.exports = {
@@ -144,5 +159,6 @@ module.exports = {
     cadastrar,
     mostrarTodosFuncionarios,
     deletarFuncionario,
-    editarFuncionario
+    editarFuncionario,
+    listarFuncionarioUpdate
 }
