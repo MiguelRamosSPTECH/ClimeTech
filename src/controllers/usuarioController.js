@@ -15,8 +15,8 @@ function autenticar(req, res) {
                 function (resultadoAutenticar) {
                     console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
                     console.log(`Resultados: ${JSON.stringify(resultadoAutenticar)}`); // transforma JSON em String
-                    
-                    if(resultadoAutenticar.length == 0) {
+
+                    if (resultadoAutenticar.length == 0) {
                         res.status(401).send("E-mail ou senha incorreto(s)");
                     } else {
                         res.status(200).json(resultadoAutenticar);
@@ -72,15 +72,53 @@ function cadastrar(req, res) {
 
 function mostrarTodosFuncionarios(req, res) {
     var empresaId = req.body.fkEmpresa
-    if(empresaId) {
+    if (empresaId) {
         usuarioModel.selectAllFuncionarios(empresaId)
-        .then(resposta => {
-            res.status(200).json(resposta)
-        })
-        .catch(function(erro) {
-            console.log("#ERRO", erro);
-            res.status(401).send("Erro ao listar usuarios!")
-        })
+            .then(resposta => {
+                res.status(200).json(resposta)
+            })
+            .catch(function (erro) {
+                console.log("#ERRO", erro);
+                res.status(401).send("Erro ao listar usuarios!")
+            })
+    }
+}
+
+function editarFuncionario(req, res) {
+    // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
+    var idFuncionario = req.body.idFuncionario;
+    var nomeFuncionario = req.body.nomeFuncionario;
+    var emailFuncionario = req.body.emailFuncionario;
+    var senhaFuncionario = req.body.senhaFuncionario;
+    var acessoFucionario = req.body.acessoFuncionario;
+
+    // Faça as validações dos valores
+    if (nomeFuncionario == undefined) {
+        res.status(400).send("Seu nome está indefinido!");
+    } else if (emailFuncionario == undefined) {
+        res.status(400).send("Seu email está indefinido!");
+    } else if (senhaFuncionario == undefined) {
+        res.status(400).send("Sua senha está indefinido!");
+    } else if (acessoFucionario == undefined) {
+        res.status(400).send("Seu acesso está indefinido!");
+    } else {
+
+        // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
+        usuarioModel.editarFuncionario(nomeFuncionario, emailFuncionario, senhaFuncionario, acessoFucionario, idFuncionario)
+            .then(
+                function (resultado) {
+                    res.status(200).json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro ao realizar o cadastro! Erro: ",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
     }
 }
 
@@ -105,5 +143,6 @@ module.exports = {
     autenticar,
     cadastrar,
     mostrarTodosFuncionarios,
-    deletarFuncionario
+    deletarFuncionario,
+    editarFuncionario
 }

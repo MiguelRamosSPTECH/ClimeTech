@@ -42,6 +42,19 @@ function cadastrar() {
             .catch(function (resposta) {
                 console.log("#ERRO", resposta)
             })
+        .then(async function (resposta) {
+            if(resposta.ok) {
+                alert("Cadastro efetuado com sucesso! redirecionando para o login")
+                setInterval(() => window.location = "../site/login.html", 2000);
+                //se quiser limpar form
+            } else {
+                mensagem = await resposta.text();
+                div_notificacao_cadastro.innerHTML = `${mensagem}`;
+            }
+        })
+        .catch(function (resposta) {
+            console.log("#ERRO", resposta)
+        })
     }
     div_notificacao_cadastro.innerHTML = `${mensagem}`;
 }

@@ -16,8 +16,8 @@ router.post("/listarFuncionarios", function(req,res) {
     usuarioController.mostrarTodosFuncionarios(req, res);
 })
 
-router.post("/deletarFuncionario", function(req,res) {
-    usuarioController.deletarFuncionario(req, res);
+router.post(`/editarFuncionario/:idFuncionarioEmpresa`, function(req,res) {
+    usuarioController.editarFuncionario(req, res);
 })
 
 module.exports = router;
