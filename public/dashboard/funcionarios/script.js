@@ -3,7 +3,7 @@ var mensagemErro = ''
 
 function openCloseModal(tipoModal, idfuncionario, nomefuncionario) {
 
-    //COlocar campos (id do cara la e o nome)
+    //Colocar campos (id do cara lá e o nome)
     idF.innerText = idfuncionario
     nomeFunc.innerText = nomefuncionario
     nomeFunc2.innerText = nomefuncionario
@@ -84,7 +84,7 @@ function confirmarAddFuncionario() {
                     const cardErro = document.getElementById("cardErro");
                     alertaErro.style.display = "flex";
                     cardErro.style.display = "flex";
-                    mensagem_erro.innerHTML = "usuario gozado"
+                    mensagem_erro.innerHTML = "Funcionário cadastrado com sucesso!"
 
                     setTimeout(() => {
                         alertaErro.style.display = "none";
