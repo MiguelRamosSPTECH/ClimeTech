@@ -248,9 +248,10 @@ canvas {
 .table-body {
     width: 100%;
     height: 75%;
+    margin-top: 20px;
 }
 .header-table {
-    border-bottom: 1px solid gray;
+    border-bottom: 2px solid dimgray;
 }
 .table-body table {
     width: 100%;
@@ -263,6 +264,9 @@ table tr th {
 }
 table td {
     padding: 15px 5px;
+}
+tbody {
+    border-bottom: 0.5px solid darkgray;
 }
 .id {
     width: 10%;
