@@ -48,11 +48,11 @@ function editarFuncionario(nomeFuncionario, emailFuncionario, senhaFuncionario, 
     var instrucaoSql = `
         UPDATE funcionarioEmpresa 
         SET 
-        nome = '${nomeFuncionario}', 
-        email = '${emailFuncionario}', 
-        senha = '${senhaFuncionario}',
-        tipoAcesso = '${acessoFuncionario}' 
-        where idFuncionarioEmpresa = ${idFuncionario};
+            nome = '${nomeFuncionario}', 
+            email = '${emailFuncionario}', 
+            senha = '${senhaFuncionario}',
+            tipoAcesso = '${acessoFuncionario}' 
+        WHERE idFuncionarioEmpresa = ${idFuncionario};
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
