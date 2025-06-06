@@ -32,11 +32,10 @@ function allShows() {
 
     // Atualizar o setor serve tanto para especificar a sensação térmica quanto para os gráficos.
     function atualizarSetor(setor) {
-        atualizarSensacaoTermicaPorSetor(setor);
-        qtdAlertas(setor)
-        // setTimeout(() => {
-        //     atualizarSetor(filtro_setor.value)
-        // }, 2500)
+        setInterval(() => {
+                atualizarSensacaoTermicaPorSetor(filtro_setor.value);
+                qtdAlertas(filtro_setor.value)
+        }, 2000)
     }
 
     // Exibir quantidade de alertas por filtro também
@@ -97,6 +96,7 @@ function plotarGrafico(respostaFuncao, tipoDado) {
         for(let i=0;i<respostaFuncao.length;i++) {
             const dadosSetor = []
             let trataData = respostaFuncao[i][contador].dtHoraColeta.split("T")[1].split(".")[0]
+            console.log(trataData);
             for(let j=0;j<respostaFuncao[i].length;j++) {
                 dadosSetor.push(Number(tipoDado == "temperatura" ? respostaFuncao[i][j].temperaturaAtual : respostaFuncao[i][j].umidadeAtual))
             }
@@ -153,10 +153,11 @@ function plotarGrafico(respostaFuncao, tipoDado) {
 
 
 function changeAllDados() {
-    setorMaisQuente()
-    atualizarSensacaoTermicaPorSetor(filtro_setor.value);
-    qtdAlertas(filtro_setor.value)   
-    atualizarGraficosPorSetor() 
+    atualizarSetor(filtro_setor.value)
+    setInterval(() => {
+        setorMaisQuente()
+        atualizarGraficosPorSetor() 
+    }, 2000)
 }
 
 // Chamada inicial para Setor Norte (ID = 1)

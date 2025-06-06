@@ -404,7 +404,7 @@ and idShow = 1
 and idEstadio = 1;
 
 -- sensacao termica de todos os demonios da terra
-alter view vw_sensacao_geral
+create view vw_sensacao_geral
 as
 select
     round(
