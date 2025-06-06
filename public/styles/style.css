@@ -325,23 +325,33 @@ input {
     font-weight: 400;
     width:50%;
 }
-.contact-form {
+.contact-email{
     display: flex;
     align-self: safe;
     flex-direction: column;
     gap: 16px;
     width: 35%;
     height: 350px;
+    text-align: center;
+    justify-content: center;
 }
 
-.info-pessoal {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    gap: 10px;
+.contact-email p{
+    font-size: 20px;
+}
+
+.contact-email a{
+    color: #1073da;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.contact-email a:hover{
+    color: #0b4d94;
+    transition: 0.5s;
 
 }
+
 input {
     display: flex;
     flex-direction: row;
