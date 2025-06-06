@@ -1,6 +1,5 @@
-create database climetech;
+create database if not exists climetech;
 use climetech;
-
 
 create table empresa(
 	idEmpresa int primary key auto_increment,
@@ -12,6 +11,7 @@ create table empresa(
     unique unq_cnpj(cnpj),
     unique unq_email(email)
 );
+
 
 create table funcionarioEmpresa(
 	idFuncionarioEmpresa int primary key auto_increment,
@@ -85,22 +85,6 @@ INSERT INTO estadio (nome, logradouro, numLogradouro, uf, idEmpresa) VALUES
 
 insert into shows values(null, 'Justin Bieber', '2025-05-31 23:00:00', '2025-06-01 03:00:00', 1);
 
-/*
-
-INSERT INTO setor (ala, nivelAla, idEstadio) VALUES
-('Norte', 'Inferior', 1);
-
-INSERT INTO sensor (statusSensor, idSetor) VALUES
-('Ativo', 1);
-
- */
-
-
-
-/*
-	nível de alerta vão vir caso temperatura a partir de 32ºC ou umidade acima de 70%
- */
-
 
 -- Criando setores (8 no total: 4 alas x 2 níveis).
 INSERT INTO setor (ala, nivelAla, idEstadio) VALUES
@@ -115,22 +99,14 @@ INSERT INTO setor (ala, nivelAla, idEstadio) VALUES
 
 -- Supondo que cada setor tem 2 sensores.
 INSERT INTO sensor (statusSensor, idSetor) VALUES
--- Norte Inferior (idSetor = 1)
-('Ativo', 1), ('Ativo', 1),
--- Norte Superior (idSetor = 2)
-('Ativo', 2), ('Ativo', 2),
--- Sul Inferior (idSetor = 3)
-('Ativo', 3), ('Ativo', 3),
--- Sul Superior (idSetor = 4)
-('Ativo', 4), ('Ativo', 4),
--- Leste Inferior (idSetor = 5)
-('Ativo', 5), ('Ativo', 5),
--- Leste Superior (idSetor = 6)
-('Ativo', 6), ('Ativo', 6),
--- Oeste Inferior (idSetor = 7)
-('Ativo', 7), ('Ativo', 7),
--- Oeste Superior (idSetor = 8)
-('Ativo', 8), ('Ativo', 8);
+-- Norte 
+('Ativo', 1),
+-- Sul 
+('Ativo', 2),
+-- Leste 
+('Ativo', 3),
+-- Oeste 
+('Ativo', 4);
 
 -- Supondo que os sensores têm id de 1 a 16, e cada sensor tem 15 linhas.
 
@@ -392,6 +368,7 @@ INSERT INTO dadosSensor (temperatura, umidade, dtHoraColeta, idSensor) VALUES
 (23.8, 59, '2025-05-27 16:10:00', 16),
 (23.7, 59, '2025-05-27 16:20:00', 16);
 
+
 select * from estadio;
 select * from shows;
 select * from setor;
@@ -401,122 +378,99 @@ select * from dadosSensor;
 
 -- CRIAÇÃO DE VIEWS --
 
--- View média dos dados Setor Norte:
-create view vw_media_dados_setor_norte as
-	select s.ala,
-		   truncate(avg(ds.temperatura),2) media_temperatura,
-           truncate(avg(ds.umidade),2) media_umidade,
-           ds.dtHoraColeta
-	from setor s 
-	inner join sensor se
-			on s.idSetor = se.idSetor
-	inner join dadosSensor ds
-			on se.idSensor = ds.idSensor
-	where ala = 'Norte'
-	group by s.ala, ds.dtHoraColeta
-	order by dtHoraColeta desc;
+-- View média para filtrar todos os setores + setor especifico
+create view vw_media_dados_setor as
+		select s.ala, sh.idEvento as idShow, e.idEstadio as idEstadio,
+			   truncate(ds.temperatura,2) temperaturaAtual,
+			   truncate(ds.umidade,2) umidadeAtual,
+			   ds.dtHoraColeta,
+               row_number() over (PARTITION BY s.ala ORDER BY ds.dtHoraColeta desc) as linhaUnica -- novo, nao sei se pode usar
+               	from setor s 
+				inner join sensor se
+						on s.idSetor = se.idSetor
+				inner join dadosSensor ds
+						on se.idSensor = ds.idSensor
+				inner join estadio e 
+					on e.idEstadio = s.idEstadio
+				inner join shows sh 
+					on sh.idEstadio = e.idEstadio;
+    
+    
+-- select para retornar de um setor especifico filho da puta
+select * from vw_media_dados_setor
+where linhaUnica = 1 
+and ala = "Norte"
+and idShow = 1
+and idEstadio = 1;
 
-select * from vw_media_dados_setor_norte;
+-- sensacao termica de todos os demonios da terra
+alter view vw_sensacao_geral
+as
+select
+    round(
+        truncate(avg(temperaturaAtual), 2) + ((truncate(avg(umidadeAtual), 2) / 100) * (truncate(avg(umidadeAtual), 2) * 0.2)), 
+        2
+    ) as sensacaoTermica, idShow
+from vw_media_dados_setor
+where linhaUnica = 1
+group by idShow;
 
--- View média dos dados Setor Sul:
-create view vw_media_dados_setor_sul as
-	select s.ala,
-		   truncate(avg(ds.temperatura),2) media_temperatura,
-           truncate(avg(ds.umidade),2) media_umidade,
-           ds.dtHoraColeta
-	from setor s 
-	inner join sensor se
-			on s.idSetor = se.idSetor
-	inner join dadosSensor ds
-			on se.idSensor = ds.idSensor
-	where ala = 'Sul'
-	group by s.ala, ds.dtHoraColeta
-	order by dtHoraColeta desc;
+-- trazer a sensacao geral do show
+select * from vw_sensacao_geral
+where idShow = 1;
 
-select * from vw_media_dados_setor_sul;
-
-
--- View média dos dados Setor Leste:
-create view vw_media_dados_setor_leste as
-	select s.ala,
-		   truncate(avg(ds.temperatura),2) media_temperatura,
-		   truncate(avg(ds.umidade),2) media_umidade,
-           ds.dtHoraColeta
-	from setor s 
-	inner join sensor se
-			on s.idSetor = se.idSetor
-	inner join dadosSensor ds
-			on se.idSensor = ds.idSensor
-	where ala = 'Leste'
-	group by s.ala, ds.dtHoraColeta
-	order by dtHoraColeta desc;
-
-select * from vw_media_dados_setor_leste;
-
-
--- View média dos dados Setor Oeste:
-create view vw_media_dados_setor_oeste as
-	select s.ala,
-		   truncate(avg(ds.temperatura),2) media_temperatura,
-		   truncate(avg(ds.umidade),2) media_umidade,
-           ds.dtHoraColeta
-	from setor s 
-	inner join sensor se
-			on s.idSetor = se.idSetor
-	inner join dadosSensor ds
-			on se.idSensor = ds.idSensor
+select (select count((select round(
+          truncate(temperaturaAtual, 2) + ((truncate(umidadeAtual, 2) / 100) * (truncate(umidadeAtual, 2) * 0.2)), 
+          2
+      ) as sensacaoTermica from vw_media_dados_setor
 	where ala = 'Oeste'
-	group by s.ala, ds.dtHoraColeta
-	order by dtHoraColeta desc;
-
-select * from vw_media_dados_setor_oeste;
+    and idShow = 1
+      having sensacaoTermica > 38))) as qtdAlertas;
 
 
--- View média de tudo no momento:
-create view vw_media_tudo as
-	select
-		truncate((
-			n.media_temperatura +
-			s.media_temperatura +
-			l.media_temperatura +
-			o.media_temperatura
-		) / 4, 2) as media_temperatura,
-		truncate((
-			n.media_umidade +
-			s.media_umidade +
-			l.media_umidade +
-			o.media_umidade
-		) / 4, 2) as media_umidade,
-		n.dtHoraColeta
-	from vw_media_dados_setor_norte as n
-	join vw_media_dados_setor_sul   as s on n.dtHoraColeta = s.dtHoraColeta
-	join vw_media_dados_setor_leste as l on n.dtHoraColeta = l.dtHoraColeta
-	join vw_media_dados_setor_oeste as o on n.dtHoraColeta = o.dtHoraColeta
-	order by n.dtHoraColeta desc;
+-- view que conta os alertas, depois podemos filtrar por setor ou geral
+create view view_conta_alertas
+as
+  select ala, idShow, round(
+          truncate(temperaturaAtual, 2) + ((truncate(umidadeAtual, 2) / 100) * (truncate(umidadeAtual, 2) * 0.2)), 
+          2
+      ) as sensacaoTermica
+      from vw_media_dados_setor
+      group by ala, idShow, sensacaoTermica
+      having sensacaoTermica > 38;  
+ 
+ -- aqui filtramos.
+ select count(*) from view_conta_alertas
+	where ala = 'Norte'
+    and idShow = 1;
+    
+-- trazendo setor mais quente
+select ala, max(sensacaoTermica) as sensacaoTermicaMaxima from view_conta_alertas
+where idShow = 1
+group by ala
+order by max(sensacaoTermica) desc
+limit 1;
 
-select * from vw_media_dados_setor_norte;
-select * from vw_media_dados_setor_sul;
-select * from vw_media_dados_setor_leste;
-select * from vw_media_dados_setor_oeste;
-select * from vw_media_tudo;
+-- trazendo dados dos gráficos
 
 
--- Testando alguns selects...
+select ala, temperaturaAtual, umidadeAtual, dtHoraColeta
+from vw_media_dados_setor
+where idShow = 1
+and linhaUnica between 1 and 5
+order by dtHoraColeta asc;
 
-SELECT COUNT(*) AS qtd_setores_em_alerta
-    FROM (
-        (SELECT * FROM vw_media_dados_setor_norte ORDER BY dtHoraColeta DESC LIMIT 1)
-        UNION ALL
-        (SELECT * FROM vw_media_dados_setor_sul ORDER BY dtHoraColeta DESC LIMIT 1)
-        UNION ALL
-        (SELECT * FROM vw_media_dados_setor_leste ORDER BY dtHoraColeta DESC LIMIT 1)
-        UNION ALL
-        (SELECT * FROM vw_media_dados_setor_oeste ORDER BY dtHoraColeta DESC LIMIT 1)
-    ) AS ultimos_setores
-    WHERE media_temperatura >= 30
-       or media_umidade >= 72;
+-- dados dos graficos
+create view dadosGrafico
+as
+select ala, temperaturaAtual, umidadeAtual, dtHoraColeta, idShow
+from vw_media_dados_setor
+where linhaUnica between 1 and 5
+order by dtHoraColeta asc;
 
--- 
+select * from dadosGrafico
+where ala = "Norte"
+and idShow = 1;
 
-select * from funcionarioEmpresa;
--- insert into funcionarioEmpresa values (null, 'Victor','victor@climetech.com','123',curdate(), 'visualizador', 1);
+
+

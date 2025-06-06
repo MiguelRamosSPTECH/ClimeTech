@@ -8,11 +8,11 @@
     <link rel="icon" href="../site-institucional/img/icon-climetech.png" type="image/x-icon">
     <link rel="stylesheet" href="./style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="./script.js"></script>
+    <script src="./dashScript.js"></script>
     <script src="../scripts/sessao.js"></script>
 </head>
 
-<body onload="validarSessao()">
+<body onload="validarSessao(), allShows()">
     <div id="fade" class="hide"></div>
     <div class="nav-lateral">
         <div id="area-logo-climetech">
@@ -44,38 +44,42 @@
             <div class="area-dados-kpi">
 
                 <div id="filtro-dados">
-                    <span>Filtrar dados -</span>
-                    <select name="" id="filtro_setor">
-                        <option value="geral">Geral</option>
-                        <option value="leste">Setor-Leste</option>
-                        <option value="oeste">Setor-Oeste</option>
-                        <option value="norte">Setor-Norte</option>
-                        <option value="sul">Setor-Sul</option>
-                    </select>
-                    <button onclick="atualizarSetor(filtro_setor.value)" id="botao_atualizar_setor">Atualizar
-                        setor</button>
+                    <div class="filtro-setor">
+                        <span>Filtrar dados -</span>
+                        <select name="" id="filtro_setor" onchange="atualizarSetor(this.value)" id="botao_atualizar_seto">
+                            <option value="geral">Geral</option>
+                            <option value="Leste">Setor-Leste</option>
+                            <option value="Oeste">Setor-Oeste</option>
+                            <option value="Norte">Setor-Norte</option>
+                            <option value="Sul">Setor-Sul</option>
+                        </select>
+                    </div>  
+                    <div class="filtro-evento">
+                        <span>Filtrar Evento</span>
+                        <select name="" id="filtro_evento" onchange="changeAllDados(this.value)">
+                            <option value="#">Escolha um Show</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="container_kpi">
                     <div class="card">
                         <div class="kpi_alerta">
                             <h3>Alertas de risco</h3>
-                            <p id="showing_qtd_alertas">XX</p>
+                            <p id="showing_qtd_alertas"></p>
                         </div>
 
                         <div class="divisor"></div>
 
                         <div class="kpi_sensacao">
                             <h3>Sensação Térmica Atual</h3>
-                            <p id="showing_sensacao_termica_atual">XX°C</p>
+                            <p id="showing_sensacao_termica_atual"></p>
                         </div>
                     </div>
-
-
                     <div class="card">
                         <div class="kpi_setor">
                             <h3>Setor mais quente do estádio:</h3>
-                            <p id="showing_setor_mais_quente">Setor Xxxxx</p>
+                            <p id="showing_setor_mais_quente"></p>
                         </div>
                         <div class="icon_indice" onclick="openCloseIndice()"></div>
                     </div>
@@ -147,211 +151,14 @@
 
 
 <script>
-
-    // Atualizar o setor serve tanto para especificar a sensação térmica quanto para os gráficos.
-    function atualizarSetor(setor) {
-        atualizarSensacaoTermicaPorSetor(setor);
-        atualizarGraficosPorSetor(setor);
-    }
-
-    // Exibir quantidade de alertas
-    fetch("/kpis/alertas-calor")
-        .then(res => res.json())
-        .then(data => {
-            console.log("Resposta da rota /kpis/alertas-calor:", data);
-            document.getElementById("showing_qtd_alertas").innerText = data[0].qtd_setores_em_alerta;
-        });
-
-    // Sensação térmica
-    function atualizarSensacaoTermicaPorSetor(setor) {
-        console.log("setor selecionado:", setor);
-        fetch(`/kpis/sensacao-termica/${setor}`)
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById("showing_sensacao_termica_atual").innerText =
-                    `${Number(data[0].sensacao_termica).toFixed(1)}°C`;
-            });
-    }
-
-    // Exibir setor mais quente
-    fetch("/kpis/setor-mais-quente")
-        .then(res => res.json())
-        .then(data => {
-            var setor = data[0].setor;
-            var temp = data[0].temperatura;
-            var elemento = document.getElementById("showing_setor_mais_quente");
-
-            let cor = "black";
-            if (temp >= 45) cor = "red";
-            else if (temp >= 40) cor = "orange";
-            else if (temp >= 20) cor = "gold";
-
-            elemento.innerText = setor.toUpperCase();
-            elemento.style.color = cor;
-        });
-
-
-    atualizarSetor("geral"); // Isso ajuda para quando a página carregar, o navegador já considerar por padrão o "setor geral", então a KPI não vai aparecer "XX°C"
-
-
+    var ctx = document.getElementById('chartTemperatura').getContext('2d');
+    var ctx2 = document.getElementById('chartUmidade').getContext('2d');
     // Gráficos
-    function atualizarGraficosPorSetor(setor) {
-    
-        fetch(`/graficos/grafico/${setor}`)
-            .then(res => res.json())
-            .then(dados => {
-                const horarios = dados.map(d => d.horario);
-                const temperaturas = dados.map(d => d.temperatura);
-                const umidades = dados.map(d => d.umidade);
-
-                myChart.data.labels = horarios;
-                myChart.data.datasets = [{
-                    label: `Temperatura - Setor ${setor}`,
-                    data: temperaturas,
-                    borderColor: 'orange',
-                    tension: 0.1
-                }];
-                myChart.update();
-
-                chartUmidade.data.labels = horarios;
-                chartUmidade.data.datasets = [{
-                    label: `Umidade - Setor ${setor}`,
-                    data: umidades,
-                    borderColor: 'blue',
-                    tension: 0.1
-                }];
-                chartUmidade.update();
-            });
+    function atualizarGraficosPorSetor() {
+        chamarDadosGraficos();
     }
 
-    /*Labels de horário*/
-    const labels = [
-        '12:00',
-        '13:00',
-        '14:00',
-        '15:00',
-        '16:00',
-        '17:00'
-    ]
-
-    /*Gráfico de Temperatura*/
-
-    const dataTemperatura = {
-        labels: labels,
-        datasets: [{
-            label: 'Setor Norte',
-            data: [23, 27, 25, 22, 25, 28],
-            fill: false,
-            borderColor: '#1073da',
-            tension: 0.1,
-        },
-
-        {
-            label: 'Setor Sul',
-            data: [24, 31, 26, 21, 28, 30],
-            fill: false,
-            borderColor: '#2b3d7b',
-            tension: 0.1
-        },
-
-        {
-            label: 'Setor Leste',
-            data: [28, 27, 22, 21, 22, 23],
-            fill: false,
-            borderColor: 'seagreen',
-            tension: 0.1
-        },
-
-        {
-            label: 'Setor Oeste',
-            data: [27, 30, 22, 25, 29, 21],
-            fill: false,
-            borderColor: 'purple',
-            tension: 0.1
-        },
-        ],
-    };
-
-
-
-
-    const configTemperatura = {
-        type: 'line',
-        data: dataTemperatura,
-        options: {
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'bottom',
-                    align: 'start'
-                }
-            }
-        }
-    };
-
-    /*Gráfico de Umidade*/
-
-    const dataUmidade = {
-        labels: labels,
-        datasets: [
-            {
-                label: 'Setor Norte',
-                data: [65, 72, 68, 70, 75, 78],
-                fill: false,
-                borderColor: '#1073da',
-                tension: 0.1
-            },
-            {
-                label: 'Setor Sul',
-                data: [60, 66, 71, 69, 74, 80],
-                fill: false,
-                borderColor: '#2b3d7b',
-                tension: 0.1
-            },
-            {
-                label: 'Setor Leste',
-                data: [58, 64, 70, 67, 73, 77],
-                fill: false,
-                borderColor: 'seagreen',
-                tension: 0.1
-            },
-            {
-                label: 'Setor Oeste',
-                data: [62, 68, 65, 72, 76, 79],
-                fill: false,
-                borderColor: 'purple',
-                tension: 0.1
-            },
-        ],
-    };
-
-    const configUmidade = {
-        type: 'line',
-        data: dataUmidade,
-        options: {
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'bottom',
-                    align: 'center'
-                }
-            }
-        }
-    };
-
-
 </script>
 
-<script>
-    const myChart = new Chart(
-        document.getElementById('chartTemperatura'),
-        configTemperatura
-    )
-
-    const chartUmidade = new Chart(
-        document.getElementById('chartUmidade'),
-        configUmidade
-    )
-</script>
 
 </html>

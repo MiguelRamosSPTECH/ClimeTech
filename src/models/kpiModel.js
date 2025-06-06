@@ -1,66 +1,68 @@
 var database = require("../database/config");
 
-function qtdSetoresEmAlerta() {
-  var query = `
-    SELECT COUNT(*) AS qtd_setores_em_alerta
-    FROM (
-        (SELECT * FROM vw_media_dados_setor_norte ORDER BY dtHoraColeta DESC LIMIT 1)
-        UNION ALL
-        (SELECT * FROM vw_media_dados_setor_sul ORDER BY dtHoraColeta DESC LIMIT 1)
-        UNION ALL
-        (SELECT * FROM vw_media_dados_setor_leste ORDER BY dtHoraColeta DESC LIMIT 1)
-        UNION ALL
-        (SELECT * FROM vw_media_dados_setor_oeste ORDER BY dtHoraColeta DESC LIMIT 1)
-    ) AS ultimos_setores
-    WHERE (
-      media_temperatura + ((media_umidade / 100) * (media_temperatura * 0.2))
-    ) >= 30;
-  `;
-  return database.executar(query);
-}
-
-function sensacaoTermicaAtual(setor) {
-  let view = "";
-
-  if (setor == "geral") {
-    view = "vw_media_tudo";
+function qtdSetoresEmAlerta(setor, idShow) {
+  if(setor == "geral") {
+    query = `
+     select count(*) as qtdAlertas from view_conta_alertas
+    where idShow = ${idShow};
+    `
   } else {
-    view = `vw_media_dados_setor_${setor}`;
+    query = `
+    select count(*) as qtdAlertas from view_conta_alertas
+	  where ala = '${setor}'
+    and idShow = ${idShow};           
+    `
   }
 
+  return database.executar(query);
+}
+
+function sensacaoTermicaAtual(setor, idShow) {
+  let query = ``
+  if (setor == "geral") {
+    query = `
+      select * from vw_sensacao_geral
+      where idShow = ${idShow};    
+    `
+  } else {
+    query = `
+select
+      round(
+          truncate(avg(temperaturaAtual), 2) + ((truncate(avg(umidadeAtual), 2) / 100) * (truncate(avg(umidadeAtual), 2) * 0.2)), 
+          2
+      ) as sensacaoTermica
+      from vw_media_dados_setor
+      where linhaUnica = 1 
+      and ala = '${setor}'
+      and idShow = ${idShow}
+      and idEstadio = 1;    
+    `;
+  }
+
+  return database.executar(query);
+}
+
+function setorMaisQuente(idShow) {
   var query = `
-    SELECT
-        media_temperatura,
-        media_umidade,
-        (
-        media_temperatura + ((media_umidade / 100) * (media_temperatura * 0.2))
-        ) AS sensacao_termica
-    FROM ${view}
-    ORDER BY dtHoraColeta DESC
-    LIMIT 1;
+    select ala, max(sensacaoTermica) as sensacaoTermicaMaxima from view_conta_alertas
+    where idShow = 1
+    group by ala
+    order by max(sensacaoTermica) desc
+    limit 1;
   `;
   return database.executar(query);
 }
 
-function setorMaisQuente() {
-  var query = `
-    SELECT setor, temperatura FROM (
-        SELECT 'norte' AS setor, media_temperatura AS temperatura, dtHoraColeta FROM vw_media_dados_setor_norte
-        UNION
-        SELECT 'sul', media_temperatura, dtHoraColeta FROM vw_media_dados_setor_sul
-        UNION
-        SELECT 'leste', media_temperatura, dtHoraColeta FROM vw_media_dados_setor_leste
-        UNION
-        SELECT 'oeste', media_temperatura, dtHoraColeta FROM vw_media_dados_setor_oeste
-    ) AS todos
-    ORDER BY dtHoraColeta DESC, temperatura DESC
-    LIMIT 1;
-  `;
-  return database.executar(query);
+function allShows() {
+    let instrucaoSql = `
+      select * from shows;
+    `
+    return database.executar(instrucaoSql);
 }
 
 module.exports = {
   qtdSetoresEmAlerta,
   sensacaoTermicaAtual,
-  setorMaisQuente
+  setorMaisQuente,
+  allShows
 }

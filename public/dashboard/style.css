@@ -190,6 +190,8 @@ html, body {
 
 }
 #filtro-dados {
+    display: flex;
+    justify-content: space-between;
     align-self: center;
     width: 85.5%;
     margin-top: 3px;
@@ -199,7 +201,7 @@ html, body {
     font-size: large;
     font-weight: 700;
 }
-#filtro_setor {
+#filtro_setor, #filtro_evento {
     font-size: medium;
     font-family: "Poppins", sans-serif;
     text-align: center;

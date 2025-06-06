@@ -1,4 +1,3 @@
-// const { text } = require("express")
 
 function cadastrar() {
     let nomeCadastro = ipt_cadastro_nome.value
