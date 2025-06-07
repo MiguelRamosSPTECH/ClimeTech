@@ -343,3 +343,21 @@ li {
 .hide {
     display: none;
 }
+
+#alerta_div {
+    display:none;
+    padding-left: 50px;
+    justify-content: center;
+    flex-direction: column;
+    position: fixed;
+    top: 2%;
+    left: 41%;
+    width: 340px;
+    height: 150px;
+    color: white;
+    border-radius: 15px;
+}
+#descricao_alerta {
+    font-weight: 600;
+    color: rgb(214, 214, 214);
+}

@@ -29,4 +29,5 @@ function obterDados(req, res) {
     })
 }
 
+
 module.exports = { obterDados };

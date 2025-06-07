@@ -7,8 +7,9 @@ function obterDadosGraficoPorSetor(idShow, setor) {
         and idShow = ${idShow};
     `;
 
-
     return database.executar(instrucaoSql);
 }
 
-module.exports = { obterDadosGraficoPorSetor };
+module.exports = { 
+    obterDadosGraficoPorSetor
+};

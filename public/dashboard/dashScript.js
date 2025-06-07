@@ -32,10 +32,14 @@ function allShows() {
 
     // Atualizar o setor serve tanto para especificar a sensação térmica quanto para os gráficos.
     function atualizarSetor(setor) {
+        atualizarSensacaoTermicaPorSetor(filtro_setor.value);
+        qtdAlertas(filtro_setor.value)
+        setorMaisQuente()
         setInterval(() => {
-                atualizarSensacaoTermicaPorSetor(filtro_setor.value);
-                qtdAlertas(filtro_setor.value)
-        }, 2000)
+            setorMaisQuente()
+            atualizarSensacaoTermicaPorSetor(filtro_setor.value);
+            qtdAlertas(filtro_setor.value)
+        }, 5000)
     }
 
     // Exibir quantidade de alertas por filtro também
@@ -73,6 +77,7 @@ function allShows() {
             let nomeSetor = await resposta.json();
             nomeSetor = nomeSetor[0].ala;
             showing_setor_mais_quente.innerText = `Setor ${nomeSetor}`
+            console.log(nomeSetor)
         })
     }
 
@@ -87,9 +92,8 @@ function chamarDadosGraficos() {
         plotarGrafico(dados, "temperatura")
     })
 }
-
+let grafico = null
 function plotarGrafico(respostaFuncao, tipoDado) {
-    console.log(respostaFuncao);
         let horas = []
         let dados = []
         let contador = 0;
@@ -104,8 +108,10 @@ function plotarGrafico(respostaFuncao, tipoDado) {
             contador++
             dados.push(dadosSetor);
         }
-
-        var myChart = new Chart(tipoDado == "temperatura" ? ctx : ctx2, {
+        if(grafico) {
+            grafico.destroy()
+        }
+        grafico  = new Chart(tipoDado == "temperatura" ? ctx : ctx2, {
             type: 'line',
             data: {
                 labels: horas,
@@ -150,14 +156,40 @@ function plotarGrafico(respostaFuncao, tipoDado) {
             }
         })    
 }
-
+function trazerAlerta() {
+    let idShow = Number(filtro_evento.value);
+    fetch(`/kpis/trazerAlertas/${idShow}`, {
+        method: "GET"
+    })
+    .then(async resposta => {
+        const alerta = await resposta.json()
+        alerta_div.style.display = "flex"
+        sensacao_alerta.innerText = `${alerta[0].sensacaoTermica}ºC`
+        setor_alerta.innerText = `Setor ${alerta[0].ala}`
+        if(alerta[0].sensacaoTermica > 38 && alerta[0].sensacaoTermica < 45.00) {
+            alerta_div.style.backgroundColor = "orange"
+            descricao_alerta.innerText = `Sexo ficando quente`
+        } else if(alerta[0].sensacaoTermica > 45.00) {
+            alerta_div.style.backgroundColor = "red"
+            descricao_alerta.innerText = `Alerta de fornicação`
+        }
+    })
+    setTimeout(() => {
+        alerta_div.style.display = "none"
+    }, 4000)
+    
+    setTimeout(() => {
+        trazerAlerta()
+    }, 7000) 
+}
 
 function changeAllDados() {
     atualizarSetor(filtro_setor.value)
+    trazerAlerta()
+    chamarDadosGraficos()
     setInterval(() => {
-        setorMaisQuente()
-        atualizarGraficosPorSetor() 
-    }, 2000)
+        chamarDadosGraficos()
+    }, 5000)
 }
 
 // Chamada inicial para Setor Norte (ID = 1)

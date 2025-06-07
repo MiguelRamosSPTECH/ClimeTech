@@ -29,10 +29,20 @@ function allShows(req,res) {
     }).catch(erro => res.status(401).json(erro));
   }
 
+function trazerAlertas(req,res) {
+    const idShow = req.params.idShow;
+    kpiModel.trazerAlerta(idShow).then(resposta => {
+      if(resposta.length > 0) {
+          res.status(200).json(resposta);
+      }
+    })
+}  
+
 
 module.exports = {
   qtdSetoresEmAlerta,
   sensacaoTermicaAtual,
   setorMaisQuente,
-  allShows
+  allShows,
+  trazerAlertas
 }
