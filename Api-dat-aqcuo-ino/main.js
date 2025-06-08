@@ -9,10 +9,12 @@ const SERVIDOR_PORTA = 3300;
 
 // habilita ou desabilita a inserção de dados no banco de dados
 const HABILITAR_OPERACAO_INSERIR = true;
-
+let dataFormatada;
 //data-hora atual p inserir no banco
-const now = new Date().toISOString(); //ISOString é formato global de formatação de data-hora, sql usa ele
-const dataFormatada = now.slice(0, -5).replace('T', ' ');
+function tratandoData() {
+    let now = new Date().toISOString(); //ISOString é formato global de formatação de data-hora, sql usa ele
+    dataFormatada = now.slice(0, -5).replace('T', ' ');
+}
 
 
 // função para comunicação serial
@@ -23,15 +25,24 @@ const serial = async (
     // conexão com o banco de dados MySQL
     let poolBancoDados = mysql.createPool(
         {
-            host: '10.18.33.25',
+
+            host: '10.18.32.115',
             user: 'aluno',
             password: 'Sptech#2024',
             database: 'climetech',
             port: 3307
-        }
-    ).promise(); 
 
-    
+
+
+            // host: '10.18.33.25',
+            // user: 'aluno',
+            // password: 'Sptech#2024',
+            // database: 'climetech',
+            // port: 3307
+        }
+    ).promise();
+
+
     // lista as portas seriais disponíveis e procura pelo Arduino
     const portas = await serialport.SerialPort.list();
     const portaArduino = portas.find((porta) => porta.vendorId == 2341 && porta.productId == 43);
@@ -54,11 +65,43 @@ const serial = async (
 
     // processa os dados recebidos do Arduino
     arduino.pipe(new serialport.ReadlineParser({ delimiter: '\r\n' })).on('data', async (data) => {
-        console.log(data);
+        
         const valores = data.split(';');
+        // norte
         const temperatura = parseFloat(valores[0]);
         const umidade = parseInt(valores[1]);
 
+        // Gera variação de até ±9 graus para temperatura
+        function variarTemperatura(base) {
+            const variacao = (Math.random() * 19) - 8; // de -4 a +13
+            return (base + variacao).toFixed(2);
+        }
+
+
+        // Gera variação aleatória de umidade (exemplo com até ±30%)
+        function variarUmidade(base) {
+            const variacao = (Math.random() * 0.3) - 0.3; // -30% a +30%
+            return (base * (1 + variacao)).toFixed(2);
+        }
+
+        // Sul
+        const umidade2 = variarUmidade(umidade);
+        const temperatura2 = variarTemperatura(temperatura);
+
+        // Leste
+        const umidade3 = variarUmidade(umidade);
+        const temperatura3 = variarTemperatura(temperatura);
+
+        // Oeste
+        const umidade4 = variarUmidade(umidade);
+        const temperatura4 = variarTemperatura(temperatura);
+
+
+        console.log("\n","\n",
+            "Norte:", temperatura, "\n",
+            "Sul:", temperatura2,"\n",
+            'Leste:', temperatura3,"\n",
+            'Oste:', temperatura4)
 
         // armazena os valores dos sensores nos arrays correspondentes
         valoresTemperatura.push(temperatura);
@@ -66,11 +109,23 @@ const serial = async (
 
         // insere os dados no banco de dados (se habilitado)
         if (HABILITAR_OPERACAO_INSERIR) {
-
+            tratandoData()
             // este insert irá inserir os dados na tabela "medida"
             await poolBancoDados.execute(
                 'insert into dadosSensor(temperatura, umidade, dtHoraColeta, idSensor) VALUES (?, ?, ?, ?)',
                 [temperatura, umidade, dataFormatada, 1]
+            );
+            await poolBancoDados.execute(
+                'insert into dadosSensor(temperatura, umidade, dtHoraColeta, idSensor) VALUES (?, ?, ?, ?)',
+                [temperatura2, umidade2, dataFormatada, 2]
+            );
+            await poolBancoDados.execute(
+                'insert into dadosSensor(temperatura, umidade, dtHoraColeta, idSensor) VALUES (?, ?, ?, ?)',
+                [temperatura3, umidade3, dataFormatada, 3]
+            );
+            await poolBancoDados.execute(
+                'insert into dadosSensor(temperatura, umidade, dtHoraColeta, idSensor) VALUES (?, ?, ?, ?)',
+                [temperatura4, umidade4, dataFormatada, 4]
             );
         }
 

@@ -91,7 +91,7 @@
                             grafico.data.labels.shift();
                             grafico.data.datasets[0].data.shift();
                         }
-                        
+
                         grafico.data.labels.push(tempo[endpoint]++);
                         grafico.data.datasets[0].data.push(parseFloat(valor));
                         grafico.update();
