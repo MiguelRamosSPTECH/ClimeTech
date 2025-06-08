@@ -22,6 +22,7 @@ var avisosRouter = require("./src/routes/avisos");
 var medidasRouter = require("./src/routes/medidas");
 var aquariosRouter = require("./src/routes/aquarios");
 var empresasRouter = require("./src/routes/empresas");
+var alertasRouter = require("./src/routes/alertas");
 
 // Nova rota para gráficos
 var graficosRouter = require("./src/routes/graficos");
@@ -42,6 +43,7 @@ app.use("/avisos", avisosRouter);
 app.use("/medidas", medidasRouter);
 app.use("/aquarios", aquariosRouter);
 app.use("/empresas", empresasRouter);
+app.use("/alertas", alertasRouter);
 
 // Ativando rota /graficos
 app.use("/graficos", graficosRouter);

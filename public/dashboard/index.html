@@ -20,12 +20,17 @@
             <div class="separador"></div>
         </div>
         <div class="area-icons">
-            <div class="area-icon" id="acessoFuncionarios">
-                <script>
-                    if (sessionStorage.ACESSO_FUNCIONARIO == "admin") {
-                        acessoFuncionarios.innerHTML = `<a href="./funcionarios/index.html" id="icon-funcionario"></a>`
-                    } 
-                </script>
+            <div class="area-abas">
+                <div class="area-icon" id="acessoFuncionarios">
+                    <script>
+                        if (sessionStorage.ACESSO_FUNCIONARIO == "admin") {
+                            acessoFuncionarios.innerHTML = `<a href="./funcionarios/index.html" id="icon-funcionario"></a>`
+                        } 
+                    </script>
+                </div>
+                <div class="area-icon">
+                    <a href="pagina_alertas/index.html" id="icon-alerta"></a>
+                </div>
             </div>
             <div class="area-icon">
                 <a id="icon-logoff" onclick="excluirSessao()"></a>
@@ -47,14 +52,15 @@
                 <div id="filtro-dados">
                     <div class="filtro-setor">
                         <span>Filtrar dados -</span>
-                        <select name="" id="filtro_setor" onchange="atualizarSetor(this.value)" id="botao_atualizar_seto">
+                        <select name="" id="filtro_setor" onchange="atualizarSetor(this.value)"
+                            id="botao_atualizar_seto">
                             <option value="geral">Geral</option>
                             <option value="Leste">Setor-Leste</option>
                             <option value="Oeste">Setor-Oeste</option>
                             <option value="Norte">Setor-Norte</option>
                             <option value="Sul">Setor-Sul</option>
                         </select>
-                    </div>  
+                    </div>
                     <div class="filtro-evento">
                         <span>Filtrar Evento - </span>
                         <select name="" id="filtro_evento" onchange="changeAllDados(this.value)">
@@ -152,85 +158,91 @@
 
 <script>
     var ctx = new Chart(document.getElementById('chartTemperatura').getContext('2d'), {
-            type: 'line',
-            data: {
-                datasets:[{
-                    label: "Norte",
-                    fill: false,
-                    borderColor: '#1073da',
-                    tension: 0.1
-                },
-                {
-                    label: "Sul",
-                    fill: false,
-                    borderColor: '#2b3d7b',
-                    tension: 0.1
-                },
-                {
-                    label: "Leste",
-                    fill: false,
-                    borderColor: 'seagreen',
-                    tension: 0.1
-                },
-                {
-                    label: "Oeste",
-                    fill: false,
-                    borderColor: 'purple',
-                    tension: 0.1
-                }                                
-            ]  
+        type: 'line',
+        data: {
+            datasets: [{
+                label: "Norte",
+                fill: false,
+                borderColor: '#1073da',
+                tension: 0.1
             },
-            options: {
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'bottom',
-                        align: 'start'
-                    }
+            {
+                label: "Sul",
+                fill: false,
+                borderColor: '#2b3d7b',
+                tension: 0.1
+            },
+            {
+                label: "Leste",
+                fill: false,
+                borderColor: 'seagreen',
+                tension: 0.1
+            },
+            {
+                label: "Oeste",
+                fill: false,
+                borderColor: 'purple',
+                tension: 0.1
+            }
+            ]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    align: 'start'
                 }
             }
+        }
     })
     var ctx2 = new Chart(document.getElementById('chartUmidade').getContext('2d'), {
-            type: 'line',
-            data: {
-                datasets:[{
-                    label: "Norte",
-                    fill: false,
-                    borderColor: '#1073da',
-                    tension: 0.1
-                },
-                {
-                    label: "Sul",
-                    fill: false,
-                    borderColor: '#2b3d7b',
-                    tension: 0.1
-                },
-                {
-                    label: "Leste",
-                    fill: false,
-                    borderColor: 'seagreen',
-                    tension: 0.1
-                },
-                {
-                    label: "Oeste",
-                    fill: false,
-                    borderColor: 'purple',
-                    tension: 0.1
-                }                                
-            ]  
+        type: 'line',
+        data: {
+            datasets: [{
+                label: "Norte",
+                fill: false,
+                borderColor: '#1073da',
+                tension: 0.1
             },
-            options: {
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'bottom',
-                        align: 'start'
-                    }
+            {
+                label: "Sul",
+                fill: false,
+                borderColor: '#2b3d7b',
+                tension: 0.1
+            },
+            {
+                label: "Leste",
+                fill: false,
+                borderColor: 'seagreen',
+                tension: 0.1
+            },
+            {
+                label: "Oeste",
+                fill: false,
+                borderColor: 'purple',
+                tension: 0.1
+            }
+            ]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    align: 'start'
                 }
             }
+        }
     })
 
-    function changeAllDados() {
+    function changeAllDados(valorSelecionado) {
+        if (valorSelecionado !== "#") {
+            sessionStorage.ID_SHOW = valorSelecionado;
+            console.log("ID_SHOW salvo no sessionStorage:", valorSelecionado);
+        } else {
+            delete sessionStorage.ID_SHOW;
+        }
         atualizarSetor()
         trazerAlerta()
         chamarDadosGraficos(ctx, "temperatura");
@@ -242,7 +254,7 @@
             chamarDadosGraficos(ctx2, "umidade");
         }, 6000)
     }
-    
+
 
 
 </script>

@@ -1,0 +1,320 @@
+/* Importando fonte poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+/* Conteudo total da tela */
+:root {
+    font-family: "Poppins", sans-serif;
+}
+
+html,
+body {
+    margin: 0;
+    left: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.container-all {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+
+/* Navbar lateral */
+.nav-lateral {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 8%;
+    background: radial-gradient(circle at 50% 50%, #2e2e2e, #2a2a2b);
+}
+
+#area-logo-climetech {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 20%;
+
+
+}
+
+#logo-climetech {
+    cursor: pointer;
+    background-image: url('../img-all/icon-climetech.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 65%;
+    height: 55%;
+}
+
+.separador {
+    border: 1px solid white;
+    width: 60%;
+}
+
+.area-icons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 80%;
+}
+
+.area-abas {
+    width: 100%;
+    height: 70vh;
+}
+
+.area-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 15%;
+}
+
+#icon-funcionario {
+    cursor: pointer;
+    width: 50%;
+    height: 80%;
+    background-image: url('../img-all/funcionario-icon.png');
+    background-size: cover;
+}
+
+#icon-alerta {
+    cursor: pointer;
+    width: 46%;
+    height: 75%;
+    background-image: url('../img-all/alerta-icon.png');
+    background-size: cover;
+}
+
+#icon-logoff {
+    cursor: pointer;
+    width: 50%;
+    height: 70%;
+    background-image: url('../img-all/logoff-icon.png');
+    background-size: cover;
+}
+
+/*Conteúdo da página*/
+
+.content {
+    width: 92%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 40px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* conteúdo no topo */
+    align-items: flex-start;
+    width: 85%;
+    height: auto;
+    /* deixa crescer conforme o conteúdo */
+    padding: 30px 0;
+}
+
+/* Header da tela */
+.header {
+    display: flex;
+    flex-direction: row;
+    height: 16.5%;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.icon_indice {
+    background-image: url('../img-all/icon-indice.png');
+    background-size: cover;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: 0.1s ease;
+}
+
+.icon_indice:hover {
+    transform: scale(1.1);
+}
+
+.text-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    width: 50%;
+    height: 100%;
+}
+
+.header h1 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.header span {
+    color: gray;
+    font-weight: 700;
+}
+
+.table-body {
+    width: 100%;
+    height: 75%;
+    margin-top: 20px;
+    overflow-y: auto;
+}
+
+.header-table {
+    border-bottom: 2px solid dimgray;
+}
+
+.table-body table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table tr th {
+    text-align: start;
+    color: gray;
+    padding: 10px 5px;
+}
+
+table td {
+    padding: 15px 5px;
+}
+
+/*Modal*/
+#fade {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(128, 128, 128, 0.596);
+    z-index: 5;
+}
+
+#modal_indice {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 80%;
+    background-color: white;
+    z-index: 10;
+    border-radius: 10px;
+}
+
+#header-modal-indice {
+    width: auto;
+    height: auto;
+    border-bottom: 1px solid gray;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+}
+
+.close-modal {
+    width: 35px;
+}
+
+.close-modal:hover {
+    cursor: pointer;
+}
+
+.body-modal {
+    padding: 25px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: auto;
+    height: 80%;
+    gap: 30px;
+}
+
+.body-modal p {
+    font-size: 18px;
+    text-align: start;
+}
+
+.acoes-recomendadas {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 90%;
+    text-align: start;
+}
+
+.acoes-recomendadas h3 {
+    text-transform: uppercase;
+}
+
+li {
+    padding: 0px 15px;
+}
+
+.hide {
+    display: none;
+}
+
+/*Página de tabela*/
+
+.table-body {
+    width: 100%;
+    max-height: 75vh;
+    /* altura máxima visível */
+    margin-top: 20px;
+    overflow-y: auto;
+    border: solid rgba(0, 0, 0, 0.164) 2px;
+}
+
+/* Estilização opcional da barra de rolagem */
+.table-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.table-body::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.table-body::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+
+.header-table {
+    border-bottom: 2px solid dimgray;
+}
+
+.table-body table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table tr th {
+    text-align: center;
+    color: gray;
+    padding: 10px 5px;
+}
+
+table td {
+    text-align: center;
+    padding: 15px 5px;
+}
+
+tbody {
+    border-bottom: 0.5px solid darkgray;
+}
