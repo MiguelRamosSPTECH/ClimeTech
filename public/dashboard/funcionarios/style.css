@@ -62,20 +62,44 @@ html, body {
     height: 80%;
 }
 
+.area-abas {
+    width: 100%;
+    height: 70vh;
+}
+
 .area-icon {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     width: 100%;
     height: 15%;
 }
-#icon-funcionario{
+
+#icon-funcionario {
     cursor: pointer;
     width: 50%;
-    height: 70%;
+    height: 80%;
     background-image: url('../img-all/funcionario-icon.png');
     background-size: cover;
 }
+
+#icon-alerta {
+    cursor: pointer;
+    width: 46%;
+    height: 75%;
+    background-image: url('../img-all/alerta-icon.png');
+    background-size: cover;
+}
+
+#icon-logoff {
+    cursor: pointer;
+    width: 50%;
+    height: 70%;
+    background-image: url('../img-all/logoff-icon.png');
+    background-size: cover;
+}
+
 #icon-logoff {
     cursor: pointer;
     width: 50%;
