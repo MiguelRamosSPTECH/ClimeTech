@@ -12,7 +12,6 @@ create table empresa(
     unique unq_email(email)
 );
 
-
 create table funcionarioEmpresa(
 	idFuncionarioEmpresa int primary key auto_increment,
     nome varchar(35) not null,
@@ -172,12 +171,12 @@ INSERT INTO dadosSensor (temperatura, umidade, dtHoraColeta, idSensor) VALUES
 (22.6, 58, '2025-05-27 16:10:00', 4),
 (22.5, 57, '2025-05-27 16:20:00', 4);
 
-select * from dadosGrafico;
 select * from estadio;
 select * from shows;
 select * from setor;
 select * from sensor;
 select * from dadosSensor;
+/* select * from dadosGrafico; */ -- Esta view é criada mais para baixo no código.
 
 
 -- CRIAÇÃO DE VIEWS --
