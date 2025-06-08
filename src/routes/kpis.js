@@ -6,7 +6,7 @@ var kpiController = require("../controllers/kpiController");
 router.get("/alertas-calor/:setor/:idShow", kpiController.qtdSetoresEmAlerta);
 router.get("/sensacao-termica/:setor/:idShow", kpiController.sensacaoTermicaAtual);
 router.get("/setor-mais-quente/:idShow", kpiController.setorMaisQuente);
-router.get('/trazerAlertas/:idShow', (req,res) => {
+router.get('/trazerAlertas/:idShow/:horaAcesso', (req,res) => {
     kpiController.trazerAlertas(req,res);
 })
 router.get('/allShows', (req,res) => {

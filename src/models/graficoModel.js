@@ -1,8 +1,8 @@
 var database = require("../database/config");
 
-function obterDadosGraficoPorSetor(idShow, setor) {
+function obterDadosGraficoPorSetor(tipoDado, idShow, setor) {
     let instrucaoSql = `
-        select * from dadosGrafico
+        select ala, ${tipoDado == "temperatura" ? "temperaturaAtual" : "umidadeAtual"}, dtHoraColeta, idShow from dadosGrafico
         where ala = '${setor}'
         and idShow = ${idShow};
     `;

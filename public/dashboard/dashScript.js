@@ -1,4 +1,10 @@
 
+function dataAtual() {
+    let dataAcesso = new Date().toLocaleString().split(",")[0].split("/")
+    dataAcesso = dataAcesso[2]+"-"+dataAcesso[1]+"-"+dataAcesso[0]
+    return dataAcesso+" "+new Date().toLocaleTimeString()
+}
+let dataAtualAcesso = dataAtual();
 function openCloseIndice() {
     if(modal_indice.classList == "hide" && fade.classList == "hide") {
         modal_indice.classList.remove("hide");
@@ -25,21 +31,17 @@ function allShows() {
                 `
             });
             selectShows.innerHTML+= textoShows
+            changeAllDados(filtro_evento.value);
         }
     })
 }
 
 
     // Atualizar o setor serve tanto para especificar a sensação térmica quanto para os gráficos.
-    function atualizarSetor(setor) {
+    function atualizarSetor() {
         atualizarSensacaoTermicaPorSetor(filtro_setor.value);
         qtdAlertas(filtro_setor.value)
         setorMaisQuente()
-        setInterval(() => {
-            setorMaisQuente()
-            atualizarSensacaoTermicaPorSetor(filtro_setor.value);
-            qtdAlertas(filtro_setor.value)
-        }, 5000)
     }
 
     // Exibir quantidade de alertas por filtro também
@@ -64,6 +66,15 @@ function allShows() {
         })
         .then(async resposta => {
             const dadosSensacao = await resposta.json();
+            let corKpi = ``
+            if(dadosSensacao[0].sensacaoTermica >= 33 && dadosSensacao[0].sensacaoTermica <= 39) {
+                corKpi = '#FFCF00'
+            } else if(dadosSensacao[0].sensacaoTermica > 39 && dadosSensacao[0].sensacaoTermica <= 45) {
+                corKpi = '#FF8C00'
+            } else if(dadosSensacao[0].sensacaoTermica > 45) {
+                corKpi = `rgb(219, 28, 28)`
+            } 
+            showing_sensacao_termica_atual.style.color = corKpi
             showing_sensacao_termica_atual.innerText = `${dadosSensacao[0].sensacaoTermica}ºC`
         })
     }
@@ -74,123 +85,119 @@ function allShows() {
             method: "GET"
         })
         .then(async resposta => {
-            let nomeSetor = await resposta.json();
-            nomeSetor = nomeSetor[0].ala;
-            showing_setor_mais_quente.innerText = `Setor ${nomeSetor}`
-            console.log(nomeSetor)
+            let dadosSetor = await resposta.json();
+            let sensacao = Number(dadosSetor[0].sensacaoTermica);
+            let corKpi = ``
+            if(sensacao >= 33 && sensacao <= 39) {
+                corKpi = '#FFCF00'
+            } else if(sensacao > 39 && sensacao <= 45) {
+                corKpi = '#FF8C00'
+            } else if(sensacao > 45) {
+                corKpi = `rgb(219, 28, 28)`
+            } 
+            showing_setor_mais_quente.style.color = corKpi
+            showing_setor_mais_quente.innerText = `Setor ${dadosSetor[0].ala}`
         })
+
     }
 
-function chamarDadosGraficos() {
+function chamarDadosGraficos(grafico, tipoDado) {
     let idShow = Number(filtro_evento.value);
-    fetch(`/graficos/${idShow}`, {
+    fetch(`/graficos/${tipoDado}/${idShow}`, {
         method: "GET"
     })
     .then(async resposta => {
-        const dados = await resposta.json();
-        plotarGrafico(dados, "umidade")
-        plotarGrafico(dados, "temperatura")
-    })
-}
-let grafico = null
-function plotarGrafico(respostaFuncao, tipoDado) {
+        const dadosR = await resposta.json();
+        
+        let tpDado = `${tipoDado}Atual`
         let horas = []
         let dados = []
         let contador = 0;
-        for(let i=0;i<respostaFuncao.length;i++) {
+        for(let i=0;i<dadosR.length;i++) {
             const dadosSetor = []
-            let trataData = respostaFuncao[i][contador].dtHoraColeta.split("T")[1].split(".")[0]
-            console.log(trataData);
-            for(let j=0;j<respostaFuncao[i].length;j++) {
-                dadosSetor.push(Number(tipoDado == "temperatura" ? respostaFuncao[i][j].temperaturaAtual : respostaFuncao[i][j].umidadeAtual))
+            let trataData = dadosR[i][contador].dtHoraColeta.split("T")[1].split(".")[0]
+            for(let j=0;j<dadosR[i].length;j++) {
+                dadosSetor.push(Number(dadosR[i][j][`${tpDado}`]))
             }
             horas.push(trataData)
-            contador++
             dados.push(dadosSetor);
+            contador++
+            grafico.data.labels.push(trataData)
         }
-        if(grafico) {
-            grafico.destroy()
-        }
-        grafico  = new Chart(tipoDado == "temperatura" ? ctx : ctx2, {
-            type: 'line',
-            data: {
-                labels: horas,
-                datasets:[{
-                    label: "Norte",
-                    data: dados[0],
-                    fill: false,
-                    borderColor: '#1073da',
-                    tension: 0.1
-                },
-                {
-                    label: "Sul",
-                    data: dados[1],
-                    fill: false,
-                    borderColor: '#2b3d7b',
-                    tension: 0.1
-                },
-                {
-                    label: "Leste",
-                    data: dados[2],
-                    fill: false,
-                    borderColor: 'seagreen',
-                    tension: 0.1
-                },
-                {
-                    label: "Oeste",
-                    data: dados[3],
-                    fill: false,
-                    borderColor: 'purple',
-                    tension: 0.1
-                }                                
-            ]  
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'bottom',
-                        align: 'start'
-                    }
-                }
+    
+        for(let i=0;i<grafico.data.datasets.length;i++) {
+                if (grafico.data.labels.length > 4 ) {
+                    grafico.data.labels.shift();
+                    grafico.data.datasets[i].data.shift();
+                } 
+
+            for(let j=0;j<dados[i].length;j++) {
+                grafico.data.datasets[i].data.push(dados[i][j]);
             }
-        })    
+            
+        }
+        grafico.update()
+  
+    })
 }
-function trazerAlerta() {
+let alertas
+async function trazerAlerta() {
     let idShow = Number(filtro_evento.value);
-    fetch(`/kpis/trazerAlertas/${idShow}`, {
+    await new Promise(resposta => setTimeout(resposta, 1000)); 
+    fetch(`/kpis/trazerAlertas/${idShow}/${dataAtualAcesso}`, {
         method: "GET"
     })
     .then(async resposta => {
         const alerta = await resposta.json()
-        alerta_div.style.display = "flex"
-        sensacao_alerta.innerText = `${alerta[0].sensacaoTermica}ºC`
-        setor_alerta.innerText = `Setor ${alerta[0].ala}`
-        if(alerta[0].sensacaoTermica > 38 && alerta[0].sensacaoTermica < 45.00) {
-            alerta_div.style.backgroundColor = "orange"
-            descricao_alerta.innerText = `Sexo ficando quente`
-        } else if(alerta[0].sensacaoTermica > 45.00) {
-            alerta_div.style.backgroundColor = "red"
-            descricao_alerta.innerText = `Alerta de fornicação`
+        dataAtualAcesso = dataAtual()
+        area_alertas.style.display = "flex"
+        if(alertas != undefined) {
+            for(let i=0;i<alerta.length;i++) {
+                let igual = false;
+                for(let j=0;j<alertas.length;j++) {
+                    if(alerta[i].sensacaoTermica == alertas[j].sensacaoTermica && alerta[i].ala == alertas[j].ala) {
+                        igual = true;
+                    }
+                }
+                if(!igual) {
+                        let corAlerta = ``
+                        let descricaoAlerta = ``  
+                        let dataTratada = new Date(alerta[i].dtHoraColeta) //transformo em data, pq o json traz como string
+                        dataTratada = dataTratada.toLocaleTimeString().split(":"); //depois transformo no formato padrao para tratá-la
+                        dataTratada = `${dataTratada[0]}:${dataTratada[1]}`
+
+                        if(alerta[i].sensacaoTermica > 38 && alerta[i].sensacaoTermica < 45.00) {
+                            corAlerta = "orange"
+                            descricaoAlerta = `Público exposto a desmaios/vômitos. Acione reforços e estabilize a sensação térmica.`
+
+                        } else if(alerta[i].sensacaoTermica > 45.00) {
+                            corAlerta = "rgb(219, 28, 28)"
+                            descricaoAlerta = `Público exposto a falência orgânica. Tome uma atitude imediatamente`
+                        }
+
+                        let novaDiv = document.createElement('div');
+                        novaDiv.className = 'alerta_div'
+                        novaDiv.style.backgroundColor = `${corAlerta}`
+                        novaDiv.innerHTML =`
+                            <div class="header-alert">
+                                <h2 class="sensacao_alerta">${alerta[i].sensacaoTermica}ºC</h2>
+                                <img class="close-alert" onclick="closeAlerta(this)" src="./img-all/img-close-modal.png"></div>
+                            <h4 class="setor_alerta">Setor ${alerta[i].ala} - ${dataTratada}</h4>
+                            <h5 class="descricao_alerta">${descricaoAlerta}</h5>                                  
+                        `
+                        area_alertas.appendChild(novaDiv)
+                        novaDiv.classList.add('animacao');                    
+                }
+            }
         }
+        alertas = alerta;
     })
-    setTimeout(() => {
-        alerta_div.style.display = "none"
-    }, 4000)
-    
-    setTimeout(() => {
-        trazerAlerta()
-    }, 7000) 
+    .catch(erro => {
+        console.log(erro);
+    })
 }
 
-function changeAllDados() {
-    atualizarSetor(filtro_setor.value)
-    trazerAlerta()
-    chamarDadosGraficos()
-    setInterval(() => {
-        chamarDadosGraficos()
-    }, 5000)
+function closeAlerta(elemento){
+    elemento.parentNode.parentNode.remove()
 }
 
-// Chamada inicial para Setor Norte (ID = 1)
-carregarDadosGrafico(1);

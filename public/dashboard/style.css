@@ -134,8 +134,8 @@ html, body {
 .icon_indice {
     background-image: url('./img-all/icon-indice.png');
     background-size: cover;
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     cursor: pointer;
     transition: 0.1s ease;
 }
@@ -311,8 +311,9 @@ html, body {
     cursor: pointer;
 }
 .body-modal {
+    overflow: auto;
+    scrollbar-width: none;
     padding: 25px;
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -344,20 +345,60 @@ li {
     display: none;
 }
 
-#alerta_div {
-    display:none;
-    padding-left: 50px;
-    justify-content: center;
-    flex-direction: column;
+#area_alertas {
     position: fixed;
+    display: none;
+    gap: 5px;
+    flex-direction: column;
+    width: 25%;
     top: 2%;
-    left: 41%;
-    width: 340px;
-    height: 150px;
-    color: white;
-    border-radius: 15px;
+    left: 74.5%;
+    overflow: auto;
+    scrollbar-width: none;
+    max-height: 95%;
 }
-#descricao_alerta {
+.alerta_div {
+    left: 74.5%;
+    top: 2%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 130px;
+    padding: 15px;
+    color: white;
+    gap: 5px;
+    border-radius: 10px;
+}
+.header-alert {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 25%;
+}
+.close-alert {
+    width: 8%;
+    height: 100%;
+}
+.descricao_alerta {
     font-weight: 600;
     color: rgb(214, 214, 214);
+}
+
+.animacao{
+    animation: fadeIn 0.1s ease-out
+}
+
+#showing_sensacao_termica_atual, #showing_setor_mais_quente {
+    color: black;
+}
+
+@keyframes fadeIn {
+    0% {
+        transform: scale(0.9);
+        display: none;
+    }
+    100% {
+        transform: scale(1);
+        display: flex;
+    }
 }

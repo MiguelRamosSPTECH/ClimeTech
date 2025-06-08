@@ -37,6 +37,7 @@
         <div class="div_superior">
             <div class="header-main">
                 <h2>Dashboard/<span>Home</span></h2>
+                <div class="icon_indice" onclick="openCloseIndice()"></div>
             </div>
         </div>
 
@@ -55,9 +56,8 @@
                         </select>
                     </div>  
                     <div class="filtro-evento">
-                        <span>Filtrar Evento</span>
+                        <span>Filtrar Evento - </span>
                         <select name="" id="filtro_evento" onchange="changeAllDados(this.value)">
-                            <option value="#">Escolha um Show</option>
                         </select>
                     </div>
                 </div>
@@ -81,7 +81,6 @@
                             <h3>Setor mais quente do estádio:</h3>
                             <p id="showing_setor_mais_quente"></p>
                         </div>
-                        <div class="icon_indice" onclick="openCloseIndice()"></div>
                     </div>
                 </div>
 
@@ -147,23 +146,105 @@
             </div>
         </div>
     </div>
-    <div id="alerta_div">
-        <h2 id="sensacao_alerta"></h2>
-        <h3 id="setor_alerta"></h3>
-        <h4 id="descricao_alerta"></h4>
-    </div>
+    <div id="area_alertas"></div>
 </body>
 
 
 <script>
-    var ctx = document.getElementById('chartTemperatura').getContext('2d');
-    var ctx2 = document.getElementById('chartUmidade').getContext('2d');
-    // Gráficos
-    function atualizarGraficosPorSetor() {
-        chamarDadosGraficos();
+    var ctx = new Chart(document.getElementById('chartTemperatura').getContext('2d'), {
+            type: 'line',
+            data: {
+                datasets:[{
+                    label: "Norte",
+                    fill: false,
+                    borderColor: '#1073da',
+                    tension: 0.1
+                },
+                {
+                    label: "Sul",
+                    fill: false,
+                    borderColor: '#2b3d7b',
+                    tension: 0.1
+                },
+                {
+                    label: "Leste",
+                    fill: false,
+                    borderColor: 'seagreen',
+                    tension: 0.1
+                },
+                {
+                    label: "Oeste",
+                    fill: false,
+                    borderColor: 'purple',
+                    tension: 0.1
+                }                                
+            ]  
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        align: 'start'
+                    }
+                }
+            }
+    })
+    var ctx2 = new Chart(document.getElementById('chartUmidade').getContext('2d'), {
+            type: 'line',
+            data: {
+                datasets:[{
+                    label: "Norte",
+                    fill: false,
+                    borderColor: '#1073da',
+                    tension: 0.1
+                },
+                {
+                    label: "Sul",
+                    fill: false,
+                    borderColor: '#2b3d7b',
+                    tension: 0.1
+                },
+                {
+                    label: "Leste",
+                    fill: false,
+                    borderColor: 'seagreen',
+                    tension: 0.1
+                },
+                {
+                    label: "Oeste",
+                    fill: false,
+                    borderColor: 'purple',
+                    tension: 0.1
+                }                                
+            ]  
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        align: 'start'
+                    }
+                }
+            }
+    })
+
+    function changeAllDados() {
+        atualizarSetor()
+        trazerAlerta()
+        chamarDadosGraficos(ctx, "temperatura");
+        chamarDadosGraficos(ctx2, "umidade");
+        setInterval(() => {
+            atualizarSetor()
+            trazerAlerta()
+            chamarDadosGraficos(ctx, "temperatura");
+            chamarDadosGraficos(ctx2, "umidade");
+        }, 6000)
     }
+    
+
 
 </script>
-
 
 </html>

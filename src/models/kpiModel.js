@@ -46,10 +46,10 @@ select
 
 function setorMaisQuente(idShow) {
   var query = `
-    select ala, sensacaoTermica, dtHoraColeta from view_conta_alertas
+    select ala, sensacaoTermica, linhaUnica from view_conta_alertas
     where idShow = ${idShow}
-    order by dtHoraColeta desc
-    limit 1;
+    and linhaUnica = 1
+    having sensacaoTermica = (select max(sensacaoTermica) from view_conta_alertas where linhaUnica = 1);
   `;
   return database.executar(query);
 }
@@ -61,20 +61,17 @@ function allShows() {
     return database.executar(instrucaoSql);
 }
 
-function trazerAlerta(idShow) {
+function trazerAlerta(idShow, horaAcesso) {
     let instrucaoSql = `
     select ala, sensacaoTermica, dtHoraColeta from view_conta_alertas
     where idShow = ${idShow}
     and sensacaoTermica > 38
-    order by dtHoraColeta desc
-    limit 1;   
+    and dtHoraColeta >= '${horaAcesso}'
+    order by dtHoraColeta desc;
     `
     return database.executar(instrucaoSql);
 }
 
-function verificarAlertaIgual() {
-
-}
 module.exports = {
   qtdSetoresEmAlerta,
   sensacaoTermicaAtual,

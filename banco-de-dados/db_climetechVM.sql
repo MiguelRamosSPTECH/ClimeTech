@@ -172,7 +172,7 @@ INSERT INTO dadosSensor (temperatura, umidade, dtHoraColeta, idSensor) VALUES
 (22.6, 58, '2025-05-27 16:10:00', 4),
 (22.5, 57, '2025-05-27 16:20:00', 4);
 
-
+select * from dadosGrafico;
 select * from estadio;
 select * from shows;
 select * from setor;
@@ -198,8 +198,7 @@ create view vw_media_dados_setor as
 					on e.idEstadio = s.idEstadio
 				inner join shows sh 
 					on sh.idEstadio = e.idEstadio;
-    
-    
+                    
 -- select para retornar de um setor especifico
 select * from vw_media_dados_setor
 where linhaUnica = 1 
@@ -222,17 +221,9 @@ group by idShow;
 -- trazer a sensacao geral do show
 select * from vw_sensacao_geral
 where idShow = 1;
-
-select (select count((select round(
-          truncate(temperaturaAtual, 2) + ((truncate(umidadeAtual, 2) / 100) * (truncate(umidadeAtual, 2) * 0.2)), 
-          2
-      ) as sensacaoTermica from vw_media_dados_setor
-	where ala = 'Oeste'
-    and idShow = 1
-      having sensacaoTermica > 38))) as qtdAlertas;
-
+   
 -- view que conta os alertas, depois podemos filtrar por setor ou geral
-alter view view_conta_alertas
+create view view_conta_alertas
 as
   select ala, idShow, dtHoraColeta, linhaUnica, round(
           truncate(temperaturaAtual, 2) + ((truncate(umidadeAtual, 2) / 100) * (truncate(umidadeAtual, 2) * 0.2)), 
@@ -241,35 +232,31 @@ as
       from vw_media_dados_setor
       group by ala, idShow, sensacaoTermica, dtHoraColeta, linhaUnica;
       
- -- aqui filtramos.
+
+ -- aqui filtramos (no caso aqui são todos os alertas
  select count(*) as qtdAlertas from view_conta_alertas
 	where ala = 'Sul'
     and idShow = 1
     and sensacaoTermica > 38;
     
--- trazendo setor mais quente
+-- trazendo alertas para a dashboard
     select ala, sensacaoTermica, dtHoraColeta from view_conta_alertas
     where idShow = 1
-    order by dtHoraColeta desc
-    limit 1;
-    
--- trazendo alertas para a porra da dashboard
- select distinct ala, sensacaoTermica, dtHoraColeta from view_conta_alertas
-    where idShow = 1
     and sensacaoTermica > 38
-    group by ala, sensacaoTermica, dtHoraColeta
-    order by dtHoraColeta desc
-    limit 4;
+    and dtHoraColeta >= '2025-06-07 19:06:15';
     -- antigo
 select ala, sensacaoTermica, dtHoraColeta from view_conta_alertas
     where idShow = 1
     and sensacaoTermica > 38
     order by dtHoraColeta desc
     limit 1;    
+  
+-- trazendo setor mais quente
+    select ala, sensacaoTermica, linhaUnica from view_conta_alertas
+    where idShow = 1
+    and linhaUnica = 1
+    having sensacaoTermica = (select max(sensacaoTermica) from view_conta_alertas where linhaUnica = 1);
     
-    
-    
-
 -- dados dos graficos
 create view dadosGrafico
 as

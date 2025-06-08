@@ -30,8 +30,8 @@ function allShows(req,res) {
   }
 
 function trazerAlertas(req,res) {
-    const idShow = req.params.idShow;
-    kpiModel.trazerAlerta(idShow).then(resposta => {
+    const {idShow, horaAcesso} = req.params;
+    kpiModel.trazerAlerta(idShow, horaAcesso).then(resposta => {
       if(resposta.length > 0) {
           res.status(200).json(resposta);
       }
