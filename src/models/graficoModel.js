@@ -6,8 +6,11 @@ function obterDadosGraficoPorSetor(tipoDado, idShow, setor) {
         where ala = '${setor}'
         and idShow = ${idShow};
     `;
-
-    return database.executar(instrucaoSql);
+    console.log("OBTER DADOS GRAFICO: ", instrucaoSql);
+    var dados = database.executar(instrucaoSql);
+    //console.log(dados[0].dtHoraColeta);
+    return dados;
+    
 }
 
 module.exports = { 

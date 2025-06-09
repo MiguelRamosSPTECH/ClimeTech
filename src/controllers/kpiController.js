@@ -31,7 +31,6 @@ function allShows(req,res) {
 function trazerAlertas(req,res) {
     const {idShow, horaAcesso} = req.params;
     kpiModel.trazerAlerta(idShow, horaAcesso).then(resposta => {
-      console.log("controller: ",resposta)
       //resposta.length > 0 tava dando merda seila por que
       res.status(200).json(resposta);
     })

@@ -2,11 +2,10 @@ var database = require("../database/config")
 
 function selectTodosAlertas(idShow) {
     var instrucaoSql = `
-         select distinct ala, sensacaoTermica, dtHoraColeta from view_conta_alertas
-            where idShow = ${Number(idShow)}
-            and sensacaoTermica > 38
-            group by ala, sensacaoTermica, dtHoraColeta
-            order by dtHoraColeta desc
+         select ala, sensacaoTermica, dtHoraColeta from view_conta_alertas
+            where sensacaoTermica > 38
+			and dtHoraColeta between (select dtHoraComeco from shows where idEvento = ${idShow}) and
+									 (select dtHoraFinal from shows where idEvento = ${idShow});
         `;
 
     console.log("Exeucutando a instrução SQL: \n" + instrucaoSql);

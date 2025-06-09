@@ -1,4 +1,7 @@
 use climetech;
+ select ala, umidadeAtual, dtHoraColeta, idShow from dadosGrafico
+        where ala = 'Leste'
+        and idShow = 1;
 
 -- testes
     
@@ -6,6 +9,7 @@ use climetech;
     select * from dadosSensor;
     insert into dadosSensor values (null, 35.00, 80, '2025-06-07 20:00:00', 2);
     select * from sensor;
+    select * from shows;
 
 
 -- testando trazer mais de um alerta, ou seja, se os 4 setores estiverem em alerta, mostrar os 4
@@ -24,10 +28,7 @@ use climetech;
     select * from sensor;
     select * from dadosSensor;
     
-	insert into dadosSensor values(null, 25.00, 75, current_timestamp(), 1),
-									(null, 25.00, 75, current_timestamp(), 2),
-                                    (null, 38.00, 70, current_timestamp(), 3),
-                                    (null, 48.00, 73, current_timestamp(), 4);
+	insert into dadosSensor values(null, 44.00, 75, current_timestamp(), 1);
                                     
                                     
 
@@ -51,6 +52,10 @@ select (select count((select round(
     where idShow = 1
     and sensacaoTermica > 38
     and dtHoraColeta >= '2025-06-08 12:52:00';
+
+--
+
+
 
 -- limpar dados
 truncate table dadosSensor;

@@ -192,11 +192,11 @@ function trazerAlerta() {
                 }
             }
         alertas = alerta;
-        }
     })
     .catch(erro => {
         console.log("deu erro",erro);
     })
+
 }
 
 function closeAlerta(elemento){

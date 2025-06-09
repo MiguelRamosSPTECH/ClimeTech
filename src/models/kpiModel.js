@@ -46,10 +46,11 @@ select
 
 function setorMaisQuente(idShow) {
   var query = `
-    select ala, sensacaoTermica, linhaUnica from view_conta_alertas
+    select ala, sensacaoTermica, dtHoraColeta, linhaUnica, idShow from view_conta_alertas 
     where idShow = ${idShow}
     and linhaUnica = 1
-    having sensacaoTermica = (select max(sensacaoTermica) from view_conta_alertas where linhaUnica = 1);
+    order by dtHoraColeta desc
+    limit 1;
   `;
   return database.executar(query);
 }
@@ -63,7 +64,7 @@ function allShows() {
 
 function trazerAlerta(idShow, horaAcesso) {
     let instrucaoSql = `
-    select ala, sensacaoTermica, dtHoraColeta from view_conta_alertas
+    select ala, sensacaoTermica, nomeShow, dtHoraColeta from view_conta_alertas
     where idShow = ${idShow}
     and sensacaoTermica > 38
     and dtHoraColeta >= '${horaAcesso}'

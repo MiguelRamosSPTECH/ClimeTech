@@ -1,4 +1,5 @@
 create database if not exists climetech;
+drop database climetech;
 use climetech;
 
 create table empresa(
@@ -21,7 +22,7 @@ create table funcionarioEmpresa(
 	tipoAcesso varchar(15) default('visualizador'),
 	idEmpresa int, /* perguntar se vamos usar views, funcoes */
     unique unq_email(email),
-    constraint chk_tipoAcesso check(tipoAcesso in('admin', 'visualizador')),
+    constraint chk_tipoAcesso check(tipoAcesso in('admin', 'visualizador', 'suporteN2', 'suporteN1', 'suporteN3')),
     constraint fkEmpresaFuncionario foreign key(idEmpresa) references empresa(idEmpresa)
 );
 
@@ -73,21 +74,18 @@ create table dadosSensor(
     constraint fkSensorDados foreign key(idSensor) references sensor(idSensor)
 );
 
-INSERT INTO empresa (nome, cnpj, email, senha) VALUES
-('ClimeTech Ltda', '12.345.678/0001-90', 'climetech@gmail.com', 'Clime90_@$');
+INSERT INTO empresa (nome, cnpj, email, senha, acessoLiberado) VALUES
+('ClimeTech Ltda', '12.345.678/0001-90', 'climetech@gmail.com', 'Clime90_@$', 1);
 
 INSERT INTO funcionarioEmpresa (nome, email, senha, dtCriacao, idEmpresa, tipoAcesso) VALUES
 ('Miguel', 'miguel@climetech.com', 'm1Cl4@', '2025-05-20 15:00:00', 1, 'admin');
 
 
-
-INSERT INTO funcionarioEmpresa (nome, email, senha, dtCriacao, idEmpresa, tipoAcesso) VALUES
-('Cintia', 'cintia@climetech.com', 'senha123', '2025-05-20 15:00:00', 1, 'visualizador');
-
 INSERT INTO estadio (nome, logradouro, numLogradouro, uf, idEmpresa) VALUES
 ('Arena Central', 'Av. das Nações', '1000', 'DF', 1);
 
-insert into shows values(null, 'Justin Bieber', '2025-05-31 23:00:00', '2025-06-01 03:00:00', 1);
+insert into shows values(null, 'Justin Bieber', '2025-06-09 01:00:00', '2025-06-09 22:00:00', 1),
+						(null, 'Travis Scott', '2025-05-27 01:00:00', '2025-05-27 20:00:00', 1);
 -- Criando setores (8 no total: 4 alas x 2 níveis).
 INSERT INTO setor (ala, nivelAla, idEstadio) VALUES
 ('Norte', 'Inferior', 1),
@@ -173,6 +171,7 @@ INSERT INTO dadosSensor (temperatura, umidade, dtHoraColeta, idSensor) VALUES
 (22.7, 59, '2025-05-27 16:00:00', 4),
 (22.6, 58, '2025-05-27 16:10:00', 4),
 (22.5, 57, '2025-05-27 16:20:00', 4);
+insert into dadosSensor values(null, 85.00, 75, '2025-05-27 18:00:00', 3);
 
 select * from estadio;
 select * from shows;
@@ -184,13 +183,27 @@ select * from dadosSensor;
 
 -- CRIAÇÃO DE VIEWS --
 
+-- select que funciona para qualquer show, para pegar os dados de cada setor de cada show no horario de comeco e fim
+select s.ala, sh.nome, ds.temperatura, sh.dtHoraComeco, sh.dtHoraFinal, sh.idEvento as idShow
+		from setor s
+        inner join sensor se on
+        se.idSetor = s.idSetor
+        inner join dadosSensor ds on
+        ds.idSensor = se.idSensor
+        inner join estadio e on 
+        e.idEstadio = s.idEstadio
+        inner join shows sh on
+        sh.idEstadio = e.idEstadio
+			and ds.dtHoraColeta between sh.dtHoraComeco and sh.dtHoraFinal;
+		
+
 -- View média para filtrar todos os setores + setor especifico
-create view vw_media_dados_setor as
-		select s.ala, sh.idEvento as idShow, e.idEstadio as idEstadio,
+create or replace view vw_media_dados_setor as
+		select s.ala, sh.idEvento as idShow, sh.nome as nomeShow, e.idEstadio as idEstadio,
 			   truncate(ds.temperatura,2) temperaturaAtual,
 			   truncate(ds.umidade,2) umidadeAtual,
 			   ds.dtHoraColeta,
-               row_number() over (PARTITION BY s.ala ORDER BY ds.dtHoraColeta desc) as linhaUnica -- novo, nao sei se pode usar
+               ROW_NUMBER() OVER (PARTITION BY s.ala, sh.idEvento ORDER BY ds.dtHoraColeta DESC) as linhaUnica
                	from setor s 
 				inner join sensor se
 						on s.idSetor = se.idSetor
@@ -198,18 +211,18 @@ create view vw_media_dados_setor as
 						on se.idSensor = ds.idSensor
 				inner join estadio e 
 					on e.idEstadio = s.idEstadio
-				inner join shows sh 
-					on sh.idEstadio = e.idEstadio;
+				inner join shows sh
+					on sh.idEstadio = e.idEstadio and	
+                    ds.dtHoraColeta between sh.dtHoraComeco and sh.dtHoraFinal;
                     
 -- select para retornar de um setor especifico
 select * from vw_media_dados_setor
 where linhaUnica = 1 
-and ala = "Norte"
-and idShow = 1
-and idEstadio = 1;
+and idEstadio = 1
+and idShow = 3;
 
 -- sensacao termica de todos os setores
-create view vw_sensacao_geral
+create or replace view vw_sensacao_geral
 as
 select
     round(
@@ -225,20 +238,19 @@ select * from vw_sensacao_geral
 where idShow = 1;
    
 -- view que conta os alertas, depois podemos filtrar por setor ou geral
-create view view_conta_alertas
+create or replace view view_conta_alertas
 as
-  select ala, idShow, dtHoraColeta, linhaUnica, round(
+  select ala, dtHoraColeta, idShow, nomeShow, linhaUnica, round(
           truncate(temperaturaAtual, 2) + ((truncate(umidadeAtual, 2) / 100) * (truncate(umidadeAtual, 2) * 0.2)), 
           2
       ) as sensacaoTermica
       from vw_media_dados_setor
-      group by ala, idShow, sensacaoTermica, dtHoraColeta, linhaUnica;
+      group by ala, idShow, nomeShow, sensacaoTermica, dtHoraColeta, linhaUnica;
       
-
  -- aqui filtramos (no caso aqui são todos os alertas
  select count(*) as qtdAlertas from view_conta_alertas
 	where ala = 'Sul'
-    and idShow = 1
+    and idShow = 3
     and sensacaoTermica > 38;
     
 -- trazendo alertas para a dashboard
@@ -258,10 +270,12 @@ select ala, sensacaoTermica, dtHoraColeta from view_conta_alertas
     select ala, sensacaoTermica, linhaUnica, idShow from view_conta_alertas 
     where idShow = 3
     and linhaUnica = 1
-    having sensacaoTermica = (select max(sensacaoTermica) from view_conta_alertas where linhaUnica = 1);
+    order by sensacaoTermica desc
+    limit 1;
+    select * from shows;
     
 -- dados dos graficos
-create view dadosGrafico
+create or replace view dadosGrafico
 as
 select ala, temperaturaAtual, umidadeAtual, dtHoraColeta, idShow
 from vw_media_dados_setor
