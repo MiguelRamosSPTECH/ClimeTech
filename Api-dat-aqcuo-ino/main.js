@@ -8,12 +8,26 @@ const SERIAL_BAUD_RATE = 9600;
 const SERVIDOR_PORTA = 3300;
 
 // habilita ou desabilita a inserção de dados no banco de dados
-const HABILITAR_OPERACAO_INSERIR = true;
+const HABILITAR_OPERACAO_INSERIR = true
 let dataFormatada;
 //data-hora atual p inserir no banco
 function tratandoData() {
-    let now = new Date().toISOString(); //ISOString é formato global de formatação de data-hora, sql usa ele
-    dataFormatada = now.slice(0, -5).replace('T', ' ');
+    const now = new Date();
+
+    // Corrige para UTC-3
+    now.setHours(now.getHours());
+
+    const ano = now.getFullYear();
+    const mes = String(now.getMonth() + 1).padStart(2, '0');
+    const dia = String(now.getDate()).padStart(2, '0');
+
+    const hora = String(now.getHours()).padStart(2, '0');
+    const minuto = String(now.getMinutes()).padStart(2, '0');
+    const segundo = String(now.getSeconds()).padStart(2, '0');
+
+
+    dataFormatada = `${ano}-${mes}-${dia} ${hora}:${minuto}:${segundo}`;
+    
 }
 
 
@@ -26,13 +40,11 @@ const serial = async (
     let poolBancoDados = mysql.createPool(
         {
 
-            host: '10.18.32.115',
+            host: '26.179.146.24',
             user: 'aluno',
             password: 'Sptech#2024',
             database: 'climetech',
             port: 3307
-
-
 
             // host: '10.18.33.25',
             // user: 'aluno',
@@ -44,11 +56,9 @@ const serial = async (
 
 
     // lista as portas seriais disponíveis e procura pelo Arduino
-    const portas = await serialport.SerialPort.list();
-    const portaArduino = portas.find((porta) => porta.vendorId == 2341 && porta.productId == 43);
-    if (!portaArduino) {
-        throw new Error('O arduino não foi encontrado em nenhuma porta serial');
-    }
+    // Define manualmente a porta COM5
+    const portaArduino = { path: 'COM5' };
+
 
     // configura a porta serial com o baud rate especificado
     const arduino = new serialport.SerialPort(
@@ -65,12 +75,12 @@ const serial = async (
 
     // processa os dados recebidos do Arduino
     arduino.pipe(new serialport.ReadlineParser({ delimiter: '\r\n' })).on('data', async (data) => {
-        
+
         const valores = data.split(';');
         // norte
         const temperatura = parseFloat(valores[0]);
         const umidade = parseInt(valores[1]);
-
+      
         // Gera variação de até ±9 graus para temperatura
         function variarTemperatura(base) {
             const variacao = (Math.random() * 19) - 8; // de -4 a +13
@@ -97,36 +107,48 @@ const serial = async (
         const temperatura4 = variarTemperatura(temperatura);
 
 
-        console.log("\n","\n",
+        console.log("\n", "\n",
             "Norte:", temperatura, "\n",
-            "Sul:", temperatura2,"\n",
-            'Leste:', temperatura3,"\n",
+            "Sul:", temperatura2, "\n",
+            'Leste:', temperatura3, "\n",
             'Oste:', temperatura4)
+
+        console.log("\n", "\n",
+            "Norte:", umidade, "\n",
+            "Sul:", umidade2, "\n",
+            'Leste:', umidade3, "\n",
+            'Oste:', umidade4)
+
 
         // armazena os valores dos sensores nos arrays correspondentes
         valoresTemperatura.push(temperatura);
         valoresUmidade.push(umidade);
 
+
         // insere os dados no banco de dados (se habilitado)
         if (HABILITAR_OPERACAO_INSERIR) {
             tratandoData()
+
+            console.log('\n',dataFormatada,'\n','*******************')
+
             // este insert irá inserir os dados na tabela "medida"
             await poolBancoDados.execute(
-                'insert into dadosSensor(temperatura, umidade, dtHoraColeta, idSensor) VALUES (?, ?, ?, ?)',
+                `insert into dadosSensor(temperatura, umidade, dtHoraColeta, idSensor) VALUES (?, ?, ?, ?)`,
                 [temperatura, umidade, dataFormatada, 1]
             );
             await poolBancoDados.execute(
-                'insert into dadosSensor(temperatura, umidade, dtHoraColeta, idSensor) VALUES (?, ?, ?, ?)',
+                `insert into dadosSensor(temperatura, umidade, dtHoraColeta, idSensor) VALUES (?, ?, ?, ?)`,
                 [temperatura2, umidade2, dataFormatada, 2]
             );
             await poolBancoDados.execute(
-                'insert into dadosSensor(temperatura, umidade, dtHoraColeta, idSensor) VALUES (?, ?, ?, ?)',
+                `insert into dadosSensor(temperatura, umidade, dtHoraColeta, idSensor) VALUES (?, ?, ?, ?)`,
                 [temperatura3, umidade3, dataFormatada, 3]
             );
             await poolBancoDados.execute(
-                'insert into dadosSensor(temperatura, umidade, dtHoraColeta, idSensor) VALUES (?, ?, ?, ?)',
+                `insert into dadosSensor(temperatura, umidade, dtHoraColeta, idSensor) VALUES (?, ?, ?, ?)`,
                 [temperatura4, umidade4, dataFormatada, 4]
             );
+    
         }
 
     });
