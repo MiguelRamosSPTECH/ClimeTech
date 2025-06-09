@@ -255,8 +255,8 @@ select ala, sensacaoTermica, dtHoraColeta from view_conta_alertas
     limit 1;    
   
 -- trazendo setor mais quente
-    select ala, sensacaoTermica, linhaUnica from view_conta_alertas
-    where idShow = 1
+    select ala, sensacaoTermica, linhaUnica, idShow from view_conta_alertas 
+    where idShow = 3
     and linhaUnica = 1
     having sensacaoTermica = (select max(sensacaoTermica) from view_conta_alertas where linhaUnica = 1);
     
