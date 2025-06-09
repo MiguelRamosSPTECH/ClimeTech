@@ -2,7 +2,6 @@ var kpiModel = require('../models/kpiModel');
 
 function qtdSetoresEmAlerta(req, res) {
   const { setor, idShow } = req.params;
-  console.log("setor:",setor, "show: ", idShow)
     kpiModel.qtdSetoresEmAlerta(setor, idShow)
       .then(resposta => res.status(200).json(resposta))
       .catch(err => res.status(500).json(err));
@@ -32,9 +31,9 @@ function allShows(req,res) {
 function trazerAlertas(req,res) {
     const {idShow, horaAcesso} = req.params;
     kpiModel.trazerAlerta(idShow, horaAcesso).then(resposta => {
-      if(resposta.length > 0) {
-          res.status(200).json(resposta);
-      }
+      console.log("controller: ",resposta)
+      //resposta.length > 0 tava dando merda seila por que
+      res.status(200).json(resposta);
     })
 }  
 

@@ -24,10 +24,12 @@ use climetech;
     select * from sensor;
     select * from dadosSensor;
     
-	insert into dadosSensor values(null, 32.00, 75, current_timestamp(), 1),
-									(null, 31.00, 75, current_timestamp(), 2),
-                                    (null, 40.00, 80, current_timestamp(), 3),
-                                    (null, 34.00, 73, current_timestamp(), 4);
+	insert into dadosSensor values(null, 25.00, 75, current_timestamp(), 1),
+									(null, 25.00, 75, current_timestamp(), 2),
+                                    (null, 38.00, 70, current_timestamp(), 3),
+                                    (null, 48.00, 73, current_timestamp(), 4);
+                                    
+                                    
 
 -- testando alerta com insert
 insert into dadosSensor values (null, 45.00, 75.00, '2025-06-07 23:00:00', 2);
@@ -48,8 +50,9 @@ select (select count((select round(
     select ala, sensacaoTermica, dtHoraColeta from view_conta_alertas
     where idShow = 1
     and sensacaoTermica > 38
-    and dtHoraColeta >= '2025-06-07 19:06:15';
+    and dtHoraColeta >= '2025-06-08 12:52:00';
 
 -- limpar dados
 truncate table dadosSensor;
+select * from dadosSensor;
       

@@ -69,6 +69,7 @@ function trazerAlerta(idShow, horaAcesso) {
     and dtHoraColeta >= '${horaAcesso}'
     order by dtHoraColeta desc;
     `
+    console.log("TRAZENDO ALERTAS", instrucaoSql);
     return database.executar(instrucaoSql);
 }
 

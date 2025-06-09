@@ -90,8 +90,8 @@ body {
 
 #icon-alerta {
     cursor: pointer;
-    width: 46%;
-    height: 75%;
+    width: 42.5%;
+    height: 69.5%;
     background-image: url('../img-all/alerta-icon.png');
     background-size: cover;
 }

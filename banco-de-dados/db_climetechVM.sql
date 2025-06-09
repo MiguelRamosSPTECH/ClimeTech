@@ -88,8 +88,6 @@ INSERT INTO estadio (nome, logradouro, numLogradouro, uf, idEmpresa) VALUES
 ('Arena Central', 'Av. das Nações', '1000', 'DF', 1);
 
 insert into shows values(null, 'Justin Bieber', '2025-05-31 23:00:00', '2025-06-01 03:00:00', 1);
-
-
 -- Criando setores (8 no total: 4 alas x 2 níveis).
 INSERT INTO setor (ala, nivelAla, idEstadio) VALUES
 ('Norte', 'Inferior', 1),
@@ -248,6 +246,7 @@ as
     where idShow = 1
     and sensacaoTermica > 38
     and dtHoraColeta >= '2025-06-07 19:06:15';
+    
     -- antigo
 select ala, sensacaoTermica, dtHoraColeta from view_conta_alertas
     where idShow = 1
