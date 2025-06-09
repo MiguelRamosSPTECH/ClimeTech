@@ -79,6 +79,11 @@ INSERT INTO empresa (nome, cnpj, email, senha) VALUES
 INSERT INTO funcionarioEmpresa (nome, email, senha, dtCriacao, idEmpresa, tipoAcesso) VALUES
 ('Miguel', 'miguel@climetech.com', 'm1Cl4@', '2025-05-20 15:00:00', 1, 'admin');
 
+
+
+INSERT INTO funcionarioEmpresa (nome, email, senha, dtCriacao, idEmpresa, tipoAcesso) VALUES
+('Cintia', 'cintia@climetech.com', 'senha123', '2025-05-20 15:00:00', 1, 'visualizador');
+
 INSERT INTO estadio (nome, logradouro, numLogradouro, uf, idEmpresa) VALUES
 ('Arena Central', 'Av. das Nações', '1000', 'DF', 1);
 

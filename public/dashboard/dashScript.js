@@ -108,7 +108,6 @@ function chamarDadosGraficos(grafico, tipoDado) {
     })
     .then(async resposta => {
         const dadosR = await resposta.json();
-        
         let tpDado = `${tipoDado}Atual`
         let horas = []
         let dados = []
@@ -140,26 +139,30 @@ function chamarDadosGraficos(grafico, tipoDado) {
   
     })
 }
-let alertas
-async function trazerAlerta() {
+let alertas;
+function trazerAlerta() {
     let idShow = Number(filtro_evento.value);
-    await new Promise(resposta => setTimeout(resposta, 1000)); 
     fetch(`/kpis/trazerAlertas/${idShow}/${dataAtualAcesso}`, {
         method: "GET"
     })
     .then(async resposta => {
+        console.log(resposta);
         const alerta = await resposta.json()
+        console.log("antes: ", dataAtualAcesso)
         dataAtualAcesso = dataAtual()
         area_alertas.style.display = "flex"
         if(alertas != undefined) {
             for(let i=0;i<alerta.length;i++) {
                 let igual = false;
-                for(let j=0;j<alertas.length;j++) {
-                    if(alerta[i].sensacaoTermica == alertas[j].sensacaoTermica && alerta[i].ala == alertas[j].ala) {
-                        igual = true;
+                if(alertas != undefined){
+                    for(let j=0;j<alertas.length;j++) {
+                        if(alerta[i].sensacaoTermica == alertas[j].sensacaoTermica && alerta[i].ala == alertas[j].ala) {
+                            igual = true;
+                        }
                     }
                 }
-                if(!igual) {
+                if(igual == false) {
+                        await new Promise(resposta => setTimeout(resposta, 1000)); 
                         let corAlerta = ``
                         let descricaoAlerta = ``  
                         let dataTratada = new Date(alerta[i].dtHoraColeta) //transformo em data, pq o json traz como string
@@ -189,11 +192,10 @@ async function trazerAlerta() {
                         novaDiv.classList.add('animacao');                    
                 }
             }
-        }
         alertas = alerta;
     })
     .catch(erro => {
-        console.log(erro);
+        console.log("deu erro",erro);
     })
 }
 
