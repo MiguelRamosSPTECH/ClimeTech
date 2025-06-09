@@ -14,16 +14,14 @@ function listarFuncionarios() {
 
                 dadosFuncionarios.forEach(funcionario => {
                     //tratando a data para o formato brasileiro seila
-                    trataData = funcionario.dtCriacao.substring(0, 10);
-                    trataData = trataData.split("-")
-                    trataData = `${trataData[2]}/${trataData[1]}/${trataData[0]}`
+                    let trataData = new Date(funcionario.dtCriacao);
                     
                     table.innerHTML += `
                     <tr>
                           <td class="id">${funcionario.idFuncionarioEmpresa}</td>
                           <td class="name">${funcionario.nome}</td>
                           <td class="email">${funcionario.email}</td>
-                          <td class="data">${trataData}</td>
+                          <td class="data">${trataData.toLocaleDateString()}</td>
                           <td class="password">${funcionario.senha}</td>
                             <td class="buttons-line">
                                 <img class="delete" onclick="openCloseModal('delete',${funcionario.idFuncionarioEmpresa},'${funcionario.nome}')"

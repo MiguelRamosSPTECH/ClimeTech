@@ -38,17 +38,14 @@ function listarAlertas() {
                     corNivel = 'rgb(255, 0, 0)';
                 }
                 
-                let trataData = alerta.dtHoraColeta.substring(0, 10);
-                let trataHora = alerta.dtHoraColeta.substring(11, 16);
-                trataData = trataData.split("-");
-                trataData = `${trataData[2]}/${trataData[1]}/${trataData[0]}`;
+                let trataData = new Date(alerta.dtHoraColeta)
 
                 table.innerHTML += `
                     <tr>
                         <td>${alerta.ala}</td>
                         <td style="color: ${corNivel}; font-weight: bold;">${nivelAlerta}</td>
                         <td>${alerta.sensacaoTermica} °C</td>
-                        <td>${trataData} ${trataHora}</td>
+                        <td>${trataData.toLocaleDateString()} ${trataData.toLocaleTimeString()}</td>
                     </tr>
                 `;
             });

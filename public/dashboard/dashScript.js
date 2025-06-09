@@ -114,14 +114,14 @@ function chamarDadosGraficos(grafico, tipoDado) {
         let contador = 0;
         for(let i=0;i<dadosR.length;i++) {
             const dadosSetor = []
-            let trataData = dadosR[i][contador].dtHoraColeta.split("T")[1].split(".")[0]
+            let correcaoData = new Date(dadosR[i][contador].dtHoraColeta).toLocaleTimeString()
             for(let j=0;j<dadosR[i].length;j++) {
                 dadosSetor.push(Number(dadosR[i][j][`${tpDado}`]))
             }
-            horas.push(trataData)
+            horas.push(correcaoData)
             dados.push(dadosSetor);
             contador++
-            grafico.data.labels.push(trataData)
+            grafico.data.labels.push(correcaoData)
         }
     
         for(let i=0;i<grafico.data.datasets.length;i++) {
@@ -133,9 +133,8 @@ function chamarDadosGraficos(grafico, tipoDado) {
             for(let j=0;j<dados[i].length;j++) {
                 grafico.data.datasets[i].data.push(dados[i][j]);
             }
-            
+            grafico.update() 
         }
-        grafico.update()
   
     })
 }
@@ -146,12 +145,10 @@ function trazerAlerta() {
         method: "GET"
     })
     .then(async resposta => {
-        console.log(resposta);
         const alerta = await resposta.json()
         console.log("antes: ", dataAtualAcesso)
         dataAtualAcesso = dataAtual()
         area_alertas.style.display = "flex"
-        if(alertas != undefined) {
             for(let i=0;i<alerta.length;i++) {
                 let igual = false;
                 if(alertas != undefined){
@@ -183,8 +180,10 @@ function trazerAlerta() {
                         novaDiv.style.backgroundColor = `${corAlerta}`
                         novaDiv.innerHTML =`
                             <div class="header-alert">
+                                <h4>Show: <span class="nome_show">${alerta[i].nomeShow}</span></h4>
                                 <h2 class="sensacao_alerta">${alerta[i].sensacaoTermica}ºC</h2>
-                                <img class="close-alert" onclick="closeAlerta(this)" src="./img-all/img-close-modal.png"></div>
+                                <img class="close-alert" onclick="closeAlerta(this)" src="./img-all/img-close-modal.png">
+                            </div>
                             <h4 class="setor_alerta">Setor ${alerta[i].ala} - ${dataTratada}</h4>
                             <h5 class="descricao_alerta">${descricaoAlerta}</h5>                                  
                         `

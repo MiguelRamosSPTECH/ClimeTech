@@ -324,7 +324,7 @@ html, body {
     padding: 0px 20px;
 }
 .close-modal {
-    width: 35px;
+    width: 30px;
 }
 .close-modal:hover{
     cursor: pointer;
@@ -382,10 +382,10 @@ li {
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 130px;
+    height: 150px;
     padding: 15px;
-    color: white;
-    gap: 5px;
+    color: rgb(241, 241, 241);
+    gap: 10px;
     border-radius: 10px;
 }
 .header-alert {
@@ -394,13 +394,14 @@ li {
     width: 100%;
     height: 25%;
 }
+
 .close-alert {
     width: 8%;
     height: 100%;
 }
 .descricao_alerta {
-    font-weight: 600;
-    color: rgb(214, 214, 214);
+    font-weight: 500;
+    color: whitesmoke
 }
 
 .animacao{
