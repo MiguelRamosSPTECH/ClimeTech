@@ -54,7 +54,7 @@ function allShows() {
         .then(async resposta => {
             const qtdAlertas = await resposta.json();
             showing_qtd_alertas.innerText = qtdAlertas[0].qtdAlertas;
-        })      
+        })
     }
 
     // Sensação térmica por filtro
@@ -193,6 +193,7 @@ function trazerAlerta() {
                 }
             }
         alertas = alerta;
+        }
     })
     .catch(erro => {
         console.log("deu erro",erro);
@@ -202,4 +203,3 @@ function trazerAlerta() {
 function closeAlerta(elemento){
     elemento.parentNode.parentNode.remove()
 }
-
