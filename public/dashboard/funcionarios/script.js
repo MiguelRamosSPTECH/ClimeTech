@@ -10,6 +10,10 @@ function openCloseModal(tipoModal, idfuncionario, nomefuncionario) {
     confirmarDelete()
 
 }
+function excluirSessao() {
+    sessionStorage.clear();
+    window.location = "../../site/login.html"
+}
 
 function confirmarDelete() {
     const id = document.getElementById("idF").innerText;

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClimeTech | Suporte</title>
+    <link rel="icon" href="../../img/icon-climetech.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+    <script src="./suporte.js"></script>
+</head>
+
+<body onload="validarSuporte()">
+
+    <div class="container-all">
+        <div id="fade" class="hide"></div>
+
+        <!-- Navbar lateral -->
+        <div class="nav-lateral">
+            <div id="area-logo-climetech">
+                <a id="logo-climetech" href="../../index.html"></a>
+                <div class="separador"></div>
+            </div>
+            <div class="area-icons">
+                <div class="area-abas">
+
+
+                    <div class="area-icon">
+                        <a href="https://admin.atlassian.com/o/cea7a6e0-420f-4a4d-a960-effbd27baae0/townsquare" id="">
+                            <img class="iconJira" src="./diagramas/jira.webp" alt="">
+                        </a>
+                    </div>
+
+                    <div class="area-icon">
+                        <a href="../pagina_alertas/index.html" id=""></a>
+                    </div>
+                </div>
+
+                <div class="area-icon">
+                    <a id="icon-logoff" onclick="excluirSessao()"></a>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- conteudo da dashboard -->
+
+        <div class="content">
+            <div class="container">
+                <div class="header">
+                    <div class="text-content">
+                        <h1><span>Suporte <span id="nivelSuporte">N3</span></span></h1>
+                    </div>
+
+
+                    <div class="button-content">
+                        <a href="">
+                            <button>Acessar Menu jira</button>
+                        </a>
+                    </div>
+
+                </div>
+                <br>
+                <br><br>
+
+
+                <div>
+                    <h1>Área destinada ao suporte <span id="nivelSuporte2">N3</span> Abaixo segue os diagramas de
+                        suporte</h1>
+
+                    <div class="button-content2">
+                        <button onclick="suporteAlertas()">Diagrama suporte página Alertas</button>
+                    </div>
+                    <br>
+                    <div class="button-content2">
+                        <button onclick="suporteDashBoard()">Diagrama suporte página DashBoard</button>
+                    </div>
+                    <br>
+
+                    <div class="button-content2">
+                        <button onclick="suporteFuncionarios()">Diagrama suporte página Funcionarios</button>
+                    </div>
+                    <br>
+
+                    <div id="diagramaSelecionado" class="divDiagramas hide">
+
+                        <div id="resposta" class="reposta-container ">
+
+                        </div>
+
+
+                    </div>
+
+                    <div id="container_ia">
+                        <div class="button-fechar">
+                            <button onclick="fecharBobIa()">X</button>
+                        </div>
+                        <h1>BobIA</h1>
+                        <textarea id="pergunta-ia" type="text" placeholder="Digite a pergunta..."></textarea>
+                        <br><br>
+                        <button onclick="gerarResposta()" class="classBotao">Gerar Resposta</button>
+                        <h3>Resposta da IA:</h3>
+                        <div id="respostaIa">Olá! Digite sua duvida que responderei</div>
+                    </div>
+
+                    <img id="botao-bobia" onclick="ia()" src="./diagramas/BOB-IA.png" class="bob-ia" role="button">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
