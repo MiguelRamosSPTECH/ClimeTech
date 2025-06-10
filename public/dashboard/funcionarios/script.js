@@ -3,11 +3,7 @@ var mensagemErro = ''
 
 function openCloseModal(tipoModal, idfuncionario, nomefuncionario) {
 
-    //Colocar campos (id do cara lá e o nome)
-    idF.innerText = idfuncionario
-    nomeFunc.innerText = nomefuncionario
-    nomeFunc2.innerText = nomefuncionario
-    confirmarDelete()
+    confirmarDelete(idfuncionario, nomefuncionario)
 
 }
 function excluirSessao() {
@@ -15,8 +11,7 @@ function excluirSessao() {
     window.location = "../../site/login.html"
 }
 
-function confirmarDelete() {
-    const id = document.getElementById("idF").innerText;
+function confirmarDelete(idFunc, nomefuncionario) {
 
     fetch("/usuarios/deletarFuncionario", {
         method: "POST",
@@ -24,13 +19,12 @@ function confirmarDelete() {
             "Content-type": "application/json"
         },
         body: JSON.stringify({
-            idfuncionarioEmpresa: id
+            idfuncionarioEmpresa: idFunc
         }),
     })
         .then(async function (resposta) {
             if (resposta.ok) {
-                const dadosUsuario = await resposta.json();
-                mensagem_erro.innerHTML = 'Usuario Deletado Com sucesso'
+                mensagem_erro.innerHTML = `Usuario ${nomefuncionario} Deletado Com sucesso`
                 cardErro.style.display = "block";
                 setTimeout(() => {
                     window.location.href = 'index.html';
@@ -39,7 +33,6 @@ function confirmarDelete() {
                 // } 
 
             } else {
-                const msgErro = await resposta.text();
                 mensagem_erro.innerHTML = 'Erro ao Deletar.'
             }
         })
@@ -149,9 +142,17 @@ function confirmarEdicaoFuncionario() {
         })
             .then(async function (resposta) {
                 if (resposta.ok) {
-                    alert("Alteração efetuada com sucesso!")
-                    // setInterval(() => window.location = "index.html", 2000);
-                    //se quiser limpar form
+                        mensagemErro = 'Atualização de funcionario concluido com sucesso!'
+                        const alertaErro = document.querySelector(".alerta_erro");
+                        const cardErro = document.getElementById("cardErro");
+                        alertaErro.style.display = "flex";
+                        cardErro.style.display = "flex";
+                        mensagem_erro.innerHTML = mensagemErro
+                        setTimeout(() => {
+                            alertaErro.style.display = "none";
+                            cardErro.style.display = "none";
+                            window.location.href = 'index.html';
+                        }, 2000);                                       
                 } else {
                     mensagem = await resposta.text();
                 }
@@ -161,17 +162,6 @@ function confirmarEdicaoFuncionario() {
             })
     }
 
-    mensagemErro = 'Atualização de funcionario concluido com sucesso!'
-    const alertaErro = document.querySelector(".alerta_erro");
-    const cardErro = document.getElementById("cardErro");
-    alertaErro.style.display = "flex";
-    cardErro.style.display = "flex";
-    mensagem_erro.innerHTML = mensagemErro
-    setTimeout(() => {
-        alertaErro.style.display = "none";
-        cardErro.style.display = "none";
-        window.location.href = 'index.html';
-    }, 2000);
 }
 
 function listarFuncionarioUpdate() {

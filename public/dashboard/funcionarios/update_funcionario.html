@@ -82,7 +82,9 @@
 
 <img src="./index.html" alt="">
 <script>
-
+     if (sessionStorage.ACESSO_FUNCIONARIO != "admin") {
+        window.location = '../index.html?=SemPermissao'                  
+    } 
 
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');

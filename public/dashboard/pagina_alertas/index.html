@@ -26,7 +26,11 @@
             <div class="area-icons">
                 <div class="area-abas">
                     <div class="area-icon">
-                        <a href="../funcionarios/index.html" id="icon-funcionario"></a>
+                        <script>
+                            if (sessionStorage.ACESSO_FUNCIONARIO == "admin") {
+                                acessoFuncionarios.innerHTML = `<a href="./funcionarios/index.html" id="icon-funcionario"></a>`
+                            } 
+                        </script>
                     </div>
                     <div class="area-icon">
                         <a href="../pagina_alertas/index.html" id="icon-alerta"></a>

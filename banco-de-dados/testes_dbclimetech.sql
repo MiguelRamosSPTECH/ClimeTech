@@ -3,7 +3,9 @@ use climetech;
         where ala = 'Leste'
         and idShow = 1;
 
--- testes
+-- teste
+
+select * from funcionarioEmpresa;
     
     select * from setor;
     select * from dadosSensor;
@@ -28,7 +30,7 @@ use climetech;
     select * from sensor;
     select * from dadosSensor;
     
-	insert into dadosSensor values(null, 44.00, 75, current_timestamp(), 1);
+	insert into dadosSensor values(null, 49.00, 75, current_timestamp(), 1);
                                     
                                     
 
@@ -54,9 +56,10 @@ select (select count((select round(
     and dtHoraColeta >= '2025-06-08 12:52:00';
 
 --
+INSERT INTO funcionarioEmpresa (idFuncionarioEmpresa, nome, email, senha, dtCriacao, idEmpresa, tipoAcesso) VALUES
+(1, 'Miguel', 'miguel@climetech.com', 'm1Cl4@', '2025-05-20 15:00:00', 1, 'admin');
 
-
-
+select * from funcionarioEmpresa;
 -- limpar dados
 truncate table dadosSensor;
 select * from dadosSensor;

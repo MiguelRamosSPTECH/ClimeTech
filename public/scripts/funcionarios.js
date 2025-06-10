@@ -22,7 +22,7 @@ function listarFuncionarios() {
                           <td class="name">${funcionario.nome}</td>
                           <td class="email">${funcionario.email}</td>
                           <td class="data">${trataData.toLocaleDateString()}</td>
-                          <td class="password">${funcionario.senha}</td>
+                          <td class="password">*******</td>
                             <td class="buttons-line">
                                 <img class="delete" onclick="openCloseModal('delete',${funcionario.idFuncionarioEmpresa},'${funcionario.nome}')"
                                     src="../img-all/delete-profile-button.png">

@@ -79,5 +79,9 @@
         </div>
     </div>
 </body>
-
+<script>
+    if (sessionStorage.ACESSO_FUNCIONARIO != "admin") {
+          window.location = '../index.html?=SemPermissao'                  
+    } 
+</script>
 </html>

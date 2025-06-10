@@ -79,7 +79,9 @@ INSERT INTO empresa (nome, cnpj, email, senha, acessoLiberado) VALUES
 
 INSERT INTO funcionarioEmpresa (nome, email, senha, dtCriacao, idEmpresa, tipoAcesso) VALUES
 ('Miguel', 'miguel@climetech.com', 'm1Cl4@', '2025-05-20 15:00:00', 1, 'admin');
-
+INSERT INTO funcionarioEmpresa (nome, email, senha, dtCriacao, idEmpresa, tipoAcesso) VALUES
+('Igor', 'igor@climetech.com', '123', '2025-06-09 16:28:00', 1, 'suporteN3');
+delete from funcionarioEmpresa where idFuncionarioEmpresa = 2;
 
 INSERT INTO estadio (nome, logradouro, numLogradouro, uf, idEmpresa) VALUES
 ('Arena Central', 'Av. das Nações', '1000', 'DF', 1);

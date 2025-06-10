@@ -13,7 +13,6 @@
 
 
 <body onload="listarFuncionarios(), validarSuporte()">
-
     <div class="container-all">
         <div id="fade" class="hide"></div>
 
@@ -49,8 +48,9 @@
                     </div>
                     <div class="alerta_erro">
                         <div class="card_erro" id="cardErro">
-                            <span id="mensagem_erro">Usuario Deletado Com sucesso.</span>
+                            <span id="mensagem_erro">Usuario <span id="nomeFuncDelete"></span> Deletado Com sucesso.</span>
                         </div>
+                        <div id="idF"></div>
                     </div>
 
                     <div class="button-content">
@@ -74,25 +74,11 @@
             </div>
         </div>
 
-        <!-- modal delete -->
-        <div id="modal_delete" class="hide">
-            <div id="header-modal-delete">
-                <div id="idF"></div>
-                <h2>Deletando <span id="nomeFunc2">Brandão</span></h2>
-                <img src="../img-all/img-close-modal.png" class="close-modal" onclick="openCloseModal('delete')">
-            </div>
-            <div class="body-modal">
-                <p>Tem certeza que deseja excluir o usuário <span style="font-weight: bold;"
-                        id="nomeFunc">Brandão</span>? Todos os
-                    dados dele serão removidos permanentemente do sistema.</p>
-            </div>
-            <div class="buttons-modal">
-                <div class="area-buttons">
-                    <button class="button-cancel" onclick="openCloseModal('delete')">Cancelar</button>
-                    <button class="button-confirm" onclick="confirmarDelete()">Confirmar</button>
-                </div>
-            </div>
-        </div>
     </div>
 </body>
+<script>
+    if (sessionStorage.ACESSO_FUNCIONARIO != "admin") {
+          window.location = '../index.html?=SemPermissao'                  
+    } 
+</script>
 </html>
