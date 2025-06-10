@@ -56,8 +56,6 @@ select (select count((select round(
     and dtHoraColeta >= '2025-06-08 12:52:00';
 
 --
-INSERT INTO funcionarioEmpresa (idFuncionarioEmpresa, nome, email, senha, dtCriacao, idEmpresa, tipoAcesso) VALUES
-(1, 'Miguel', 'miguel@climetech.com', 'm1Cl4@', '2025-05-20 15:00:00', 1, 'admin');
 
 select * from funcionarioEmpresa;
 -- limpar dados
