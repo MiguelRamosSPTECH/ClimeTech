@@ -10,7 +10,7 @@ function validarSessao() {
   
 var suporte = sessionStorage.ACESSO_FUNCIONARIO
 
-console.log("Salve fiote:",suporte)
+
 if (suporte == "suporteN1" || suporte == "suporteN2" || suporte == "suporteN3" ){
 
 window.location = "./suporte/index.html"}
